@@ -1,61 +1,39 @@
-#include <GL/glew.h>
-#include<iostream>
-#include <GLFW/glfw3.h>
 #include "raylib.h"
+#include "WindowsDefines.h" // fixes nameing issues with windows.h and raylib, also must be included after raylib
+#include "Logger/Logger.h"
 
-int TestGLFW()
+void LogCustom(int msgType, const char* text, va_list args)
 {
-    GLFWwindow* window;
+    int length = _vscprintf(text, args) + 1; // _vscprintf doesn't count the terminating '\0'
+    char* buffer = (char*)malloc(length * sizeof(char));
 
-    // Initialize the library
-    if (!glfwInit())
-        return -1;
-
-    // Create a windowed mode window and its OpenGL context
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
+    if (buffer != NULL)
     {
-        glfwTerminate();
-        return -1;
+        vsprintf_s(buffer, length, text, args);
+
+        switch (msgType)
+        {
+        case LOG_INFO: ARC_ENGINE_INFO(buffer); break;
+        case LOG_ERROR: ARC_ENGINE_ERROR(buffer); break;
+        case LOG_WARNING: ARC_ENGINE_WARNING(buffer); break;
+        case LOG_DEBUG: ARC_ENGINE_TRACE(buffer); break;
+        default: break;
+        }
+
+        free(buffer);
     }
-
-    // Make the window's context current
-    glfwMakeContextCurrent(window);
-
-    // Initialise glew
-    if (glewInit() != GLEW_OK)
-        std::cout << "Error" << std::endl;
-
-    std::cout << glGetString(GL_VERSION) << std::endl;
-
-    // Loop until the user closes the window
-    while (!glfwWindowShouldClose(window))
-    {
-        // Render here
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(0.0f, 0.5f);
-        glVertex2f(0.5f, -0.5f);
-        glEnd();
-
-        //Swap front and back buffers
-        glfwSwapBuffers(window);
-
-        // Poll for and process events
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
 }
 
 int main(void)
 {
+    Architect::Logger::Init();
+
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
+
+    SetTraceLogCallback(LogCustom);
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
