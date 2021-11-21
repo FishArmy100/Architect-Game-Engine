@@ -23,7 +23,7 @@ void LogCustom(int msgType, const char* text, va_list args)
         }
     }
 
-    delete(buffer);
+    delete[] buffer;
 }
 
 using namespace Architect;
