@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Architect Game Engine", "Architect Game Engine\Architect Game Engine.vcxproj", "{65203C75-23D5-4F8A-A9C8-D9966A8EC27A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{63FF5413-13B2-44B0-A64C-DF454AF04A0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{65203C75-23D5-4F8A-A9C8-D9966A8EC27A}.Debug|x64.Build.0 = Debug|x64
 		{65203C75-23D5-4F8A-A9C8-D9966A8EC27A}.Release|x64.ActiveCfg = Release|x64
 		{65203C75-23D5-4F8A-A9C8-D9966A8EC27A}.Release|x64.Build.0 = Release|x64
+		{63FF5413-13B2-44B0-A64C-DF454AF04A0E}.Debug|x64.ActiveCfg = Debug|x64
+		{63FF5413-13B2-44B0-A64C-DF454AF04A0E}.Debug|x64.Build.0 = Debug|x64
+		{63FF5413-13B2-44B0-A64C-DF454AF04A0E}.Release|x64.ActiveCfg = Release|x64
+		{63FF5413-13B2-44B0-A64C-DF454AF04A0E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

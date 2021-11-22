@@ -5,8 +5,8 @@ namespace Architect
 	enum class KeyCode
 	{
 		A, B, C, D, E, F, G, H,
-		I, J, K, L, M, N, O, P, 
-		Q, R, S, T, U, V, W, X, 
+		I, J, K, L, M, N, O, P,
+		Q, R, S, T, U, V, W, X,
 		Y, Z,
 
 		UpArrow, DownArrow,
@@ -39,7 +39,7 @@ namespace Architect
 		static bool GetKeyUp(KeyCode keycode); // checks if a key has been releced
 
 		static bool GetMouseButton(MouseButtonCode buttonCode); // checks if a mouse button is being pressed
-	    static bool GetMouseButtonDown(MouseButtonCode buttonCode); // checks if a mouse button has been pressed this frame
+		static bool GetMouseButtonDown(MouseButtonCode buttonCode); // checks if a mouse button has been pressed this frame
 		static bool GetMouseButtonUp(MouseButtonCode buttonCode); // checks if a mouse button has been releced
 
 		static float GetMouseScrollWheelDelta();

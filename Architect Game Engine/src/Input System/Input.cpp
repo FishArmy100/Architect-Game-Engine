@@ -7,13 +7,13 @@ namespace Architect
 	{
 		switch (mouseButtonCode)
 		{
-		case MouseButtonCode::Left :
+		case MouseButtonCode::Left:
 			return MOUSE_BUTTON_LEFT;
-		case MouseButtonCode::Right :
+		case MouseButtonCode::Right:
 			return MOUSE_BUTTON_RIGHT;
-		case MouseButtonCode::Middle :
+		case MouseButtonCode::Middle:
 			return MOUSE_BUTTON_MIDDLE;
-		default :
+		default:
 			return -1;
 		}
 	}
@@ -170,5 +170,7 @@ namespace Architect
 		case KeyCode::Alfa0:
 			return KEY_ZERO;
 		}
+
+		return KEY_ZERO;
 	}
 }
