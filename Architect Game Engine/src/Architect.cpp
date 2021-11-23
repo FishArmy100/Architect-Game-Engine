@@ -31,12 +31,7 @@ void LogCustom(int msgType, const char* text, va_list args)
 
 namespace Architect
 {
-    void Test()
-    {
-        std::cout << "Test" << std::endl;
-    }
-
-    bool Init()
+    bool Init(void (*onUpdate)())
     {
         Logger::Init();
 
@@ -60,10 +55,7 @@ namespace Architect
             // TODO: Update your variables here
             //----------------------------------------------------------------------------------
 
-            if (Input::GetKeyUp(KeyCode::Alfa0))
-            {
-                ARC_INFO("0 Key Pressed");
-            }
+            onUpdate();
 
             // Draw
             //----------------------------------------------------------------------------------
