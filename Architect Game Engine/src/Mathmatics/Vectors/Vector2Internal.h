@@ -11,7 +11,7 @@ namespace Architect
 			return Vector2(glmVec.x, glmVec.y);
 		}
 
-		glm::vec2 Vec2ToGLMVec2(const Vector2& vec) 
+		glm::vec2 Vec2ToGLMVec2(const Vector2& vec)
 		{
 			return glm::vec2(vec.X, vec.Y);
 		}

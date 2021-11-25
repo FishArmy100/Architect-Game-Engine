@@ -1,9 +1,13 @@
 #include "Architect.h"
 
+using namespace Architect;
+
+Random rng = Random(1);
+
 void OnUpdate()
 {
-	if(Architect::Input::GetKeyDown(Architect::KeyCode::A))
-		Architect::Debug::Log("Hello World");
+	std::string str = std::to_string(rng.Step(-10, 5));
+	Debug::Log(str);
 }
 
 int main()

@@ -35,6 +35,7 @@ namespace Architect
     {
         Logger::Init();
 
+
         // Initialization
         //--------------------------------------------------------------------------------------
         const int screenWidth = 800;
