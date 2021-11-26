@@ -2,80 +2,80 @@
 #include "WindowsDefines.h" // fixes nameing issues with windows.h and raylib, also must be included after raylib
 #include "Logger/Logger.h"
 
-#include "Input System/Input.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "../include/Architect.h"
-
-#include <iostream>
-
-void LogCustom(int msgType, const char* text, va_list args)
-{
-    int length = _vscprintf(text, args) + 1; // _vscprintf doesn't count the terminating '\0'
-    char* buffer = new char[length];
-
-    if (buffer != NULL)
-    {
-        vsprintf_s(buffer, length, text, args);
-
-        switch (msgType)
-        {
-        case LOG_INFO: ARC_ENGINE_INFO(buffer); break;
-        case LOG_ERROR: ARC_ENGINE_ERROR(buffer); break;
-        case LOG_WARNING: ARC_ENGINE_WARNING(buffer); break;
-        case LOG_DEBUG: ARC_ENGINE_TRACE(buffer); break;
-        default: break;
-        }
-    }
-
-    delete[] buffer;
-}
 
 namespace Architect
 {
+    bool InitializeOpenGL(GLFWwindow*& window);
+
     bool Init(void (*onUpdate)())
     {
         Logger::Init();
 
+        GLFWwindow* window;
 
-        // Initialization
-        //--------------------------------------------------------------------------------------
-        const int screenWidth = 800;
-        const int screenHeight = 450;
+        bool initalized = InitializeOpenGL(window);
+        if (!initalized)
+            return false;
 
-        SetTraceLogCallback(LogCustom);
-
-        InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-
-        SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-        //--------------------------------------------------------------------------------------
-
-        // Main game loop
-        while (!WindowShouldClose())    // Detect window close button or ESC key
+        /* Loop until the user closes the window */
+        while (!glfwWindowShouldClose(window))
         {
-            // Update
-            //----------------------------------------------------------------------------------
-            // TODO: Update your variables here
-            //----------------------------------------------------------------------------------
-
             onUpdate();
 
-            // Draw
-            //----------------------------------------------------------------------------------
-            BeginDrawing();
+            /* Render here */
+            glClear(GL_COLOR_BUFFER_BIT);
 
-            ClearBackground(RAYWHITE);
+            glBegin(GL_TRIANGLES);
+            glVertex2f(-0.5f, -0.5f);
+            glVertex2f(-0.0f, 0.5f);
+            glVertex2f(0.5f, -0.5f);
+            glEnd();
 
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+            /* Swap front and back buffers */
+            glfwSwapBuffers(window);
 
-            EndDrawing();
-
-            //----------------------------------------------------------------------------------
+            /* Poll for and process events */
+            glfwPollEvents();
         }
 
-        // De-Initialization
-        //--------------------------------------------------------------------------------------
-        CloseWindow();        // Close window and OpenGL context
-        //--------------------------------------------------------------------------------------
+        glfwTerminate();
+        return true;
+    }
 
+    bool InitializeOpenGL(GLFWwindow*& window)
+    {
+        /* Initialize the library */
+        if (!glfwInit())
+            return -1;
+
+        ARC_ENGINE_INFO("Initialized GLFW");
+
+        /* Create a windowed mode window and its OpenGL context */
+        window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+        if (!window)
+        {
+            glfwTerminate();
+            return -1;
+        }
+
+        /* Make the window's context current */
+        glfwMakeContextCurrent(window);
+
+        GLenum err = glewInit();
+        if (GLEW_OK != err)
+        {
+            //fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+            ARC_ENGINE_ERROR("Problem: glewInit failed, something is seriously wrong");
+            return false;
+        }
+        else
+        {
+            ARC_ENGINE_INFO("Initialized GLEW");
+        }
         return true;
     }
 }

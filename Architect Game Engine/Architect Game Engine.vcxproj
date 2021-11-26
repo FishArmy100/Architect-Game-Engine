@@ -69,8 +69,8 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;raylib.lib;winmm.lib;</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>raylib.lib;winmm.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL</AdditionalLibraryDirectories>
+      <AdditionalDependencies>raylib.lib;winmm.lib;glfw3.lib;opengl32.lib;glew32s.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL;$(SolutionDir)Dependencies\GLFW\lib-vc2019;$(SolutionDir)Dependencies\GLEW\lib\Version x64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -92,8 +92,8 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;raylib.lib;winmm.lib;</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>raylib.lib;winmm.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL</AdditionalLibraryDirectories>
+      <AdditionalDependencies>raylib.lib;winmm.lib;glfw3.lib;opengl32.lib;glew32s.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL;$(SolutionDir)Dependencies\GLFW\lib-vc2019;$(SolutionDir)Dependencies\GLEW\lib\Version x64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -6,8 +6,8 @@ Random rng = Random(1);
 
 void OnUpdate()
 {
-	std::string str = std::to_string(rng.Step(-10, 5));
-	Debug::Log(str);
+	if (Input::GetKeyDown(KeyCode::A))
+		Debug::Log("Test");
 }
 
 int main()
