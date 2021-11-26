@@ -6,7 +6,7 @@ Random rng = Random(1);
 
 void OnUpdate()
 {
-	if (Input::GetKeyDown(KeyCode::A))
+	if (Input::GetMouseButtonDown(MouseButtonCode::Right))
 		Debug::Log("Test");
 }
 

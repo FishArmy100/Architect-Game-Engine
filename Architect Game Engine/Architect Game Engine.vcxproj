@@ -97,21 +97,27 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\User Input\GLFWInputHandler.cpp" />
+    <ClCompile Include="src\User Input\InputSystem.cpp" />
     <ClCompile Include="src\Mathmatics\Random.cpp" />
     <ClCompile Include="src\Mathmatics\Rectangle.cpp" />
     <ClCompile Include="src\Mathmatics\Ray2D.cpp" />
     <ClCompile Include="src\Debug System\Debug.cpp" />
-    <ClCompile Include="src\Input System\Input.cpp" />
+    <ClCompile Include="src\User Input\Input.cpp" />
     <ClCompile Include="src\Logger\Logger.cpp" />
     <ClCompile Include="src\Architect.cpp" />
     <ClCompile Include="src\Mathmatics\Vectors\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\User Input\GLFWInputHandler.h" />
+    <ClInclude Include="src\User Input\IInputHandler.h" />
+    <ClInclude Include="src\User Input\InputCodes.h" />
+    <ClInclude Include="src\User Input\InputSystem.h" />
     <ClInclude Include="src\Mathmatics\Random.h" />
     <ClInclude Include="src\Mathmatics\Rectangle.h" />
     <ClInclude Include="src\Mathmatics\Ray2D.h" />
     <ClInclude Include="src\Debug System\Debug.h" />
-    <ClInclude Include="src\Input System\Input.h" />
+    <ClInclude Include="src\User Input\Input.h" />
     <ClInclude Include="include\Architect.h" />
     <ClInclude Include="src\Logger\Logger.h" />
     <ClInclude Include="src\Mathmatics\Math.h" />

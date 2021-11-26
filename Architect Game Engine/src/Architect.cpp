@@ -7,6 +7,9 @@
 
 #include "../include/Architect.h"
 
+#include "User Input/InputSystem.h"
+#include "User Input/GLFWInputHandler.h"
+
 namespace Architect
 {
     bool InitializeOpenGL(GLFWwindow*& window);
@@ -20,6 +23,9 @@ namespace Architect
         bool initalized = InitializeOpenGL(window);
         if (!initalized)
             return false;
+
+        std::shared_ptr<IInputHandler> handler = std::shared_ptr<IInputHandler>(new GLFWInputHandler(window));
+        InputSystem::Init(handler);
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -43,6 +49,7 @@ namespace Architect
         }
 
         glfwTerminate();
+        ARC_ENGINE_INFO("Architect shutting down");
         return true;
     }
 

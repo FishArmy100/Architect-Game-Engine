@@ -21,7 +21,7 @@
     <ClCompile Include="src\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input System\Input.cpp">
+    <ClCompile Include="src\User Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Debug System\Debug.cpp">
@@ -39,6 +39,12 @@
     <ClCompile Include="src\Mathmatics\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\User Input\InputSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\User Input\GLFWInputHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WindowsDefines.h">
@@ -50,7 +56,7 @@
     <ClInclude Include="include\Architect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input System\Input.h">
+    <ClInclude Include="src\User Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Debug System\Debug.h">
@@ -72,6 +78,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Mathmatics\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\User Input\InputSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\User Input\InputCodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\User Input\IInputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\User Input\GLFWInputHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
