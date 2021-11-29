@@ -1,30 +1,33 @@
 #pragma once
 
-enum class KeyCode
+namespace Architect
 {
-	A, B, C, D, E, F, G, H,
-	I, J, K, L, M, N, O, P,
-	Q, R, S, T, U, V, W, X,
-	Y, Z,
+	enum class KeyCode
+	{
+		A, B, C, D, E, F, G, H,
+		I, J, K, L, M, N, O, P,
+		Q, R, S, T, U, V, W, X,
+		Y, Z,
 
-	UpArrow, DownArrow,
-	LeftArrow, RightArrow,
+		UpArrow, DownArrow,
+		LeftArrow, RightArrow,
 
-	LeftShift, RightShift,
+		LeftShift, RightShift,
 
-	LeftContol, RightContol,
+		LeftContol, RightContol,
 
-	LeftAlt, RightAlt,
+		LeftAlt, RightAlt,
 
-	Space, Tab, CapsLock,
+		Space, Tab, CapsLock,
 
-	Alfa1, Alfa2, Alfa3, Alfa4, Alfa5,
-	Alfa6, Alfa7, Alfa8, Alfa9, Alfa0
-};
+		Alfa1, Alfa2, Alfa3, Alfa4, Alfa5,
+		Alfa6, Alfa7, Alfa8, Alfa9, Alfa0
+	};
 
-enum class MouseButtonCode
-{
-	Left,
-	Right,
-	Middle
-};
+	enum class MouseButtonCode
+	{
+		Left,
+		Right,
+		Middle
+	};
+}

@@ -45,6 +45,9 @@
     <ClCompile Include="src\User Input\GLFWInputHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mathmatics\UUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WindowsDefines.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\User Input\GLFWInputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mathmatics\UUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
