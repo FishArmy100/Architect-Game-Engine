@@ -9,6 +9,9 @@
 
 #include "User Input/InputSystem.h"
 #include "User Input/GLFWInputHandler.h"
+#include "Debug System/OpenGLDebugger.h"
+
+#include "Rendering System/Rendering.h"
 
 namespace Architect
 {
@@ -66,62 +69,71 @@ namespace Architect
 
         InitalizeInputSystem(window);
 
-        float positions[6] = {
+        float positions[8] = 
+        {
             -0.5f, -0.5,
-            - 0.0f, 0.5f,
-            0.5f, -0.5f
+            0.5f, -0.5f,
+            0.5f, 0.5f,
+            -0.5f, 0.5f
         };
 
-        unsigned int buffer;
-        glGenBuffers(1, &buffer);
-        glBindBuffer(GL_ARRAY_BUFFER, buffer);
-        glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
-
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
-
-        std::string vertexShader =
-            "#version 330 core\n"
-            "\n"
-            "layout(location = 0) in vec4 position;\n"
-            "\n"
-            "void main()\n"
-            "{\n"
-            "   gl_Position = position;\n"
-            "}\n";
-
-        std::string fragmentShader =
-            "#version 330 core\n"
-            "\n"
-            "layout(location = 0) out vec4 color;\n"
-            "\n"
-            "void main()\n"
-            "{\n"
-            "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-            "}\n";
-
-        unsigned int shader = CreateShader(vertexShader, fragmentShader);
-        glUseProgram(shader);
-
-        /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window))
+        unsigned int indicies[6] =
         {
-            onUpdate();
+            0, 1, 2,
+            2, 3, 0
+        };
 
-            /* Render here */
-            glClear(GL_COLOR_BUFFER_BIT); 
+        { // will delete vertex buffer before glfwTerminate()
+            VertexBuffer vb = VertexBuffer(positions, 8 * sizeof(float));
 
-            glDrawArrays(GL_TRIANGLES, 0, 3); // draw call 
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
-            /* Swap front and back buffers */
-            glfwSwapBuffers(window); 
+            IndexBuffer ib = IndexBuffer(indicies, 6);
 
-            /* Poll for and process events */
-            glfwPollEvents();
+            std::string vertexShader =
+                "#version 330 core\n"
+                "\n"
+                "layout(location = 0) in vec4 position;\n"
+                "\n"
+                "void main()\n"
+                "{\n"
+                "   gl_Position = position;\n"
+                "}\n";
+
+            std::string fragmentShader =
+                "#version 330 core\n"
+                "\n"
+                "layout(location = 0) out vec4 color;\n"
+                "\n"
+                "void main()\n"
+                "{\n"
+                "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
+                "}\n";
+
+            unsigned int shader = CreateShader(vertexShader, fragmentShader);
+            glUseProgram(shader);
+
+            /* Loop until the user closes the window */
+            while (!glfwWindowShouldClose(window))
+            {
+                onUpdate();
+
+                /* Render here */
+                glClear(GL_COLOR_BUFFER_BIT);
+
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr); // draw call 
+
+                /* Swap front and back buffers */
+                glfwSwapBuffers(window);
+
+                /* Poll for and process events */
+                glfwPollEvents();
+            }
+
+            glDeleteProgram(shader);
         }
-
         glfwTerminate();
-        glDeleteProgram(shader);
         ARC_ENGINE_INFO("Architect shutting down");
         return true;
     }

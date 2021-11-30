@@ -97,6 +97,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rendering System\IndexBuffer.cpp" />
+    <ClCompile Include="src\Debug System\OpenGLDebugger.cpp" />
     <ClCompile Include="src\User Input\GLFWInputHandler.cpp" />
     <ClCompile Include="src\User Input\InputSystem.cpp" />
     <ClCompile Include="src\Mathmatics\Random.cpp" />
@@ -108,8 +110,12 @@
     <ClCompile Include="src\Architect.cpp" />
     <ClCompile Include="src\Mathmatics\Vectors\Vector2.cpp" />
     <ClCompile Include="src\Mathmatics\UUID.cpp" />
+    <ClCompile Include="src\Rendering System\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rendering System\IndexBuffer.h" />
+    <ClInclude Include="src\Debug System\OpenGLDebugger.h" />
+    <ClInclude Include="src\Rendering System\Rendering.h" />
     <ClInclude Include="src\User Input\GLFWInputHandler.h" />
     <ClInclude Include="src\User Input\IInputHandler.h" />
     <ClInclude Include="src\User Input\InputCodes.h" />
@@ -126,6 +132,7 @@
     <ClInclude Include="src\WindowsDefines.h" />
     <ClInclude Include="src\Mathmatics\Vectors\Vector2.h" />
     <ClInclude Include="src\Mathmatics\UUID.h" />
+    <ClInclude Include="src\Rendering System\VertexBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
