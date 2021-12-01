@@ -18,45 +18,6 @@ namespace Architect
     bool InitializeOpenGL(GLFWwindow*& window);
     void InitalizeInputSystem(GLFWwindow* window);
 
-    static unsigned int CompileShader(const std::string& source, unsigned int type)
-    {
-        unsigned int id = glCreateShader(type);
-        const char* rawString = source.c_str();
-        glShaderSource(id, 1, &rawString, nullptr);
-        glCompileShader(id);
-
-        int result;
-        glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-        if (result == GL_FALSE)
-        {
-            int length;
-            glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-            char* message = (char*)alloca(length * sizeof(char));
-            glGetShaderInfoLog(id, length, &length, message);
-            ARC_ENGINE_ERROR("Failed to Compile Shader: {0}", message);
-            return 0;
-        }
-
-        return id;
-    }
-
-    static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
-    {
-        unsigned int program = glCreateProgram();
-        unsigned int vs = CompileShader(vertexShader, GL_VERTEX_SHADER);
-        unsigned int fs = CompileShader(fragmentShader, GL_FRAGMENT_SHADER);
-
-        glAttachShader(program, vs);
-        glAttachShader(program, fs);
-        glLinkProgram(program);
-        glValidateProgram(program);
-
-        glDeleteShader(vs);
-        glDeleteShader(fs);
-
-        return program;
-    }
-
     bool Init(void (*onUpdate)())
     {
         Logger::Init();
@@ -91,28 +52,8 @@ namespace Architect
 
             IndexBuffer ib = IndexBuffer(indicies, 6);
 
-            std::string vertexShader =
-                "#version 330 core\n"
-                "\n"
-                "layout(location = 0) in vec4 position;\n"
-                "\n"
-                "void main()\n"
-                "{\n"
-                "   gl_Position = position;\n"
-                "}\n";
-
-            std::string fragmentShader =
-                "#version 330 core\n"
-                "\n"
-                "layout(location = 0) out vec4 color;\n"
-                "\n"
-                "void main()\n"
-                "{\n"
-                "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-                "}\n";
-
-            unsigned int shader = CreateShader(vertexShader, fragmentShader);
-            glUseProgram(shader);
+            Shader shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
+            shader.SetAsCurrent();
 
             /* Loop until the user closes the window */
             while (!glfwWindowShouldClose(window))
@@ -130,8 +71,6 @@ namespace Architect
                 /* Poll for and process events */
                 glfwPollEvents();
             }
-
-            glDeleteProgram(shader);
         }
         glfwTerminate();
         ARC_ENGINE_INFO("Architect shutting down");
