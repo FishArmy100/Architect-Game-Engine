@@ -112,6 +112,8 @@
     <ClCompile Include="src\Mathmatics\Vectors\Vector2.cpp" />
     <ClCompile Include="src\Mathmatics\UUID.cpp" />
     <ClCompile Include="src\Rendering System\VertexBuffer.cpp" />
+    <ClCompile Include="src\Rendering System\VertexArray.cpp" />
+    <ClCompile Include="src\Rendering System\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering System\Shader.h" />
@@ -135,6 +137,8 @@
     <ClInclude Include="src\Mathmatics\Vectors\Vector2.h" />
     <ClInclude Include="src\Mathmatics\UUID.h" />
     <ClInclude Include="src\Rendering System\VertexBuffer.h" />
+    <ClInclude Include="src\Rendering System\VertexArray.h" />
+    <ClInclude Include="src\Rendering System\VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />

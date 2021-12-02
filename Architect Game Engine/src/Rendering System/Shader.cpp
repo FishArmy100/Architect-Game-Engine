@@ -7,7 +7,7 @@
 
 namespace Architect
 {
-    struct ShaderData
+    struct ShaderCodeData
     {
         std::string vertexShaderCode;
         std::string fragmentShaderCode;
@@ -34,14 +34,24 @@ namespace Architect
         "}\n";
 
     unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
-    ShaderData ParseShader(const std::string& shader);
-    void ReplaceEmptyShaders(ShaderData& data);
+    ShaderCodeData ParseShader(const std::string& shader);
+    void ReplaceEmptyShaders(ShaderCodeData& data);
     void DisplayCouldNotFindShaderError(const std::string& filePath);
+    std::vector<ShaderUniformData> GetUniformDatasFromShader(unsigned int shaderID);
 
 	Shader::Shader(const std::string& vertexShaderCode, const std::string& fragmentShaderCode)
 	{
         ShaderProgramId = CreateShader(vertexShaderCode, fragmentShaderCode);
+        UniformDatas = GetUniformDatasFromShader(ShaderProgramId);
 	}
+
+    Shader::Shader(const std::string& shaderCode)
+    {
+        ShaderCodeData data = ParseShader(shaderCode);
+        ReplaceEmptyShaders(data);
+        ShaderProgramId = CreateShader(data.vertexShaderCode, data.fragmentShaderCode);
+        UniformDatas = GetUniformDatasFromShader(ShaderProgramId);
+    }
 
     Shader Shader::CreateDefult()
     {
@@ -77,16 +87,42 @@ namespace Architect
         return Shader(ss.str());
     }
 
-    Shader::Shader(const std::string& shaderCode)
+    void Shader::SetShaderUniformV4(const std::string& name, float x, float y, float z, float t)
     {
-        ShaderData data = ParseShader(shaderCode);
-        ReplaceEmptyShaders(data);
-        ShaderProgramId = CreateShader(data.vertexShaderCode, data.fragmentShaderCode);
+        int uniformLocation = glGetUniformLocation(ShaderProgramId, name.c_str());
+
+        if (uniformLocation == -1)
+        {
+            ARC_ENGINE_ERROR("Could not find shader uniform: {0}", name);
+            return;
+        }
+
+        Bind();
+        GLCall(glUniform4f(uniformLocation, x, y, z, t));
     }
 
-    void Shader::SetAsCurrent()
+    void Shader::SetShaderUniformFloat(const std::string& name, float f)
+    {
+        int uniformLocation = glGetUniformLocation(ShaderProgramId, name.c_str());
+
+        if (uniformLocation == -1)
+        {
+            ARC_ENGINE_ERROR("Could not find shader uniform: {0}", name);
+            return;
+        }
+
+        Bind();
+        GLCall(glUniform1f(uniformLocation, f));
+    }
+
+    void Shader::Bind()
     {
         GLCall(glUseProgram(ShaderProgramId));
+    }
+
+    void Shader::Unbind()
+    {
+        GLCall(glUseProgram(0));
     }
 
     Shader::~Shader()
@@ -96,6 +132,61 @@ namespace Architect
 
     // ----------- NON MEMBER FUNCTIONS -------------
     
+    ShaderUniformData CreateShaderUniformData(const std::string& uniformName, int uniformType)
+    {
+        ShaderUniformType type = ShaderUniformType::Unknown;
+
+        switch (uniformType)
+        {
+        case GL_FLOAT_VEC4:
+            type = ShaderUniformType::Vec4;
+            break;
+        case GL_FLOAT:
+            type = ShaderUniformType::Float;
+            break;
+        default:
+            ARC_ENGINE_ERROR("Could not find uniform type: {0}", uniformType);
+            break;
+        }
+
+        return ShaderUniformData(uniformName, type);
+    }
+
+    std::string TrimString(const std::string& line)
+    {
+        const char* WhiteSpace = " \t\v\r\n";
+        std::size_t start = line.find_first_not_of(WhiteSpace);
+        std::size_t end = line.find_last_not_of(WhiteSpace);
+        return start == end ? std::string() : line.substr(start, end - start + 1);
+    }
+
+    std::vector<ShaderUniformData> GetUniformDatasFromShader(unsigned int shaderID)
+    {
+        int count;
+        GLCall(glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &count));
+
+        const unsigned int maxNameLength = Shader::MAX_UNIFORM_NAME_LENGTH;
+        char uniformName[maxNameLength];
+
+        int uniformNameLength;
+        int uniformSize;
+        unsigned int uniformType;
+
+        std::vector<ShaderUniformData> shaderUniformDatas;
+
+        for (int i = 0; i < count; i++)
+        {
+            GLCall(glGetActiveUniform(shaderID, i, maxNameLength, &uniformNameLength, &uniformSize, &uniformType, uniformName));
+            std::string uniformNameStr(uniformName);
+            uniformNameStr = TrimString(uniformNameStr);
+            
+            ShaderUniformData data = CreateShaderUniformData(uniformNameStr, uniformType);
+            shaderUniformDatas.emplace_back(data);
+        }
+
+        return shaderUniformDatas;
+    }
+
     void DisplayCouldNotFindShaderError(const std::string& filePath)
     {
         std::stringstream ss;
@@ -103,7 +194,7 @@ namespace Architect
         ARC_ENGINE_ERROR(ss.str());
     }
 
-    void ReplaceEmptyShaders(ShaderData &data)
+    void ReplaceEmptyShaders(ShaderCodeData& data)
     {
         if (data.vertexShaderCode.length() == 0)
         {
@@ -118,7 +209,7 @@ namespace Architect
         }
     }
 
-    ShaderData ParseShader(const std::string& shaderCode)
+    ShaderCodeData ParseShader(const std::string& shaderCode)
     {
         enum class ShaderType
         {
@@ -147,7 +238,7 @@ namespace Architect
             }
         }
 
-        ShaderData data;
+        ShaderCodeData data;
         data.vertexShaderCode = ss[(int)ShaderType::Vertex].str();
         data.fragmentShaderCode = ss[(int)ShaderType::Fragment].str();
 

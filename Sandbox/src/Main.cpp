@@ -8,7 +8,7 @@ void OnUpdate()
 {
 	ullInt uuid = UUID::NewUUID();
 	std::string uuidString = std::to_string(uuid);
-	Debug::Log(uuidString);
+	//Debug::Log(uuidString);
 }
 
 
