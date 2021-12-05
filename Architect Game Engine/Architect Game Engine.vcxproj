@@ -97,6 +97,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rendering System\Renderer.cpp" />
     <ClCompile Include="src\Rendering System\Shader.cpp" />
     <ClCompile Include="src\Rendering System\IndexBuffer.cpp" />
     <ClCompile Include="src\Debug System\OpenGLDebugger.cpp" />
@@ -116,6 +117,7 @@
     <ClCompile Include="src\Rendering System\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rendering System\Renderer.h" />
     <ClInclude Include="src\Rendering System\Shader.h" />
     <ClInclude Include="src\Rendering System\IndexBuffer.h" />
     <ClInclude Include="src\Debug System\OpenGLDebugger.h" />

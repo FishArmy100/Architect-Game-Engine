@@ -12,6 +12,7 @@ namespace Architect
 	public:
 		VertexArray();
 		~VertexArray();
+		VertexArray(const VertexArray&) = delete;
 
 		void AddBuffer(VertexBuffer& buffer, VertexBufferLayout& layout);
 

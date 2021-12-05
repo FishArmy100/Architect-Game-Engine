@@ -66,6 +66,9 @@
     <ClCompile Include="src\Rendering System\VertexBufferLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rendering System\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WindowsDefines.h">
@@ -135,6 +138,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Rendering System\VertexBufferLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering System\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

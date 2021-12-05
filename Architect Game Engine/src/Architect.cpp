@@ -47,7 +47,7 @@ namespace Architect
         { // will delete vertex buffer before glfwTerminate()
             VertexBuffer vb = VertexBuffer(positions, 8 * sizeof(float));
 
-            VertexArray va = VertexArray();
+            VertexArray va;
 
             VertexBufferLayout layout = VertexBufferLayout();
             layout.PushFloats(2, false);
@@ -57,7 +57,6 @@ namespace Architect
             IndexBuffer ib = IndexBuffer(indicies, 6);
 
             Shader shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
-            shader.Bind();
 
             vb.Unbind();
             ib.Unbind();
@@ -66,25 +65,21 @@ namespace Architect
 
             shader.SetShaderUniformV4("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
 
+            Renderer renderer;
+
             /* Loop until the user closes the window */
             while (!glfwWindowShouldClose(window))
             {
                 onUpdate();
 
-                /* Render here */
-                glClear(GL_COLOR_BUFFER_BIT);
-
-                va.Bind();
-                ib.Bind();
-                shader.Bind();
-
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr); // draw call 
+                renderer.AddDrawCall(va, ib, shader);
+                renderer.Draw();
 
                 /* Swap front and back buffers */
-                glfwSwapBuffers(window);
+                GLCall(glfwSwapBuffers(window));
 
                 /* Poll for and process events */
-                glfwPollEvents();
+                GLCall(glfwPollEvents());
             }
         }
         glfwTerminate();

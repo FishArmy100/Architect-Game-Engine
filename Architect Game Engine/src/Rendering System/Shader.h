@@ -7,8 +7,8 @@ namespace Architect
 	enum class ShaderUniformType
 	{
 		Unknown = -1,
-		Float,
-		Vec4
+		Float1,
+		Float4
 	};
 
 	struct ShaderUniformData
@@ -35,13 +35,14 @@ namespace Architect
 
 		Shader(const std::string& vertexShaderCode, const std::string& fragmentShaderCode);
 		Shader(const std::string& shaderCode);
+		Shader();
 
 		~Shader();
 
-		void Bind();
-		void Unbind();
+		void Bind() const;
+		void Unbind() const;
 
-		void SetShaderUniformV4(const std::string& name, float x, float y, float z, float t);
+		void SetShaderUniformV4(const std::string& name, float x, float y, float z, float w);
 		void SetShaderUniformFloat(const std::string& name, float f);
 
 		inline unsigned int GetShaderId() { return ShaderProgramId; }
