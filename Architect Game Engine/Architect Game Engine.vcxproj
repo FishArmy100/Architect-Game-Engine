@@ -101,6 +101,7 @@
     <ClCompile Include="src\Rendering System\Shader.cpp" />
     <ClCompile Include="src\Rendering System\IndexBuffer.cpp" />
     <ClCompile Include="src\Debug System\OpenGLDebugger.cpp" />
+    <ClCompile Include="src\Rendering System\Texture_Code\stb_image\stb_image.cpp" />
     <ClCompile Include="src\User Input\GLFWInputHandler.cpp" />
     <ClCompile Include="src\User Input\InputSystem.cpp" />
     <ClCompile Include="src\Mathmatics\Random.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="src\Rendering System\VertexBuffer.cpp" />
     <ClCompile Include="src\Rendering System\VertexArray.cpp" />
     <ClCompile Include="src\Rendering System\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\Rendering System\Texture_Code\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Rendering System\Renderer.h" />
@@ -122,6 +124,7 @@
     <ClInclude Include="src\Rendering System\IndexBuffer.h" />
     <ClInclude Include="src\Debug System\OpenGLDebugger.h" />
     <ClInclude Include="src\Rendering System\Rendering.h" />
+    <ClInclude Include="src\Rendering System\Texture_Code\stb_image\stb_image.h" />
     <ClInclude Include="src\User Input\GLFWInputHandler.h" />
     <ClInclude Include="src\User Input\IInputHandler.h" />
     <ClInclude Include="src\User Input\InputCodes.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="src\Rendering System\VertexBuffer.h" />
     <ClInclude Include="src\Rendering System\VertexArray.h" />
     <ClInclude Include="src\Rendering System\VertexBufferLayout.h" />
+    <ClInclude Include="src\Rendering System\Texture_Code\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />

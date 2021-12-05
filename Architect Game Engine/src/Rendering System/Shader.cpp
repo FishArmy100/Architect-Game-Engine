@@ -118,6 +118,20 @@ namespace Architect
         GLCall(glUniform1f(uniformLocation, f));
     }
 
+    void Shader::SetShaderUniformInt(const std::string& name, int value)
+    {
+        int uniformLocation = glGetUniformLocation(ShaderProgramId, name.c_str());
+
+        if (uniformLocation == -1)
+        {
+            ARC_ENGINE_ERROR("Could not find shader uniform: {0}", name);
+            return;
+        }
+
+        Bind();
+        GLCall(glUniform1i(uniformLocation, value));
+    }
+
     void Shader::Bind() const
     {
         GLCall(glUseProgram(ShaderProgramId));

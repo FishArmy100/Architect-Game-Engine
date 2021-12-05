@@ -16,7 +16,7 @@ namespace Architect
 
 	void VertexBufferLayout::PushUnsignedInts(int count)
 	{
-		Elements.emplace_back(count, GL_UNSIGNED_INT, false, sizeof(GLfloat));
+		Elements.emplace_back(count, GL_UNSIGNED_INT, false, sizeof(GLuint));
 		Stride += count * sizeof(GLuint);
 	}
 }

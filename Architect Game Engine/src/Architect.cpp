@@ -1,5 +1,3 @@
-#include "raylib.h"
-#include "WindowsDefines.h" // fixes nameing issues with windows.h and raylib, also must be included after raylib
 #include "Logger/Logger.h"
 
 #include <GL/glew.h>
@@ -30,12 +28,12 @@ namespace Architect
 
         InitalizeInputSystem(window);
 
-        float positions[8] = 
+        float positions[] = 
         {
-            -0.5f, -0.5,
-            0.5f, -0.5f,
-            0.5f, 0.5f,
-            -0.5f, 0.5f
+            -0.5f, -0.5f, 0.0f, 0.0f, // 0
+             0.5f, -0.5f, 1.0f, 0.0f, // 1
+             0.5f,  0.5f, 1.0f, 1.0f, // 2
+            -0.5f,  0.5f, 0.0f, 1.0f  // 3
         };
 
         unsigned int indicies[6] =
@@ -44,13 +42,17 @@ namespace Architect
             2, 3, 0
         };
 
+        GLCall(glEnable(GL_BLEND));
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
         { // will delete vertex buffer before glfwTerminate()
-            VertexBuffer vb = VertexBuffer(positions, 8 * sizeof(float));
+            VertexBuffer vb = VertexBuffer(positions, 16 * sizeof(float));
 
             VertexArray va;
 
             VertexBufferLayout layout = VertexBufferLayout();
             layout.PushFloats(2, false);
+            layout.PushFloats(2, true);
 
             va.AddBuffer(vb, layout);
 
@@ -61,11 +63,14 @@ namespace Architect
             vb.Unbind();
             ib.Unbind();
             shader.Unbind();
-            va.Unbind(); 
-
-            shader.SetShaderUniformV4("u_Color", 1.0f, 0.0f, 0.0f, 1.0f);
+            va.Unbind();
 
             Renderer renderer;
+
+            Texture texture = Texture("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\images\\CalvinAndHobbs.png");
+            texture.Bind();
+            shader.SetShaderUniformInt("u_Texture", 0);
+
 
             /* Loop until the user closes the window */
             while (!glfwWindowShouldClose(window))
