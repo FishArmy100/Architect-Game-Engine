@@ -1,37 +1,48 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
+#include <memory>
 
 namespace Architect
 {
 	enum class ShaderUniformType
 	{
 		Unknown = -1,
-		Float1,
-		Float4
+		Float,
+		Float2,
+		Float3,
+		Float4,
+		Int,
+		Bool,
+		Sampler2D
 	};
 
 	struct ShaderUniformData
 	{
-		ShaderUniformData(const std::string& name, ShaderUniformType type) : Name(name), Type(type) { }
+		ShaderUniformData(const std::string& name, ShaderUniformType type, int location, int count) 
+			: Name(name), Type(type), Location(location), Count(count) { }
+
+		ShaderUniformData() : Name(""), Type(ShaderUniformType::Unknown), Location(0), Count(0) {}
 
 		std::string Name;
 		ShaderUniformType Type;
+		unsigned int Location;
+		int Count;
 	};
 
 	class Shader
 	{
 	private:
 		unsigned int ShaderProgramId;
-		std::vector<ShaderUniformData> UniformDatas;
+		std::map<std::string, ShaderUniformData> UniformDatas;
 
 	public:
 		const static std::string DefultVertexShader;
 		const static std::string DefultFragmentShader;
-		const static unsigned int MAX_UNIFORM_NAME_LENGTH = 256;
 
-		static Shader CreateDefult();
-		static Shader CreateFromFile(const std::string& filePath);
+		static std::shared_ptr<Shader> CreateDefult();
+		static std::shared_ptr<Shader> CreateFromFile(const std::string& filePath);
 
 		Shader(const std::string& vertexShaderCode, const std::string& fragmentShaderCode);
 		Shader(const std::string& shaderCode);
@@ -47,7 +58,7 @@ namespace Architect
 		void SetShaderUniformInt(const std::string& name, int value);
 
 		inline unsigned int GetShaderId() { return ShaderProgramId; }
-		inline const std::vector<ShaderUniformData>& GetUniformData() { return UniformDatas; }
+		inline const std::map<std::string, ShaderUniformData>& GetUniforms() { return UniformDatas; }
 	};
 }
 

@@ -38,12 +38,12 @@ namespace Architect
     ShaderCodeData ParseShader(const std::string& shader);
     void ReplaceEmptyShaders(ShaderCodeData& data);
     void DisplayCouldNotFindShaderError(const std::string& filePath);
-    std::vector<ShaderUniformData> GetUniformDatasFromVertexAndFragmentShaders(const std::string vertex, const std::string fragment);
+    std::map<std::string, ShaderUniformData> GetUniformDatasFromShader(unsigned int shaderID);
 
 	Shader::Shader(const std::string& vertexShaderCode, const std::string& fragmentShaderCode)
 	{
         ShaderProgramId = CreateShader(vertexShaderCode, fragmentShaderCode);
-        UniformDatas = GetUniformDatasFromVertexAndFragmentShaders(vertexShaderCode, fragmentShaderCode);
+        UniformDatas = GetUniformDatasFromShader(ShaderProgramId);
 	}
 
     Shader::Shader(const std::string& shaderCode)
@@ -51,17 +51,17 @@ namespace Architect
         ShaderCodeData data = ParseShader(shaderCode);
         ReplaceEmptyShaders(data);
         ShaderProgramId = CreateShader(data.vertexShaderCode, data.fragmentShaderCode);
-        UniformDatas = GetUniformDatasFromVertexAndFragmentShaders(data.vertexShaderCode, data.fragmentShaderCode);
+        UniformDatas = GetUniformDatasFromShader(ShaderProgramId);
     }
 
     Shader::Shader() : Shader(DefultVertexShader, DefultFragmentShader) {}
 
-    Shader Shader::CreateDefult()
+    std::shared_ptr<Shader> Shader::CreateDefult()
     {
-        return Shader(DefultVertexShader, DefultFragmentShader);
+        return std::make_shared<Shader>(DefultVertexShader, DefultFragmentShader);
     }
 
-    Shader Shader::CreateFromFile(const std::string& filePath)
+    std::shared_ptr<Shader> Shader::CreateFromFile(const std::string& filePath)
     {
         if (filePath.substr(filePath.find_last_of(".") + 1) != "shader")
         {
@@ -87,7 +87,7 @@ namespace Architect
                 ss << "\n";
         }
 
-        return Shader(ss.str());
+        return std::make_shared<Shader>(ss.str());
     }
 
     void Shader::SetShaderUniformV4(const std::string& name, float x, float y, float z, float t)
@@ -149,101 +149,66 @@ namespace Architect
 
     // ----------- NON MEMBER FUNCTIONS -------------
 
-    void IterateOverStringLines(const std::string& string, void (*func)(const std::string&))
+    ShaderUniformType GetTypeFromGLUniformType(int glType)
     {
-        std::istringstream iss(string);
-        std::string line;
-        while (std::getline(iss, line))
+        switch (glType)
         {
-            func(line);
-        }
-    }
-
-    ShaderUniformType GetUniformTypeFromTypeName(const std::string& typeName)
-    {
-        if (typeName == "float")
-            return ShaderUniformType::Float1;
-
-        if (typeName == "vec4")
+        case GL_FLOAT:
+            return ShaderUniformType::Float;
+        case GL_FLOAT_VEC2:
+            return ShaderUniformType::Float2;
+        case GL_FLOAT_VEC3:
+            return ShaderUniformType::Float3;
+        case GL_FLOAT_VEC4:
             return ShaderUniformType::Float4;
+        case GL_INT:
+            return ShaderUniformType::Int;
+        case GL_BOOL:
+            return ShaderUniformType::Bool;
+        case GL_SAMPLER_2D:
+            return ShaderUniformType::Sampler2D;
+        default:
+            break;
+        }
 
         return ShaderUniformType::Unknown;
     }
 
-    ShaderUniformData GetUniformDataFromShaderCodeLine(std::string& line)
+    std::map<std::string, ShaderUniformData> GetUniformDatasFromShader(unsigned int shaderID)
     {
-        std::istringstream iss(line);
-        std::string symbol;
+        GLint uniform_count = 0;
+        glGetProgramiv(shaderID, GL_ACTIVE_UNIFORMS, &uniform_count);
 
-        bool isUniform = false;;
-        std::string variableType = "";
-        std::string variableName = "";
-
-        while (std::getline(iss, symbol))
+        if (uniform_count != 0)
         {
-            if (symbol == "uniform")
+            GLint 	max_name_len = 0;
+            GLsizei length = 0;
+            GLsizei count = 0;
+            GLenum 	type = GL_NONE;
+            glGetProgramiv(shaderID, GL_ACTIVE_UNIFORM_MAX_LENGTH, &max_name_len);
+
+            auto uniform_name = std::make_unique<char[]>(max_name_len);
+
+            std::map<std::string, ShaderUniformData> uniforms;
+
+            for (GLint i = 0; i < uniform_count; ++i)
             {
-                isUniform = true;
-                continue;
+                glGetActiveUniform(shaderID, i, max_name_len, &length, &count, &type, uniform_name.get());
+
+                std::string name = std::string(uniform_name.get(), length);
+                ShaderUniformType uniformType = GetTypeFromGLUniformType(type);
+                int location = glGetUniformLocation(shaderID, uniform_name.get());
+
+                if (uniformType == ShaderUniformType::Unknown)
+                    ARC_ENGINE_WARNING("Found unknown type of uniform named: {0}", name);
+
+                uniforms[name] = ShaderUniformData(name, uniformType, location, count);
             }
 
-            if (isUniform == false)
-                break;
-
-            if (variableType == "")
-            {
-                variableType = symbol;
-                continue;
-            }
-
-            if (variableName == "")
-            {
-                variableName = symbol;
-                continue;
-            }
+            return uniforms;
         }
 
-        if (variableName != "" && variableType != "")
-        {
-            variableName.erase(variableName.length() - 1); // removes semicolon
-            ShaderUniformType type = GetUniformTypeFromTypeName(variableType);
-            return ShaderUniformData(variableName, type);
-        }
-
-        return ShaderUniformData("", ShaderUniformType::Unknown);
-    }
-
-    std::vector<ShaderUniformData> GetUniformDatasFromShader(const std::string& shaderCode)
-    {
-        std::vector<ShaderUniformData> datas;
-        std::istringstream iss(shaderCode);
-        std::string codeLine;
-
-        while (std::getline(iss, codeLine))
-        {
-            std::string lineCopy = codeLine;
-            std::replace(lineCopy.begin(), lineCopy.end(), ' ', '\n'); // turns the spaces into new lines
-
-            ShaderUniformData data = GetUniformDataFromShaderCodeLine(lineCopy);
-
-            if(data.Name != "" && data.Type != ShaderUniformType::Unknown)
-                datas.emplace_back(data);
-        }
-
-        return datas;
-    }
-
-    std::vector<ShaderUniformData> GetUniformDatasFromVertexAndFragmentShaders(const std::string vertex, const std::string fragment)
-    {
-        std::vector<ShaderUniformData> vertexUniformDatas = GetUniformDatasFromShader(vertex);
-        std::vector<ShaderUniformData> fragmentUniformDatas = GetUniformDatasFromShader(fragment);
-        std::vector<ShaderUniformData> shaderUniformDatas;
-
-        shaderUniformDatas.reserve(vertexUniformDatas.size() + fragmentUniformDatas.size());
-        shaderUniformDatas.insert(shaderUniformDatas.end(), vertexUniformDatas.begin(), vertexUniformDatas.end());
-        shaderUniformDatas.insert(shaderUniformDatas.end(), fragmentUniformDatas.begin(), fragmentUniformDatas.end());
-
-        return shaderUniformDatas;
+        return std::map<std::string, ShaderUniformData>();
     }
 
     void DisplayCouldNotFindShaderError(const std::string& filePath)

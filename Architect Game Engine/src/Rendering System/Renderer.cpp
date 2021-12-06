@@ -4,9 +4,9 @@
 
 namespace Architect
 {
-	void Renderer::AddDrawCall(VertexArray& vertexArray, IndexBuffer& indexBuffer, Shader& shader)
+	void Renderer::AddDrawCall(VertexArray& vertexArray, IndexBuffer& indexBuffer, Material& material)
 	{
-		DrawCallData data = DrawCallData(vertexArray, indexBuffer, shader);
+		DrawCallData data = DrawCallData(vertexArray, indexBuffer, material);
 		DrawCalls.emplace_back(data);
 	}
 
@@ -16,11 +16,11 @@ namespace Architect
 
 		for (DrawCallData& data : DrawCalls)
 		{
-			data.vertexArray->Bind();
-			data.indexBuffer->Bind();
-			data.shader->Bind();
+			data.m_VertexArray->Bind();
+			data.m_IndexBuffer->Bind();
+			data.m_Material->Bind();
 
-			int indiciesCount = data.indexBuffer->GetCount();
+			int indiciesCount = data.m_IndexBuffer->GetCount();
 			GLCall(glDrawElements(GL_TRIANGLES, indiciesCount, GL_UNSIGNED_INT, nullptr));
 		}
 

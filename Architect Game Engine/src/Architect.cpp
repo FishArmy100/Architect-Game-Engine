@@ -58,26 +58,26 @@ namespace Architect
 
             IndexBuffer ib = IndexBuffer(indicies, 6);
 
-            Shader shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
+            std::shared_ptr<Shader> shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
 
             vb.Unbind();
             ib.Unbind();
-            shader.Unbind();
+            shader->Unbind();
             va.Unbind();
 
             Renderer renderer;
 
-            Texture texture = Texture("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\images\\CalvinAndHobbs.png");
-            texture.Bind();
-            shader.SetShaderUniformInt("u_Texture", 0);
+            Texture* texture = new Texture("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\images\\CalvinAndHobbs.png");
 
+            Material mat = Material(std::shared_ptr<Shader>(shader));
+            mat.SetTexture("u_Texture", std::shared_ptr<Texture>(texture));
 
             /* Loop until the user closes the window */
             while (!glfwWindowShouldClose(window))
             {
                 onUpdate();
 
-                renderer.AddDrawCall(va, ib, shader);
+                renderer.AddDrawCall(va, ib, mat);
                 renderer.Draw();
 
                 /* Swap front and back buffers */

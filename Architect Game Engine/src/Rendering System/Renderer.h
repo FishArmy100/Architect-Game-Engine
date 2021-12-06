@@ -1,22 +1,21 @@
 #pragma once
 #include "Rendering.h"
 
-
 namespace Architect
 {
 	struct DrawCallData
 	{
 	public:
-		DrawCallData(VertexArray& VertexArray, IndexBuffer& IndexBuffer, Shader& DrawShader)
+		DrawCallData(VertexArray& vertexArray, IndexBuffer& indexBuffer, Material& drawMaterial)
 		{
-			vertexArray = &VertexArray;
-			indexBuffer = &IndexBuffer;
-			shader = &DrawShader;
+			m_VertexArray = &vertexArray;
+			m_IndexBuffer = &indexBuffer;
+			m_Material = &drawMaterial;
 		}
 
-		VertexArray* vertexArray;
-		IndexBuffer* indexBuffer;
-		Shader* shader;
+		VertexArray* m_VertexArray;
+		IndexBuffer* m_IndexBuffer;
+		Material* m_Material;
 	};
 
 	class Renderer
@@ -25,7 +24,7 @@ namespace Architect
 		std::vector<DrawCallData> DrawCalls;
 
 	public:
-		void AddDrawCall(VertexArray& vertexArray, IndexBuffer& indexBuffer, Shader& shader);
+		void AddDrawCall(VertexArray& vertexArray, IndexBuffer& indexBuffer, Material& material);
 		void Draw();
 	};
 }

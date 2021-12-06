@@ -72,10 +72,10 @@
     <ClCompile Include="src\Rendering System\Texture_Code\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Texture_Code\stb_image.cpp">
+    <ClCompile Include="src\Rendering System\Texture_Code\stb_image\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Texture_Code\stb_image\stb_image.cpp">
+    <ClCompile Include="src\Rendering System\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Rendering System\Texture_Code\stb_image\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering System\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
