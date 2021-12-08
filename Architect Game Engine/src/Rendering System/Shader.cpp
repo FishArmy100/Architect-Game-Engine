@@ -132,6 +132,31 @@ namespace Architect
         GLCall(glUniform1i(uniformLocation, value));
     }
 
+    void Shader::SetShaderUniformMat4f(const std::string& name, glm::mat4& matrix)
+    {
+        int uniformLocation = glGetUniformLocation(ShaderProgramId, name.c_str());
+
+        if (uniformLocation == -1)
+        {
+            ARC_ENGINE_ERROR("Could not find shader uniform: {0}", name);
+            return;
+        }
+
+        Bind();
+        GLCall(glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, &matrix[0][0]));
+    }
+
+    bool Shader::ContainsUniform(const std::string& name, ShaderUniformType type)
+    {
+        if (UniformDatas.count(name) >= 1)
+        {
+            if (UniformDatas[name].Type == type)
+                return true;
+        }
+
+        return false;
+    }
+
     void Shader::Bind() const
     {
         GLCall(glUseProgram(ShaderProgramId));
@@ -167,6 +192,8 @@ namespace Architect
             return ShaderUniformType::Bool;
         case GL_SAMPLER_2D:
             return ShaderUniformType::Sampler2D;
+        case GL_FLOAT_MAT4:
+            return ShaderUniformType::Mat4x4f;
         default:
             break;
         }

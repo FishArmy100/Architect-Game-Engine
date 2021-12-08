@@ -11,6 +11,8 @@
 
 #include "Rendering System/Rendering.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace Architect
 {
     bool InitializeOpenGL(GLFWwindow*& window);
@@ -60,16 +62,24 @@ namespace Architect
 
             std::shared_ptr<Shader> shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
 
+            glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+
+            //shader->SetShaderUniformMat4f("u_MVP", proj);
+
+            ARC_ENGINE_INFO("Contians uniform: {0}", shader->ContainsUniform("u_MVP", ShaderUniformType::Mat4x4f));
+
             vb.Unbind();
             ib.Unbind();
             shader->Unbind();
             va.Unbind();
 
+            Camera camera(-2.0f, 2.0f, -1.5f, 1.5f);
+            camera.SetPosition(glm::vec3(1, 0, 0));
             Renderer renderer;
 
             Texture* texture = new Texture("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\images\\CalvinAndHobbs.png");
 
-            Material mat = Material(std::shared_ptr<Shader>(shader));
+            Material mat = Material(shader);
             mat.SetTexture("u_Texture", std::shared_ptr<Texture>(texture));
 
             /* Loop until the user closes the window */
@@ -77,7 +87,8 @@ namespace Architect
             {
                 onUpdate();
 
-                renderer.AddDrawCall(va, ib, mat);
+                glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+                renderer.AddDrawCall(va, ib, mat, transform);
                 renderer.Draw();
 
                 /* Swap front and back buffers */

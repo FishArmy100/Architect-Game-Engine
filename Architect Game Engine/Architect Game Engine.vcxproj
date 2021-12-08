@@ -97,6 +97,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rendering System\Camera.cpp" />
     <ClCompile Include="src\Rendering System\Material.cpp" />
     <ClCompile Include="src\Rendering System\Renderer.cpp" />
     <ClCompile Include="src\Rendering System\Shader.cpp" />
@@ -120,6 +121,7 @@
     <ClCompile Include="src\Rendering System\Texture_Code\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rendering System\Camera.h" />
     <ClInclude Include="src\Rendering System\Material.h" />
     <ClInclude Include="src\Rendering System\Renderer.h" />
     <ClInclude Include="src\Rendering System\Shader.h" />

@@ -26,6 +26,8 @@ namespace Architect
 		void Bind() const;
 		void Unbind() const;
 
+		const std::shared_ptr<Shader>& GetShader() const { return m_Shader; }
+
 		void SetFloat(const std::string& name, float value);
 		inline void SetFloat4(const std::string& name, float x, float y, float z, float w) { SetFloat4(name, glm::vec4(x, y, z, w)); }
 		void SetFloat4(const std::string& name, glm::vec4 float4);

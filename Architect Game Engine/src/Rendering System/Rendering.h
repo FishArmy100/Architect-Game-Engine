@@ -7,3 +7,4 @@
 #include "Texture_Code/Texture.h"
 #include "Material.h"
 #include "Renderer.h"
+#include "Camera.h"

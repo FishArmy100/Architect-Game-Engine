@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <glm/glm.hpp>
 
 namespace Architect
 {
@@ -15,7 +16,8 @@ namespace Architect
 		Float4,
 		Int,
 		Bool,
-		Sampler2D
+		Sampler2D,
+		Mat4x4f
 	};
 
 	struct ShaderUniformData
@@ -56,6 +58,9 @@ namespace Architect
 		void SetShaderUniformV4(const std::string& name, float x, float y, float z, float w);
 		void SetShaderUniformFloat(const std::string& name, float f);
 		void SetShaderUniformInt(const std::string& name, int value);
+		void SetShaderUniformMat4f(const std::string& name, glm::mat4& matrix);
+
+		bool ContainsUniform(const std::string& name, ShaderUniformType type);
 
 		inline unsigned int GetShaderId() { return ShaderProgramId; }
 		inline const std::map<std::string, ShaderUniformData>& GetUniforms() { return UniformDatas; }
