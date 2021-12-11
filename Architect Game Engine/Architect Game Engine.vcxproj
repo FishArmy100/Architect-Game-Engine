@@ -97,6 +97,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ExampleLayer.cpp" />
+    <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\Layer.cpp" />
+    <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Rendering System\Camera.cpp" />
     <ClCompile Include="src\Rendering System\Material.cpp" />
     <ClCompile Include="src\Rendering System\Renderer.cpp" />
@@ -121,6 +125,11 @@
     <ClCompile Include="src\Rendering System\Texture_Code\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ExampleLayer.h" />
+    <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\Layer.h" />
+    <ClInclude Include="src\LayerStack.h" />
+    <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Rendering System\Camera.h" />
     <ClInclude Include="src\Rendering System\Material.h" />
     <ClInclude Include="src\Rendering System\Renderer.h" />

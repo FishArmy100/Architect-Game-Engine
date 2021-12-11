@@ -13,6 +13,10 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Core.h"
+#include "GameEngine.h"
+#include "ExampleLayer.h"
+
 namespace Architect
 {
     bool InitializeOpenGL(GLFWwindow*& window);
