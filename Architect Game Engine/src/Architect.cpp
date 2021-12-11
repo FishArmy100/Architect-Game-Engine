@@ -17,6 +17,10 @@
 #include "GameEngine.h"
 #include "ExampleLayer.h"
 
+#include "Vendor/imgui/imgui.h"
+#include "Vendor/imgui/imgui_impl_glfw.h"
+#include "Vendor/imgui/imgui_impl_opengl3.h"
+
 namespace Architect
 {
     bool InitializeOpenGL(GLFWwindow*& window);
@@ -31,6 +35,15 @@ namespace Architect
         bool initalized = InitializeOpenGL(window);
         if (!initalized)
             return false;
+
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        ImGui::StyleColorsDark();
+
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 130");
+
 
         InitalizeInputSystem(window);
 
@@ -91,9 +104,49 @@ namespace Architect
             {
                 onUpdate();
 
+                ImGui_ImplOpenGL3_NewFrame();
+                ImGui_ImplGlfw_NewFrame();
+                ImGui::NewFrame();
+
+                ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+                bool showDemoWindow = true;
+                ImGui::ShowDemoWindow(&showDemoWindow);
+
+                {
+                    static float f = 0.0f;
+                    static int counter = 0;
+
+                    ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+                    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+                    ImGui::Checkbox("Demo Window", &showDemoWindow);      // Edit bools storing our window open/close state
+                    ImGui::Checkbox("Another Window", &showDemoWindow);
+
+                    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+                    ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+                    if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+                        counter++;
+                    ImGui::SameLine();
+                    ImGui::Text("counter = %d", counter);
+
+                    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                    ImGui::End();
+                }
+                
                 glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
                 renderer.AddDrawCall(va, ib, mat, transform);
                 renderer.Draw();
+
+                ImGui::Render();
+
+                // rendering
+                ImGui::Render();
+                int display_w, display_h;
+                glfwGetFramebufferSize(window, &display_w, &display_h);
+                glViewport(0, 0, display_w, display_h);
+                ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
                 /* Swap front and back buffers */
                 GLCall(glfwSwapBuffers(window));
@@ -102,6 +155,11 @@ namespace Architect
                 GLCall(glfwPollEvents());
             }
         }
+
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+
         glfwTerminate();
         ARC_ENGINE_INFO("Architect shutting down");
         return true;

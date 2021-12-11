@@ -123,6 +123,13 @@
     <ClCompile Include="src\Rendering System\VertexArray.cpp" />
     <ClCompile Include="src\Rendering System\VertexBufferLayout.cpp" />
     <ClCompile Include="src\Rendering System\Texture_Code\Texture.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ExampleLayer.h" />
@@ -151,6 +158,15 @@
     <ClInclude Include="src\Logger\Logger.h" />
     <ClInclude Include="src\Mathmatics\Math.h" />
     <ClInclude Include="src\Mathmatics\Vectors\Vector2Internal.h" />
+    <ClInclude Include="src\Vendor\imgui\imconfig.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_internal.h" />
+    <ClInclude Include="src\Vendor\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\Vendor\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\Vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="src\WindowsDefines.h" />
     <ClInclude Include="src\Mathmatics\Vectors\Vector2.h" />
     <ClInclude Include="src\Mathmatics\UUID.h" />
@@ -161,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Vendor\imgui\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
