@@ -1,81 +1,171 @@
-#include "raylib.h"
-#include "WindowsDefines.h" // fixes nameing issues with windows.h and raylib, also must be included after raylib
 #include "Logger/Logger.h"
 
-#include "Input System/Input.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "../include/Architect.h"
 
-#include <iostream>
+#include "User Input/InputSystem.h"
+#include "User Input/GLFWInputHandler.h"
+#include "Debug System/OpenGLDebugger.h"
 
-void LogCustom(int msgType, const char* text, va_list args)
-{
-    int length = _vscprintf(text, args) + 1; // _vscprintf doesn't count the terminating '\0'
-    char* buffer = new char[length];
+#include "Rendering System/Rendering.h"
 
-    if (buffer != NULL)
-    {
-        vsprintf_s(buffer, length, text, args);
+#include <glm/gtc/matrix_transform.hpp>
 
-        switch (msgType)
-        {
-        case LOG_INFO: ARC_ENGINE_INFO(buffer); break;
-        case LOG_ERROR: ARC_ENGINE_ERROR(buffer); break;
-        case LOG_WARNING: ARC_ENGINE_WARNING(buffer); break;
-        case LOG_DEBUG: ARC_ENGINE_TRACE(buffer); break;
-        default: break;
-        }
-    }
+#include "Core.h"
+#include "GameEngine.h"
+#include "ExampleLayer.h"
 
-    delete[] buffer;
-}
+#include "Vendor/imgui/imgui.h"
+#include "Vendor/imgui/imgui_impl_glfw.h"
+#include "Vendor/imgui/imgui_impl_opengl3.h"
+
+#include "GUI/GUI.h"
+#include "GUI/ExampleWindow.h"
 
 namespace Architect
 {
+    bool InitializeOpenGL(GLFWwindow*& window);
+    void InitalizeInputSystem(GLFWwindow* window);
+
     bool Init(void (*onUpdate)())
     {
         Logger::Init();
 
+        GLFWwindow* window;
 
-        // Initialization
-        //--------------------------------------------------------------------------------------
-        const int screenWidth = 800;
-        const int screenHeight = 450;
+        bool initalized = InitializeOpenGL(window);
+        if (!initalized)
+            return false;
 
-        SetTraceLogCallback(LogCustom);
+        UI::GUI::Init(window);
 
-        InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-        SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-        //--------------------------------------------------------------------------------------
+        InitalizeInputSystem(window);
 
-        // Main game loop
-        while (!WindowShouldClose())    // Detect window close button or ESC key
+        float positions[] = 
         {
-            // Update
-            //----------------------------------------------------------------------------------
-            // TODO: Update your variables here
-            //----------------------------------------------------------------------------------
+            -0.5f, -0.5f, 0.0f, 0.0f, // 0
+             0.5f, -0.5f, 1.0f, 0.0f, // 1
+             0.5f,  0.5f, 1.0f, 1.0f, // 2
+            -0.5f,  0.5f, 0.0f, 1.0f  // 3
+        };
 
-            onUpdate();
+        unsigned int indicies[6] =
+        {
+            0, 1, 2,
+            2, 3, 0
+        };
 
-            // Draw
-            //----------------------------------------------------------------------------------
-            BeginDrawing();
+        GLCall(glEnable(GL_BLEND));
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-            ClearBackground(RAYWHITE);
+        { // will delete vertex buffer before glfwTerminate()
+            VertexBuffer vb = VertexBuffer(positions, 16 * sizeof(float));
 
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+            VertexArray va;
 
-            EndDrawing();
+            VertexBufferLayout layout = VertexBufferLayout();
+            layout.PushFloats(2, false);
+            layout.PushFloats(2, true);
 
-            //----------------------------------------------------------------------------------
+            va.AddBuffer(vb, layout);
+
+            IndexBuffer ib = IndexBuffer(indicies, 6);
+
+            std::shared_ptr<Shader> shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
+
+            glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+
+            //shader->SetShaderUniformMat4f("u_MVP", proj);
+
+            ARC_ENGINE_INFO("Contians uniform: {0}", shader->ContainsUniform("u_MVP", ShaderUniformType::Mat4x4f));
+
+            vb.Unbind();
+            ib.Unbind();
+            shader->Unbind();
+            va.Unbind();
+
+            Camera camera(-2.0f, 2.0f, -1.5f, 1.5f);
+            camera.SetPosition(glm::vec3(1, 0, 0));
+            Renderer renderer;
+
+            Texture* texture = new Texture("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\images\\CalvinAndHobbs.png");
+
+            Material mat = Material(shader);
+            mat.SetTexture("u_Texture", std::shared_ptr<Texture>(texture));
+
+            UI::GUIWindow* exampleWindow = new UI::ExampleWindow("Hello World");
+
+            /* Loop until the user closes the window */
+            while (!glfwWindowShouldClose(window))
+            {
+                onUpdate();
+
+                UI::GUI::StartFrame();
+
+                ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+                exampleWindow->RenderWindow();
+                
+                glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+                renderer.AddDrawCall(va, ib, mat, transform);
+                renderer.Draw();
+
+                UI::GUI::RenderFrame();
+
+                /* Swap front and back buffers */
+                GLCall(glfwSwapBuffers(window));
+
+                /* Poll for and process events */
+                GLCall(glfwPollEvents());
+            }
         }
 
-        // De-Initialization
-        //--------------------------------------------------------------------------------------
-        CloseWindow();        // Close window and OpenGL context
-        //--------------------------------------------------------------------------------------
+        UI::GUI::ShutDown(); 
 
+        glfwTerminate();
+        ARC_ENGINE_INFO("Architect shutting down");
+        return true;
+    }
+
+    void InitalizeInputSystem(GLFWwindow* window)
+    {
+        std::shared_ptr<IInputHandler> handler = std::shared_ptr<IInputHandler>(new GLFWInputHandler(window));
+        InputSystem::Init(handler);
+    }
+
+    bool InitializeOpenGL(GLFWwindow*& window)
+    {
+        /* Initialize the library */
+        if (!glfwInit())
+            return -1;
+
+        ARC_ENGINE_INFO("Initialized GLFW");
+
+        /* Create a windowed mode window and its OpenGL context */
+        window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+        if (!window)
+        {
+            glfwTerminate();
+            return -1;
+        }
+
+        /* Make the window's context current */
+        glfwMakeContextCurrent(window);
+
+        GLenum err = glewInit();
+        if (GLEW_OK != err)
+        {
+            //fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+            ARC_ENGINE_ERROR("Problem: glewInit failed, something is seriously wrong");
+            return false;
+        }
+        else
+        {
+            ARC_ENGINE_INFO("Initialized GLEW");
+        }
         return true;
     }
 }

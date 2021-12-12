@@ -60,7 +60,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -69,8 +70,8 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;raylib.lib;winmm.lib;</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>raylib.lib;winmm.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL</AdditionalLibraryDirectories>
+      <AdditionalDependencies>raylib.lib;winmm.lib;glfw3.lib;opengl32.lib;glew32s.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL;$(SolutionDir)Dependencies\GLFW\lib-vc2019;$(SolutionDir)Dependencies\GLEW\lib\Version x64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -81,7 +82,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -92,32 +94,102 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib;raylib.lib;winmm.lib;</AdditionalDependencies>
     </Link>
     <Lib>
-      <AdditionalDependencies>raylib.lib;winmm.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL</AdditionalLibraryDirectories>
+      <AdditionalDependencies>raylib.lib;winmm.lib;glfw3.lib;opengl32.lib;glew32s.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Raylib\Release.DLL;$(SolutionDir)Dependencies\GLFW\lib-vc2019;$(SolutionDir)Dependencies\GLEW\lib\Version x64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Mathmatics\Color.cpp" />
+    <ClCompile Include="src\GUI\ExampleWindow.cpp" />
+    <ClCompile Include="src\GUI\GUIWindow.cpp" />
+    <ClCompile Include="src\GUI\GUI.cpp" />
+    <ClCompile Include="src\ExampleLayer.cpp" />
+    <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\Layer.cpp" />
+    <ClCompile Include="src\LayerStack.cpp" />
+    <ClCompile Include="src\Rendering System\Camera.cpp" />
+    <ClCompile Include="src\Rendering System\Material.cpp" />
+    <ClCompile Include="src\Rendering System\Renderer.cpp" />
+    <ClCompile Include="src\Rendering System\Shader.cpp" />
+    <ClCompile Include="src\Rendering System\IndexBuffer.cpp" />
+    <ClCompile Include="src\Debug System\OpenGLDebugger.cpp" />
+    <ClCompile Include="src\Rendering System\Texture_Code\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\User Input\GLFWInputHandler.cpp" />
+    <ClCompile Include="src\User Input\InputSystem.cpp" />
     <ClCompile Include="src\Mathmatics\Random.cpp" />
     <ClCompile Include="src\Mathmatics\Rectangle.cpp" />
     <ClCompile Include="src\Mathmatics\Ray2D.cpp" />
     <ClCompile Include="src\Debug System\Debug.cpp" />
-    <ClCompile Include="src\Input System\Input.cpp" />
+    <ClCompile Include="src\User Input\Input.cpp" />
     <ClCompile Include="src\Logger\Logger.cpp" />
     <ClCompile Include="src\Architect.cpp" />
     <ClCompile Include="src\Mathmatics\Vectors\Vector2.cpp" />
+    <ClCompile Include="src\Mathmatics\UUID.cpp" />
+    <ClCompile Include="src\Rendering System\VertexBuffer.cpp" />
+    <ClCompile Include="src\Rendering System\VertexArray.cpp" />
+    <ClCompile Include="src\Rendering System\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\Rendering System\Texture_Code\Texture.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Mathmatics\Color.h" />
+    <ClInclude Include="src\GUI\ExampleWindow.h" />
+    <ClInclude Include="src\GUI\GUIWindow.h" />
+    <ClInclude Include="src\GUI\GUI.h" />
+    <ClInclude Include="src\ExampleLayer.h" />
+    <ClInclude Include="src\GameEngine.h" />
+    <ClInclude Include="src\Layer.h" />
+    <ClInclude Include="src\LayerStack.h" />
+    <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\Rendering System\Camera.h" />
+    <ClInclude Include="src\Rendering System\Material.h" />
+    <ClInclude Include="src\Rendering System\Renderer.h" />
+    <ClInclude Include="src\Rendering System\Shader.h" />
+    <ClInclude Include="src\Rendering System\IndexBuffer.h" />
+    <ClInclude Include="src\Debug System\OpenGLDebugger.h" />
+    <ClInclude Include="src\Rendering System\Rendering.h" />
+    <ClInclude Include="src\Rendering System\Texture_Code\stb_image\stb_image.h" />
+    <ClInclude Include="src\User Input\GLFWInputHandler.h" />
+    <ClInclude Include="src\User Input\IInputHandler.h" />
+    <ClInclude Include="src\User Input\InputCodes.h" />
+    <ClInclude Include="src\User Input\InputSystem.h" />
     <ClInclude Include="src\Mathmatics\Random.h" />
     <ClInclude Include="src\Mathmatics\Rectangle.h" />
     <ClInclude Include="src\Mathmatics\Ray2D.h" />
     <ClInclude Include="src\Debug System\Debug.h" />
-    <ClInclude Include="src\Input System\Input.h" />
+    <ClInclude Include="src\User Input\Input.h" />
     <ClInclude Include="include\Architect.h" />
     <ClInclude Include="src\Logger\Logger.h" />
     <ClInclude Include="src\Mathmatics\Math.h" />
     <ClInclude Include="src\Mathmatics\Vectors\Vector2Internal.h" />
+    <ClInclude Include="src\Vendor\imgui\imconfig.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\Vendor\imgui\imgui_internal.h" />
+    <ClInclude Include="src\Vendor\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\Vendor\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\Vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="src\WindowsDefines.h" />
     <ClInclude Include="src\Mathmatics\Vectors\Vector2.h" />
+    <ClInclude Include="src\Mathmatics\UUID.h" />
+    <ClInclude Include="src\Rendering System\VertexBuffer.h" />
+    <ClInclude Include="src\Rendering System\VertexArray.h" />
+    <ClInclude Include="src\Rendering System\VertexBufferLayout.h" />
+    <ClInclude Include="src\Rendering System\Texture_Code\Texture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\Test.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Vendor\imgui\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

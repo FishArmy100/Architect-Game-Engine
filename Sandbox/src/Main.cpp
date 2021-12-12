@@ -6,9 +6,11 @@ Random rng = Random(1);
 
 void OnUpdate()
 {
-	std::string str = std::to_string(rng.Step(-10, 5));
-	Debug::Log(str);
+	ullInt uuid = UUID::NewUUID();
+	std::string uuidString = std::to_string(uuid);
+	//Debug::Log(uuidString);
 }
+
 
 int main()
 {
