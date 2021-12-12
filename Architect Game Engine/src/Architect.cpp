@@ -17,10 +17,6 @@
 #include "GameEngine.h"
 #include "ExampleLayer.h"
 
-#include "Vendor/imgui/imgui.h"
-#include "Vendor/imgui/imgui_impl_glfw.h"
-#include "Vendor/imgui/imgui_impl_opengl3.h"
-
 #include "GUI/GUI.h"
 #include "GUI/ExampleWindow.h"
 
@@ -104,8 +100,6 @@ namespace Architect
                 onUpdate();
 
                 UI::GUI::StartFrame();
-
-                ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
                 exampleWindow->RenderWindow();
                 
