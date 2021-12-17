@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include "GL/glew.h"
-#include "../Debug System/OpenGLDebugger.h"
+#include "../Debug-System/OpenGLDebugger.h"
 #include "../Logger/Logger.h"
 #include "Camera.h"
 

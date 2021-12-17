@@ -1,6 +1,6 @@
 #include "VertexArray.h"
 #include "GL/glew.h"
-#include "../Debug System/OpenGLDebugger.h"
+#include "../Debug-System/OpenGLDebugger.h"
 
 namespace Architect
 {

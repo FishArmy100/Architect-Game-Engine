@@ -5,25 +5,50 @@
 
 #include "../include/Architect.h"
 
-#include "User Input/InputSystem.h"
-#include "User Input/GLFWInputHandler.h"
-#include "Debug System/OpenGLDebugger.h"
+#include "User-Input/InputSystem.h"
+#include "User-Input/GLFWInputHandler.h"
+#include "Debug-System/OpenGLDebugger.h"
 
-#include "Rendering System/Rendering.h"
+#include "Rendering-System/Rendering.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Core.h"
-#include "GameEngine.h"
-#include "ExampleLayer.h"
-
 #include "GUI/GUI.h"
 #include "GUI/ExampleWindow.h"
+
+#include "Entity-Component-System/GameWorld.h"
+#include "Entity-Component-System/Basic-Components/Basic-Components.h"
+#include "Entity-Component-System/Entity.h"
+#include "Entity-Component-System/EntitySystem.h"
 
 namespace Architect
 {
     bool InitializeOpenGL(GLFWwindow*& window);
     void InitalizeInputSystem(GLFWwindow* window);
+
+    class TestSystem : public EntitySystem
+    {
+    protected:
+        void OnUpdate() override 
+        {
+            RunFuncOnEntites<TagComponent>([](TagComponent& tag)
+            {
+                ARC_ENGINE_TRACE(tag.Tag);
+            });
+        }
+    };
+
+    class TestSystem2 : public EntitySystem
+    {
+    protected:
+        void OnUpdate() override
+        {
+            RunFuncOnEntites<TagComponent, IsActiveComponent>([](TagComponent& tag, IsActiveComponent& test)
+            {
+                tag.Tag = "Empty";
+            });
+        }
+    };
 
     bool Init(void (*onUpdate)())
     {
@@ -72,11 +97,24 @@ namespace Architect
 
             std::shared_ptr<Shader> shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
 
-            glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+            GameWorld gameWorld;
 
-            //shader->SetShaderUniformMat4f("u_MVP", proj);
+            Scene* scene = new Scene("Test Scene");
+            scene->CreateEntity("Test Entity 1");
+            scene->CreateEntity("Test Entity 2");
+            scene->CreateEntity("Test Entity 3");
+            scene->CreateEntity("Test Entity 4");
 
-            ARC_ENGINE_INFO("Contians uniform: {0}", shader->ContainsUniform("u_MVP", ShaderUniformType::Mat4x4f));
+            gameWorld.AddScene(scene);
+
+            EntitySystem* system1 = new TestSystem2();
+            EntitySystem* system2 = new TestSystem();
+
+            gameWorld.AddEntitySystem(system1);
+            gameWorld.AddEntitySystem(system2);
+
+            gameWorld.UpdateSystems();
+
 
             vb.Unbind();
             ib.Unbind();

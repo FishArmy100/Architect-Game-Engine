@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include "GL/glew.h"
-#include "../../Debug System/OpenGLDebugger.h"
+#include "../../Debug-System/OpenGLDebugger.h"
 #include "../../Logger/Logger.h"
 
 #define STB_IMAGE_IMPLEMENTATION 

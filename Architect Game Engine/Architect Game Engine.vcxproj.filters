@@ -21,10 +21,10 @@
     <ClCompile Include="src\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\User Input\Input.cpp">
+    <ClCompile Include="src\User-Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Debug System\Debug.cpp">
+    <ClCompile Include="src\Debug-System\Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Mathmatics\Vectors\Vector2.cpp">
@@ -39,46 +39,46 @@
     <ClCompile Include="src\Mathmatics\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\User Input\InputSystem.cpp">
+    <ClCompile Include="src\User-Input\InputSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\User Input\GLFWInputHandler.cpp">
+    <ClCompile Include="src\User-Input\GLFWInputHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Mathmatics\UUID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Debug System\OpenGLDebugger.cpp">
+    <ClCompile Include="src\Debug-System\OpenGLDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\VertexBuffer.cpp">
+    <ClCompile Include="src\Rendering-System\VertexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\IndexBuffer.cpp">
+    <ClCompile Include="src\Rendering-System\IndexBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Shader.cpp">
+    <ClCompile Include="src\Rendering-System\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\VertexArray.cpp">
+    <ClCompile Include="src\Rendering-System\VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\VertexBufferLayout.cpp">
+    <ClCompile Include="src\Rendering-System\VertexBufferLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Renderer.cpp">
+    <ClCompile Include="src\Rendering-System\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Texture_Code\Texture.cpp">
+    <ClCompile Include="src\Rendering-System\Texture_Code\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Texture_Code\stb_image\stb_image.cpp">
+    <ClCompile Include="src\Rendering-System\Texture_Code\stb_image\stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Material.cpp">
+    <ClCompile Include="src\Rendering-System\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering System\Camera.cpp">
+    <ClCompile Include="src\Rendering-System\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GameEngine.cpp">
@@ -126,6 +126,21 @@
     <ClCompile Include="src\Mathmatics\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\GameWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\EntitySystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\Basic-Components\TransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WindowsDefines.h">
@@ -137,10 +152,10 @@
     <ClInclude Include="include\Architect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\User Input\Input.h">
+    <ClInclude Include="src\User-Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Debug System\Debug.h">
+    <ClInclude Include="src\Debug-System\Debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Mathmatics\Math.h">
@@ -161,55 +176,55 @@
     <ClInclude Include="src\Mathmatics\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\User Input\InputSystem.h">
+    <ClInclude Include="src\User-Input\InputSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\User Input\InputCodes.h">
+    <ClInclude Include="src\User-Input\InputCodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\User Input\IInputHandler.h">
+    <ClInclude Include="src\User-Input\IInputHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\User Input\GLFWInputHandler.h">
+    <ClInclude Include="src\User-Input\GLFWInputHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Mathmatics\UUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Debug System\OpenGLDebugger.h">
+    <ClInclude Include="src\Debug-System\OpenGLDebugger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\VertexBuffer.h">
+    <ClInclude Include="src\Rendering-System\VertexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\IndexBuffer.h">
+    <ClInclude Include="src\Rendering-System\IndexBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\Rendering.h">
+    <ClInclude Include="src\Rendering-System\Rendering.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\Shader.h">
+    <ClInclude Include="src\Rendering-System\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\VertexArray.h">
+    <ClInclude Include="src\Rendering-System\VertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\VertexBufferLayout.h">
+    <ClInclude Include="src\Rendering-System\VertexBufferLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\Renderer.h">
+    <ClInclude Include="src\Rendering-System\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\Texture_Code\Texture.h">
+    <ClInclude Include="src\Rendering-System\Texture_Code\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\Texture_Code\stb_image\stb_image.h">
+    <ClInclude Include="src\Rendering-System\Texture_Code\stb_image\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\Material.h">
+    <ClInclude Include="src\Rendering-System\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering System\Camera.h">
+    <ClInclude Include="src\Rendering-System\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Core.h">
@@ -266,11 +281,39 @@
     <ClInclude Include="src\Mathmatics\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vendor\entt\entt.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\GameWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\EntitySystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Basic-Components\Basic-Components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Basic-Components\TagComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Basic-Components\IsActiveComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Basic-Components\TransformComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Vendor\imgui\LICENSE.txt" />
+    <Text Include="src\Vendor\entt\LICENSE.txt" />
   </ItemGroup>
 </Project>
