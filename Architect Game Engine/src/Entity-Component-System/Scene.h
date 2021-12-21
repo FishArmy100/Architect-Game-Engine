@@ -25,6 +25,7 @@ namespace Architect
 		std::string GetName() { return m_Name; }
 
 		Entity CreateEntity(const std::string& name);
+		void DestroyEntity(Entity e);
 	};
 }
 

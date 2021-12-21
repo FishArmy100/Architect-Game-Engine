@@ -11,6 +11,7 @@ namespace Architect
 	public:
 		IndexBuffer(const unsigned int* indicies, unsigned int count);
 		IndexBuffer() = default;
+		IndexBuffer(const IndexBuffer& other) = delete; 
 		void Bind() const;
 		void Unbind() const;
 		

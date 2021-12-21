@@ -21,7 +21,7 @@ namespace Architect
 
 
 	public:
-		Material(std::shared_ptr<Shader> shader);
+		Material(std::shared_ptr<Shader> shader = Shader::CreateDefult());
 
 		void Bind() const;
 		void Unbind() const;

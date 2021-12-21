@@ -10,7 +10,6 @@ namespace Architect
 		~TagComponent() {};
 		TagComponent(const TagComponent& other) = default;
 
-		operator const std::string& () { return Tag; }
 		operator std::string& () { return Tag; }
 	};
 }

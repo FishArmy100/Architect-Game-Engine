@@ -30,7 +30,7 @@ namespace Architect
 		void RemoveEntitySystem(EntitySystem* system);
 		bool ContainsEntitySystem(EntitySystem* system);
 
-		void UpdateSystems();
+		void UpdateSystems(float deltaTime);
 		
 		std::vector<EntitySystem*> GetSystems() { return m_EntitySystems; }
 	};

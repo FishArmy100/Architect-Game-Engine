@@ -12,9 +12,9 @@ namespace Architect
 
 	}
 
-	void EntitySystem::Update(Scene* scene)
+	void EntitySystem::Update(Scene* scene, float timeStep)
 	{
 		m_CurrentScene = scene;
-		OnUpdate();
+		OnUpdate(timeStep);
 	}
 }

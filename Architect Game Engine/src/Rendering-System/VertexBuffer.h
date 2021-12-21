@@ -9,6 +9,7 @@ namespace Architect
 
 	public:
 		VertexBuffer(const void* data, unsigned int sizeInBytes);
+		VertexBuffer(const VertexBuffer& other) = delete;
 		void Bind() const;
 		void Unbind() const;
 		~VertexBuffer();

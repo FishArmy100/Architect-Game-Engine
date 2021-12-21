@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "Mathmatics/UUID.h"
 #include "Entity.h"
-#include "Basic-Components/Basic-Components.h"
+#include "Entity-Components/Basic-Components.h"
 
 namespace Architect
 {
@@ -18,5 +18,10 @@ namespace Architect
 		entity.AddComponent<IsActiveComponent>(true);
 		entity.AddComponent<TransformComponent>();
 		return entity;
+	}
+
+	void Scene::DestroyEntity(Entity e)
+	{
+		m_EntityRegistry.destroy(e);
 	}
 }

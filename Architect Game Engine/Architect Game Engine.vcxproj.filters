@@ -138,7 +138,16 @@
     <ClCompile Include="src\Entity-Component-System\EntitySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entity-Component-System\Basic-Components\TransformComponent.cpp">
+    <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\EntityNativeScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -296,16 +305,37 @@
     <ClInclude Include="src\Entity-Component-System\EntitySystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\Basic-Components.h">
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\Basic-Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\TagComponent.h">
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\TagComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\IsActiveComponent.h">
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\IsActiveComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\TransformComponent.h">
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\TransformComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\SpriteRendererComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\NativeScriptComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\EntityNativeScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\NativeScriptInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\IComponentDestroyedCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

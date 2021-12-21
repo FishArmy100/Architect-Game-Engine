@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor;$(ProjectDir)src</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -83,7 +83,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor;$(ProjectDir)src</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,6 +99,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.cpp" />
+    <ClCompile Include="src\Entity-Component-System\EntityNativeScript.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\EntitySystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity.cpp" />
     <ClCompile Include="src\Entity-Component-System\Scene.cpp" />
@@ -140,14 +143,21 @@
     <ClCompile Include="src\Vendor\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\Entity-Component-System\Basic-Components\TransformComponent.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\Basic-Components.h" />
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\IsActiveComponent.h" />
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\TagComponent.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\IComponentDestroyedCallback.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.h" />
+    <ClInclude Include="src\Entity-Component-System\EntityNativeScript.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\NativeScriptComponent.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\SpriteRendererComponent.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\Basic-Components.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\IsActiveComponent.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\TagComponent.h" />
     <ClInclude Include="src\Entity-Component-System\EntitySystem.h" />
     <ClInclude Include="src\Entity-Component-System\Entity.h" />
+    <ClInclude Include="src\Entity-Component-System\NativeScriptInstance.h" />
     <ClInclude Include="src\Entity-Component-System\Scene.h" />
     <ClInclude Include="src\Entity-Component-System\GameWorld.h" />
     <ClInclude Include="src\Mathmatics\Color.h" />
@@ -197,7 +207,7 @@
     <ClInclude Include="src\Rendering-System\VertexArray.h" />
     <ClInclude Include="src\Rendering-System\VertexBufferLayout.h" />
     <ClInclude Include="src\Rendering-System\Texture_Code\Texture.h" />
-    <ClInclude Include="src\Entity-Component-System\Basic-Components\TransformComponent.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />

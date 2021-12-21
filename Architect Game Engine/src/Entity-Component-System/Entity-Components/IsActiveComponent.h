@@ -9,7 +9,6 @@ namespace Architect
 		~IsActiveComponent() {};
 		IsActiveComponent(const IsActiveComponent& other) = default;
 
-		operator const bool() { return IsActive; }
 		operator bool() { return IsActive; }
 	};
 }

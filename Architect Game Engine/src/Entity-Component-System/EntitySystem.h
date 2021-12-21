@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Entity.h"
-#include "Basic-Components/Basic-Components.h"
+#include "Entity-Components/Basic-Components.h"
 #include <functional>
 
 namespace Architect
@@ -12,11 +12,22 @@ namespace Architect
 		EntitySystem();
 		~EntitySystem();
 
-		void Update(Scene* scene);
+		void Update(Scene* scene, float timeStep);
 
 	protected:
-		virtual void OnUpdate() = 0;
+		virtual void OnUpdate(float timeStep) = 0;
 		
+		template<typename TComponent>
+		void GetEntitiesWithComponent(std::function<void(Entity&, TComponent&)> onEntity)
+		{
+			auto view = m_CurrentScene->m_EntityRegistry.view<TComponent>();
+			for (auto entity : view)
+			{
+				Entity e = Entity(entity, m_CurrentScene);
+				onEntity(e, view.get<TComponent>(entity));
+			}
+		}
+
 		template<typename TComponent>
 		void RunFuncOnEntites(std::function<void(TComponent&)> onEntity)
 		{

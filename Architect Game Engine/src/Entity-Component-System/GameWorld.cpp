@@ -1,5 +1,6 @@
 #include "GameWorld.h"
 #include "Entity.h"
+#include "GL/glew.h"
 
 namespace Architect
 {
@@ -57,13 +58,15 @@ namespace Architect
 		return std::find(m_EntitySystems.begin(), m_EntitySystems.end(), system) != m_EntitySystems.end(); 
 	}
 
-	void GameWorld::UpdateSystems()
+	void GameWorld::UpdateSystems(float timeStep)
 	{
+		
+
 		for (EntitySystem* system : m_EntitySystems)
 		{
 			for (Scene* scene : m_Scenes)
 			{
-				system->Update(scene);
+				system->Update(scene, timeStep);
 			}
 		}
 	}

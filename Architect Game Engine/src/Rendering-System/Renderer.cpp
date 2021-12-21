@@ -6,10 +6,17 @@
 
 namespace Architect
 {
-	void Renderer::AddDrawCall(VertexArray& vertexArray, IndexBuffer& indexBuffer, Material& material, glm::mat4& transform)
+	void Renderer::DeleteDrawCalls()
 	{
-		DrawCallData data = DrawCallData(vertexArray, indexBuffer, material, transform);
-		DrawCalls.emplace_back(data);
+		for (DrawCallData* data : m_DrawCalls)
+			delete data;
+
+		m_DrawCalls.clear();
+	}
+
+	void Renderer::AddDrawCall(DrawCallData* drawCallData)
+	{
+		m_DrawCalls.push_back(drawCallData);
 	}
 
 	void Renderer::Draw()
@@ -17,27 +24,27 @@ namespace Architect
 		if (Camera::GetMainCamera() == nullptr)
 		{
 			ARC_ENGINE_ERROR("No Camera Exists");
-			DrawCalls.clear();
+			DeleteDrawCalls();
 			return;
 		}
 
 		GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-		for (DrawCallData& data : DrawCalls)
+		for (DrawCallData*& data : m_DrawCalls)
 		{
-			data.m_VertexArray->Bind();
-			data.m_IndexBuffer->Bind();
-			data.m_Material->Bind();
+			data->m_VertexArray->Bind();
+			data->m_IndexBuffer->Bind();
+			data->m_Material.Bind();
 
 			glm::mat4 viewProjection = Camera::GetMainCamera()->GetViewProjection();
-			glm::mat4 mvp = viewProjection * (*data.m_Transform);
+			glm::mat4 mvp = viewProjection * (data->m_Transform);
 
-			data.m_Material->GetShader()->SetShaderUniformMat4f("u_MVP", mvp);
+			data->m_Material.GetShader()->SetShaderUniformMat4f("u_MVP", mvp);
 
-			int indiciesCount = data.m_IndexBuffer->GetCount();
+			int indiciesCount = data->m_IndexBuffer->GetCount();
 			GLCall(glDrawElements(GL_TRIANGLES, indiciesCount, GL_UNSIGNED_INT, nullptr));
 		}
 
-		DrawCalls.clear();
+		DeleteDrawCalls();
 	}
 }
