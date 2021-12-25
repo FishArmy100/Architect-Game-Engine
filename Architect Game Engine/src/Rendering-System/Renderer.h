@@ -4,6 +4,7 @@
 #include "Material.h"
 #include <vector>
 #include <glm/glm.hpp>
+#include "Camera.h"
 #include "Core.h"
 
 namespace Architect
@@ -44,9 +45,16 @@ namespace Architect
 		std::vector<DrawCallData*> m_DrawCalls;
 		void DeleteDrawCalls();
 
+		Camera* m_Camera;
+		glm::mat4 m_CameraTransform;
+
 	public:
+		Renderer(Camera* camera, glm::mat4 cameraTransform);
+		~Renderer();
+
 		void AddDrawCall(DrawCallData* drawCallData);
 		void Draw();
+		void SetCamera(Camera* camera, glm::mat4 transform);
 	};
 }
 

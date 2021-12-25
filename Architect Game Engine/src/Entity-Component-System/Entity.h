@@ -3,7 +3,6 @@
 #include "entt/entt.hpp"
 #include "Scene.h"
 #include "Entity-Components/Basic-Components.h"
-#include "Entity-Components/IComponentDestroyedCallback.h"
 
 namespace Architect
 {
@@ -52,9 +51,7 @@ namespace Architect
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args)
 		{
-			T& component = m_Scene->m_EntityRegistry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
-
-			return component;
+			return m_Scene->m_EntityRegistry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 		}
 
 		template<typename T>

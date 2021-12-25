@@ -8,9 +8,12 @@ namespace Architect
 	{
 	protected:
 		void OnUpdate(float timeStep) override;
+		void OnStart() override;
+		void OnStop() override;
 
 	private:
 		void OnEntity(Entity& e, NativeScriptComponent& nsc, float timeStep);
+		OnDestoryComponentLisener<NativeScriptComponent>* m_OnScriptComponentDestroyedLisener;
 	};
 }
 

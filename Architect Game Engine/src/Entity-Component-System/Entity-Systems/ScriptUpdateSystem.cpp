@@ -10,22 +10,31 @@ namespace Architect
 		}); 
 	}
 
-	// Doesent work with multiple scripts on entity
+	void ScriptUpdateSystem::OnStart()
+	{
+		m_OnScriptComponentDestroyedLisener = AddLisenerToOnComponentDestroyed<NativeScriptComponent>([](NativeScriptComponent& scriptComponent)
+		{
+			scriptComponent.OnDestroy();
+		});
+	}
+
+	void ScriptUpdateSystem::OnStop()
+	{
+		RemoveLisenerFromOnComponentDestroyed(m_OnScriptComponentDestroyedLisener);
+	}
+
 	void ScriptUpdateSystem::OnEntity(Entity& e, NativeScriptComponent& nsc, float timeStep)
 	{
-		std::vector<NativeScriptInstance*> scriptInstances = nsc.GetScriptInstances();
+		NativeScriptInstance* scriptInstance = nsc.GetScriptInstance();
 
-		for (int i = 0; i < scriptInstances.size(); i++)
+		if (!(*scriptInstance))
 		{
-			if (!(*scriptInstances[i]))
-			{
-				scriptInstances[i]->CreateScriptInstanceFunction(e);
-				scriptInstances[i]->NativeScript->OnCreate();
-			}
-			else
-			{
-				scriptInstances[i]->NativeScript->OnUpdate(timeStep);
-			}
+			scriptInstance->CreateScriptInstanceFunction(e);
+			scriptInstance->NativeScript->OnCreate();
+		}
+		else
+		{
+			scriptInstance->NativeScript->OnUpdate(timeStep);
 		}
 	}
 }

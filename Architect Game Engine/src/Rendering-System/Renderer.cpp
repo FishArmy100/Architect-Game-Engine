@@ -2,7 +2,6 @@
 #include "GL/glew.h"
 #include "../Debug-System/OpenGLDebugger.h"
 #include "../Logger/Logger.h"
-#include "Camera.h"
 
 namespace Architect
 {
@@ -14,6 +13,17 @@ namespace Architect
 		m_DrawCalls.clear();
 	}
 
+
+	Renderer::Renderer(Camera* camera, glm::mat4 cameraTransform)
+		: m_Camera(camera), m_CameraTransform(cameraTransform)
+	{
+
+	}
+
+	Renderer::~Renderer()
+	{
+	}
+
 	void Renderer::AddDrawCall(DrawCallData* drawCallData)
 	{
 		m_DrawCalls.push_back(drawCallData);
@@ -21,9 +31,9 @@ namespace Architect
 
 	void Renderer::Draw()
 	{
-		if (Camera::GetMainCamera() == nullptr)
+		if (m_Camera == nullptr)
 		{
-			ARC_ENGINE_ERROR("No Camera Exists");
+			ARC_ENGINE_ERROR("Camera Not Set");
 			DeleteDrawCalls();
 			return;
 		}
@@ -36,7 +46,7 @@ namespace Architect
 			data->m_IndexBuffer->Bind();
 			data->m_Material.Bind();
 
-			glm::mat4 viewProjection = Camera::GetMainCamera()->GetViewProjection();
+			glm::mat4 viewProjection = m_Camera->GetProjectionMatrix() * glm::inverse(m_CameraTransform);
 			glm::mat4 mvp = viewProjection * (data->m_Transform);
 
 			data->m_Material.GetShader()->SetShaderUniformMat4f("u_MVP", mvp);
@@ -46,5 +56,11 @@ namespace Architect
 		}
 
 		DeleteDrawCalls();
+	}
+
+	void Renderer::SetCamera(Camera* camera, glm::mat4 transform)
+	{
+		m_Camera = camera;
+		m_CameraTransform = transform;
 	}
 }

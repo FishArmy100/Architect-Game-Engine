@@ -11,36 +11,31 @@ namespace Architect
 	class NativeScriptComponent
 	{
 	private:
-		std::vector<NativeScriptInstance*> m_ScriptInstances;
+		NativeScriptInstance* m_ScriptInstance = nullptr;
 
 	public:
 
 		template<typename T>
-		void AddScript()
+		void Bind()
 		{
-			m_ScriptInstances.emplace_back(new NativeScriptInstance())->Bind<T>();
+			if (m_ScriptInstance != nullptr)
+			{
+				if(m_ScriptInstance->NativeScript != nullptr)
+					m_ScriptInstance->NativeScript->OnDestroy();
+
+				delete m_ScriptInstance;
+			}
+
+			m_ScriptInstance = new NativeScriptInstance();
+			m_ScriptInstance->Bind<T>();
 		}
 
-		std::vector<NativeScriptInstance*>& GetScriptInstances() { return m_ScriptInstances; }
+		NativeScriptInstance* GetScriptInstance() { return m_ScriptInstance; }
 
 		void OnDestroy()
 		{
-			ARC_ENGINE_INFO("Destroyed Component");
+			m_ScriptInstance->NativeScript->OnDestroy();
+			delete m_ScriptInstance;
 		}
-
-		/*~NativeScriptComponent()
-		{
-			for (auto instance : m_ScriptInstances)
-			{
-				if (instance->NativeScript)
-				{
-					instance->NativeScript->OnDestroy();
-				}
-			}
-			for (auto instance : m_ScriptInstances)
-			{
-				delete instance;
-			}
-		}*/
 	};
 }

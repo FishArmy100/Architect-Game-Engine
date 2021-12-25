@@ -20,14 +20,22 @@ namespace Architect
 
 	void GameWorld::AddScene(Scene* scene)
 	{
-		if(!ContainsScene(scene))
+		if (!ContainsScene(scene))
+		{
+			for (EntitySystem* system : m_EntitySystems)
+				system->OnSceneAdded(scene);
+
 			m_Scenes.push_back(scene);
+		}
 	}
 
 	void GameWorld::RemoveScene(Scene* scene)
 	{
 		if (ContainsScene(scene))
 		{
+			for (EntitySystem* system : m_EntitySystems)
+				system->OnSceneRemoved(scene);
+
 			std::vector<Scene*>::iterator index = std::find(m_Scenes.begin(), m_Scenes.end(), scene);
 			m_Scenes.erase(index);
 		}
@@ -41,13 +49,17 @@ namespace Architect
 	void GameWorld::AddEntitySystem(EntitySystem* system)
 	{
 		if (!ContainsEntitySystem(system))
+		{
+			system->OnAddedToGameWorld(GetScenes());
 			m_EntitySystems.push_back(system);
+		}
 	}
 
 	void GameWorld::RemoveEntitySystem(EntitySystem* system)
 	{
 		if (ContainsEntitySystem(system))
 		{
+			system->OnRemovedFromGameWorld(GetScenes());
 			std::vector<EntitySystem*>::iterator index = std::find(m_EntitySystems.begin(), m_EntitySystems.end(), system);
 			m_EntitySystems.erase(index);
 		}
@@ -60,8 +72,6 @@ namespace Architect
 
 	void GameWorld::UpdateSystems(float timeStep)
 	{
-		
-
 		for (EntitySystem* system : m_EntitySystems)
 		{
 			for (Scene* scene : m_Scenes)

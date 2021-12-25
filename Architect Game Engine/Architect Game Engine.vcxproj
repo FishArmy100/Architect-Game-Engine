@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor;$(ProjectDir)src</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -83,7 +83,7 @@
       <PreprocessorDefinitions>GLEW_STATIC;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor;$(ProjectDir)src</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +146,7 @@
     <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\CameraComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\IComponentDestroyedCallback.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.h" />
     <ClInclude Include="src\Entity-Component-System\EntityNativeScript.h" />

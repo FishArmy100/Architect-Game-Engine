@@ -35,28 +35,29 @@ namespace Architect
         MoveScript() {}
         ~MoveScript() {}
 
+        void OnCreate() override
+        {
+            ARC_INFO("Move Script Created");
+        }
+
         void OnUpdate(float timeStep) override
         {
-            if(Input::GetKeyDown(KeyCode::Space))
+            if(Input::GetKeyDown(KeyCode::W))
+                GetEntity().GetTransform().Translate({ 0, timeStep * 0.1f, 0 });
+
+            if (Input::GetKeyDown(KeyCode::A))
+                GetEntity().GetTransform().Translate({ -timeStep * 0.1f, 0, 0 });
+
+            if (Input::GetKeyDown(KeyCode::S))
+                GetEntity().GetTransform().Translate({ 0, -timeStep * 0.1f, 0 });
+
+            if (Input::GetKeyDown(KeyCode::D))
                 GetEntity().GetTransform().Translate({ timeStep * 0.1f, 0, 0 });
         }
 
         void OnDestroy() override
         {
             ARC_INFO("Move Script Destroied");
-        }
-    };
-
-    class MoveScript2 : public EntityNativeScript
-    {
-    public:
-        MoveScript2() {}
-        ~MoveScript2() {}
-
-        void OnUpdate(float timeStep) override
-        {
-            if (Input::GetKeyDown(KeyCode::Tab))
-                GetEntity().GetTransform().Translate({ -timeStep * 0.1f, 0, 0 });
         }
     };
 
@@ -88,11 +89,9 @@ namespace Architect
             Material mat = Material(shader);
             mat.SetTexture("u_Texture", std::shared_ptr<Texture>(texture));
 
+            Camera* camera = new Camera(-2.0f, 2.0f, -1.5f, 1.5f);
 
-            Camera camera(-2.0f, 2.0f, -1.5f, 1.5f);
-            camera.SetPosition(glm::vec3(0, 0, 0));
-
-            Renderer* renderer = new Renderer();
+            Renderer* renderer = new Renderer(camera, glm::mat4(1.0f));
 
             GameWorld gameWorld;
 
@@ -101,10 +100,14 @@ namespace Architect
 
             Entity e = scene->CreateEntity("Test Entity");
             e.AddComponent<SpriteRendererComponent>(mat);
-            e.AddComponent<NativeScriptComponent>().AddScript<MoveScript>();
-            e.GetComponent<NativeScriptComponent>().AddScript<MoveScript2>();
+            //e.AddComponent<NativeScriptComponent>().Bind<MoveScript>();
             
-            e.GetTransform().Translate({ -1.0f, 0.0f, 0.0f });
+            //e.GetTransform().Translate({ -1.0f, 0.0f, 0.0f });
+            e.GetTransform().Rotate({ 0, 0, 45 });
+
+            Entity cameraEntity = scene->CreateEntity("Camera");
+            cameraEntity.AddComponent<CameraComponent>(camera);
+            cameraEntity.AddComponent<NativeScriptComponent>().Bind<MoveScript>();
 
             gameWorld.AddEntitySystem(new ScriptUpdateSystem());
             gameWorld.AddEntitySystem(new SpriteRendererSystem(renderer));
@@ -123,8 +126,12 @@ namespace Architect
                 lastFrameTime = time;
 
                 gameWorld.UpdateSystems(deltaTime); 
-                renderer->Draw();
-                e.RemoveComponent<NativeScriptComponent>();
+
+                glm::mat4 cameraTransform = cameraEntity.GetTransform().GetTransformMatrix();
+                Camera* camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+                renderer->SetCamera(camera, cameraTransform);
+
+                renderer->Draw(); 
 
                 UI::GUI::StartFrame();
                 exampleWindow.RenderWindow();
