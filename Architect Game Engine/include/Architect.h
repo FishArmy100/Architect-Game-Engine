@@ -4,7 +4,10 @@
 #include "../src/Mathmatics/Math.h"
 #include "../src/Mathmatics/UUID.h"
 
+#include "Core/Application.h"
+#include "Core/EditorLayer.h"
+
 namespace Architect
 {
-	bool Init(void (*onUpdate)());
+	bool Init();
 }

@@ -45,16 +45,12 @@ namespace Architect
 		std::vector<DrawCallData*> m_DrawCalls;
 		void DeleteDrawCalls();
 
-		Camera* m_Camera;
-		glm::mat4 m_CameraTransform;
-
 	public:
-		Renderer(Camera* camera, glm::mat4 cameraTransform);
+		Renderer();
 		~Renderer();
 
 		void AddDrawCall(DrawCallData* drawCallData);
-		void Draw();
-		void SetCamera(Camera* camera, glm::mat4 transform);
+		void Draw(Camera* camera, glm::mat4 cameraTransform); 
 	};
 }
 

@@ -13,7 +13,7 @@ namespace Architect
 		ARC_INFO("Example Layer Detached");
 	}
 
-	void ExampleLayer::OnUpdate()
+	void ExampleLayer::OnUpdate(float timestep)
 	{
 		ARC_INFO("Example Layer Update");
 	}

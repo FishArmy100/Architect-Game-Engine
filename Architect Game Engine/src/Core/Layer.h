@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Core.h"
+#include "Entity-Component-System/Scene.h"
 
 namespace Architect
 {
@@ -12,7 +13,9 @@ namespace Architect
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(float timestep) {}
+		virtual void OnImGuiRender() {}
+		virtual void OnActiveSceneChanged(Scene* scene) {}
 
 		inline const std::string& GetName() const { return m_DebugName; }
 	protected:

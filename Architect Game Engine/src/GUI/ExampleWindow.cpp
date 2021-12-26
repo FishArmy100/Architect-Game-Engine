@@ -16,7 +16,7 @@ namespace Architect
 			FloatInput("Example Float", &testFloat);
 			ColorInput("Example Color", &testColor);
 			std::string colorString = testColor.ToString();
-			//ARC_ENGINE_INFO(colorString);
+			ARC_ENGINE_INFO(colorString);
 		}
 	}
 }

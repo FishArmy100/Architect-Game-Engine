@@ -14,8 +14,7 @@ namespace Architect
 	}
 
 
-	Renderer::Renderer(Camera* camera, glm::mat4 cameraTransform)
-		: m_Camera(camera), m_CameraTransform(cameraTransform)
+	Renderer::Renderer()
 	{
 
 	}
@@ -29,9 +28,9 @@ namespace Architect
 		m_DrawCalls.push_back(drawCallData);
 	}
 
-	void Renderer::Draw()
+	void Renderer::Draw(Camera* camera, glm::mat4 cameraTransform)
 	{
-		if (m_Camera == nullptr)
+		if (camera == nullptr)
 		{
 			ARC_ENGINE_ERROR("Camera Not Set");
 			DeleteDrawCalls();
@@ -46,7 +45,7 @@ namespace Architect
 			data->m_IndexBuffer->Bind();
 			data->m_Material.Bind();
 
-			glm::mat4 viewProjection = m_Camera->GetProjectionMatrix() * glm::inverse(m_CameraTransform);
+			glm::mat4 viewProjection = camera->GetProjectionMatrix() * glm::inverse(cameraTransform);
 			glm::mat4 mvp = viewProjection * (data->m_Transform);
 
 			data->m_Material.GetShader()->SetShaderUniformMat4f("u_MVP", mvp);
@@ -56,11 +55,5 @@ namespace Architect
 		}
 
 		DeleteDrawCalls();
-	}
-
-	void Renderer::SetCamera(Camera* camera, glm::mat4 transform)
-	{
-		m_Camera = camera;
-		m_CameraTransform = transform;
 	}
 }

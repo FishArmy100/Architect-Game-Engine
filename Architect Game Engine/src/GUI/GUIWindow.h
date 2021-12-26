@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "../Mathmatics/Color.h"
+#include "imgui/imgui.h"
 
 namespace Architect
 {

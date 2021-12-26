@@ -24,4 +24,29 @@ namespace Architect
 	{
 		m_EntityRegistry.destroy(e);
 	}
+
+	void Scene::RemoveLisenerFromOnComponentDestroyed(IDestroyComponentEventLisener* lisener)
+	{
+		for (auto& activeLisener : m_DestroyComponentEventLiseners)
+		{
+			if (activeLisener.Lisener == lisener)
+			{
+				activeLisener.RemoveLisenerFunc(m_EntityRegistry);
+
+				auto index = std::find(m_DestroyComponentEventLiseners.begin(), m_DestroyComponentEventLiseners.end(), activeLisener);
+				if (index != m_DestroyComponentEventLiseners.end())
+					m_DestroyComponentEventLiseners.erase(index);
+			}
+		}
+
+		delete lisener;
+	}
+
+	void Scene::ClearOnComponentDestroyedLiseners()
+	{
+		for (auto& lisener : m_DestroyComponentEventLiseners)
+		{
+			lisener.RemoveLisenerFunc(m_EntityRegistry);
+		}
+	}
 }

@@ -99,21 +99,22 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.cpp" />
+    <ClCompile Include="src\GUI\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Entity-Component-System\ScriptUpdator.cpp" />
+    <ClCompile Include="src\Entity-Component-System\SceneRenderer.cpp" />
+    <ClCompile Include="src\Core\EditorLayer.cpp" />
+    <ClCompile Include="src\Entity-Component-System\SceneManager.cpp" />
     <ClCompile Include="src\Entity-Component-System\EntityNativeScript.cpp" />
-    <ClCompile Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\EntitySystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity.cpp" />
     <ClCompile Include="src\Entity-Component-System\Scene.cpp" />
-    <ClCompile Include="src\Entity-Component-System\GameWorld.cpp" />
     <ClCompile Include="src\Mathmatics\Color.cpp" />
     <ClCompile Include="src\GUI\ExampleWindow.cpp" />
     <ClCompile Include="src\GUI\GUIWindow.cpp" />
-    <ClCompile Include="src\GUI\GUI.cpp" />
-    <ClCompile Include="src\ExampleLayer.cpp" />
-    <ClCompile Include="src\GameEngine.cpp" />
-    <ClCompile Include="src\Layer.cpp" />
-    <ClCompile Include="src\LayerStack.cpp" />
+    <ClCompile Include="src\Core\ExampleLayer.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Core\Layer.cpp" />
+    <ClCompile Include="src\Core\LayerStack.cpp" />
     <ClCompile Include="src\Rendering-System\Camera.cpp" />
     <ClCompile Include="src\Rendering-System\Material.cpp" />
     <ClCompile Include="src\Rendering-System\Renderer.cpp" />
@@ -146,13 +147,16 @@
     <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GUI\ImGuiLayer.h" />
+    <ClInclude Include="src\Entity-Component-System\ScriptUpdator.h" />
+    <ClInclude Include="src\Entity-Component-System\SceneRenderer.h" />
+    <ClInclude Include="src\Core\EditorLayer.h" />
+    <ClInclude Include="src\Entity-Component-System\SceneManager.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\CameraComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\IComponentDestroyedCallback.h" />
-    <ClInclude Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.h" />
     <ClInclude Include="src\Entity-Component-System\EntityNativeScript.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\NativeScriptComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\SpriteRendererComponent.h" />
-    <ClInclude Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\Basic-Components.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\IsActiveComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\TagComponent.h" />
@@ -160,15 +164,13 @@
     <ClInclude Include="src\Entity-Component-System\Entity.h" />
     <ClInclude Include="src\Entity-Component-System\NativeScriptInstance.h" />
     <ClInclude Include="src\Entity-Component-System\Scene.h" />
-    <ClInclude Include="src\Entity-Component-System\GameWorld.h" />
     <ClInclude Include="src\Mathmatics\Color.h" />
     <ClInclude Include="src\GUI\ExampleWindow.h" />
     <ClInclude Include="src\GUI\GUIWindow.h" />
-    <ClInclude Include="src\GUI\GUI.h" />
-    <ClInclude Include="src\ExampleLayer.h" />
-    <ClInclude Include="src\GameEngine.h" />
-    <ClInclude Include="src\Layer.h" />
-    <ClInclude Include="src\LayerStack.h" />
+    <ClInclude Include="src\Core\ExampleLayer.h" />
+    <ClInclude Include="src\Core\Application.h" />
+    <ClInclude Include="src\Core\Layer.h" />
+    <ClInclude Include="src\Core\LayerStack.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Rendering-System\Camera.h" />
     <ClInclude Include="src\Rendering-System\Material.h" />

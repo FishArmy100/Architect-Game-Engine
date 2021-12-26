@@ -8,7 +8,7 @@ namespace Architect
 	public:
 		void OnAttach() override;
 		void OnDetach() override;
-		void OnUpdate() override;
+		void OnUpdate(float timestep) override;
 	};
 }
 
