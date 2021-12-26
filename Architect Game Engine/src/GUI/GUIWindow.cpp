@@ -1,5 +1,4 @@
 #include "GUIWindow.h"
-#include "imgui/imgui.h"
 #include <iterator>
 
 namespace Architect
