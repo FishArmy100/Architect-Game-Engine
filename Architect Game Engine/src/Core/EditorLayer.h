@@ -15,9 +15,13 @@ namespace Architect
 		void OnActiveSceneChanged(Scene* scene) override;
 
 	private:
-		Renderer* m_Renderer;
 		Entity m_CameraEntity;
 		UI::ExampleWindow* m_ExampleWindow;
+
+		void TestMethod()
+		{
+			ARC_ENGINE_WARNING("Event Worked");
+		}
 	};
 }
 

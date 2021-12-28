@@ -7,6 +7,7 @@
 #include "User-Input/GLFWInputHandler.h"
 
 #include "Entity-Component-System/SceneManager.h"
+#include "Core/Events.h"
 
 
 namespace Architect

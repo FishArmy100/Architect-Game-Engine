@@ -5,55 +5,41 @@
 
 namespace Architect
 {
-	void Renderer::DeleteDrawCalls()
+	std::vector<DrawCallData> Renderer::m_DrawCalls;
+	Camera* Renderer::m_Camera;
+	glm::mat4 Renderer::m_CameraTransform;
+
+	void Renderer::Begin(Camera* camera, glm::mat4 cameraTransform)
 	{
-		for (DrawCallData* data : m_DrawCalls)
-			delete data;
-
-		m_DrawCalls.clear();
-	}
-
-
-	Renderer::Renderer()
-	{
-
-	}
-
-	Renderer::~Renderer()
-	{
-	}
-
-	void Renderer::AddDrawCall(DrawCallData* drawCallData)
-	{
-		m_DrawCalls.push_back(drawCallData);
-	}
-
-	void Renderer::Draw(Camera* camera, glm::mat4 cameraTransform)
-	{
-		if (camera == nullptr)
-		{
-			ARC_ENGINE_ERROR("Camera Not Set");
-			DeleteDrawCalls();
-			return;
-		}
-
+		// Temp?
+		// TODO: move to a window class?
 		GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-		for (DrawCallData*& data : m_DrawCalls)
+		m_DrawCalls.clear();
+		m_Camera = camera;
+		m_CameraTransform = cameraTransform;
+	}
+
+	void Renderer::AddDrawCall(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform)
+	{
+		m_DrawCalls.emplace_back(va, ib, mat, transform);
+	}
+
+	void Renderer::End()
+	{
+		for (DrawCallData& data : m_DrawCalls)
 		{
-			data->m_VertexArray->Bind();
-			data->m_IndexBuffer->Bind();
-			data->m_Material.Bind();
+			data.VertexArray.Bind();
+			data.IndexBuffer.Bind();
+			data.Mat.Bind();
 
-			glm::mat4 viewProjection = camera->GetProjectionMatrix() * glm::inverse(cameraTransform);
-			glm::mat4 mvp = viewProjection * (data->m_Transform);
+			glm::mat4 viewProjection = m_Camera->GetProjectionMatrix() * glm::inverse(m_CameraTransform);
+			glm::mat4 mvp = viewProjection * (data.Transform);
 
-			data->m_Material.GetShader()->SetShaderUniformMat4f("u_MVP", mvp);
+			data.Mat.GetShader()->SetShaderUniformMat4f("u_MVP", mvp);
 
-			int indiciesCount = data->m_IndexBuffer->GetCount();
+			int indiciesCount = data.IndexBuffer.GetBuffer()->GetCount();
 			GLCall(glDrawElements(GL_TRIANGLES, indiciesCount, GL_UNSIGNED_INT, nullptr));
 		}
-
-		DeleteDrawCalls();
 	}
 }

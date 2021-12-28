@@ -1,6 +1,6 @@
 #pragma once
-#include "VertexArray.h"
-#include "IndexBuffer.h"
+#include "MannagedVertexArray.h"
+#include "MannagedIndexBuffer.h"
 #include "Material.h"
 #include <vector>
 #include <glm/glm.hpp>
@@ -11,46 +11,31 @@ namespace Architect
 {
 	struct DrawCallData
 	{
-	public:
-		DrawCallData(VertexBuffer* vertexBuffer, VertexBufferLayout layout, IndexBuffer* indexBuffer, Material drawMaterial, glm::mat4 transform)
+		DrawCallData(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform)
 		{
-			m_VertexBuffer = vertexBuffer;
-			m_Layout = layout;
-			m_IndexBuffer = indexBuffer;
-			m_Material = drawMaterial;
-			m_Transform = transform;
-
-			m_VertexArray = new VertexArray();
-			m_VertexArray->AddBuffer(*vertexBuffer, layout);
+			VertexArray = va;
+			IndexBuffer = ib;
+			Mat = mat;
+			Transform = transform;
 		}
 
-		VertexBuffer* m_VertexBuffer;
-		VertexBufferLayout m_Layout;
-		VertexArray* m_VertexArray;
-		IndexBuffer* m_IndexBuffer;
-		Material m_Material;
-		glm::mat4 m_Transform;
-
-		~DrawCallData()
-		{
-			delete m_VertexBuffer;
-			delete m_VertexArray;
-			delete m_IndexBuffer;
-		}
+		MannagedVertexArray VertexArray;
+		MannagedIndexBuffer IndexBuffer;
+		Material Mat;
+		glm::mat4 Transform;
 	};
 
 	class Renderer
 	{
 	private:
-		std::vector<DrawCallData*> m_DrawCalls;
-		void DeleteDrawCalls();
-
+		static std::vector<DrawCallData> m_DrawCalls;
+		static Camera* m_Camera;
+		static glm::mat4 m_CameraTransform;
+		
 	public:
-		Renderer();
-		~Renderer();
-
-		void AddDrawCall(DrawCallData* drawCallData);
-		void Draw(Camera* camera, glm::mat4 cameraTransform); 
+		static void Begin(Camera* camera, glm::mat4 cameraTransform);
+		static void AddDrawCall(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform);
+		static void End();
 	};
 }
 

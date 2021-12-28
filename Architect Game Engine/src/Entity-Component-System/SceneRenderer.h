@@ -8,10 +8,10 @@ namespace Architect
 	class SceneRenderer
 	{
 	public:
-		static void RenderScene(Scene* scene, Renderer* renderer);
+		static void RenderScene(Scene* scene);
 
 	private:
-		static void OnSpriteEntity(TransformComponent& transform, SpriteRendererComponent& spriteRenderer, Renderer* renderer, unsigned int indicies[6], float positions[16]);
+		static void OnSpriteEntity(TransformComponent& transform, SpriteRendererComponent& spriteRenderer, unsigned int indicies[6], float positions[16]);
 	};
 }
 

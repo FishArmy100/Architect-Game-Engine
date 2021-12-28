@@ -8,6 +8,7 @@
 #include "Entity-Component-System/ScriptUpdator.h"
 #include "Entity-Component-System/EntityNativeScript.h"
 #include "User-Input/Input.h"
+#include "Core/Events.h"
 
 namespace Architect
 {
@@ -50,7 +51,9 @@ namespace Architect
 
 	void EditorLayer::OnAttach()
 	{
-		m_Renderer = new Renderer();
+        EventHandler<void> eventHandler;
+        EventLisenerRef<void> lisener = eventHandler.AddLisener(new EventLisener<void>(&EditorLayer::TestMethod, this));
+        eventHandler.Invoke();
 
         Scene* scene = new Scene;
         SceneManager::SetActiveScene(scene);
@@ -78,9 +81,12 @@ namespace Architect
 	{
         ScriptUpdator::UpdateScripts(SceneManager::GetActiveScene(), timestep);
 
-        SceneRenderer::RenderScene(SceneManager::GetActiveScene(), m_Renderer);
         Camera* camera = m_CameraEntity.GetComponent<CameraComponent>().Camera;
-        m_Renderer->Draw(camera, glm::mat4(1.0f));
+        Renderer::Begin(camera, glm::mat4(1.0f));
+
+        SceneRenderer::RenderScene(SceneManager::GetActiveScene());
+
+        Renderer::End();
 	}
 
     void EditorLayer::OnImGuiRender()
