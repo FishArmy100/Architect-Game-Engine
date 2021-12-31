@@ -9,12 +9,13 @@ namespace Architect
 	class EditorLayer : public Layer
 	{
 	public:
-		EditorLayer() : Layer("Editor Layer") {}
+		EditorLayer() : Layer("Editor Layer"), m_ExampleWindow(nullptr) {}
 
 	protected:
 		void OnAttach() override;
 		void OnUpdate(float timestep) override;
 		void OnImGuiRender() override;
+		bool OnEvent(IApplicationEvent* appEvent);
 		void OnActiveSceneChanged(Scene* scene) override;
 
 	private:

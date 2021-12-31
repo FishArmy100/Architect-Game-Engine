@@ -8,8 +8,10 @@ namespace Architect
 	public:
 		ImGuiLayer();
 
-		void OnAttach();
-		void OnDetach();
+		void OnAttach() override;
+		void OnDetach() override;
+		bool OnEvent(IApplicationEvent* appEvent) override;
+
 		void Begin();
 		void End();
 

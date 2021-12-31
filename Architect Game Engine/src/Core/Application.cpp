@@ -21,10 +21,7 @@ namespace Architect
         m_ImGuiLayer = new ImGuiLayer();
         PushOverlay(m_ImGuiLayer);
 
-        SceneManager::AddOnActiveSceneChangedLisener([&]()
-        {
-            OnSceneChanged();
-        });
+        SceneManager::GetActiveSceneChangedEventHandler().AddLisener(&Application::OnSceneChanged, this);
 	}
 
 	Application::~Application()
@@ -91,16 +88,15 @@ namespace Architect
 
         if (WindowCloseEvent* e = dynamic_cast<WindowCloseEvent*>(windowEvent))
             Close();
-
-        //ARC_ENGINE_INFO(windowEvent->GetDebugString());
     }
 
     void Application::OnEvent(IApplicationEvent* appEvent)
     {
         for (int i = m_LayerStack.GetLength() - 1; i >= 0; i--)
         {
-            if(appEvent->IsHandled)
-                m_LayerStack.GetLayer(i)->OnEvent(appEvent);
+            bool isEventHandled = m_LayerStack.GetLayer(i)->OnEvent(appEvent);
+            if (isEventHandled)
+                break;
         }
     }
 }

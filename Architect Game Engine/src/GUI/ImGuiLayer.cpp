@@ -30,6 +30,26 @@ namespace Architect
 		ImGui::DestroyContext();
 	}
 
+	bool ImGuiLayer::OnEvent(IApplicationEvent* appEvent)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		bool isKeyEvent = 
+			dynamic_cast<KeyPressedEvent*>(appEvent) ||
+			dynamic_cast<KeyRelesedEvent*>(appEvent) ||
+			dynamic_cast<KeyRepeatEvent*>(appEvent);
+
+		bool isMouseButtonEvent =
+			dynamic_cast<MouseButtonPressedEvent*>(appEvent) ||
+			dynamic_cast<MouseButtonReleasedEvent*>(appEvent);
+
+		bool blockedEvent = false;
+		blockedEvent |= isKeyEvent & io.WantCaptureKeyboard;
+		blockedEvent |= isMouseButtonEvent & io.WantCaptureMouse;
+
+		return blockedEvent;
+	}
+
 	void ImGuiLayer::Begin()
 	{
 		ImGui_ImplOpenGL3_NewFrame();

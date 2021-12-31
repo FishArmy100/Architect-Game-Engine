@@ -15,7 +15,7 @@ namespace Architect
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate(float timestep) {}
-		virtual void OnEvent(IApplicationEvent* appEvent) {};
+		virtual bool OnEvent(IApplicationEvent* appEvent) { return false;  };
 		virtual void OnImGuiRender() {}
 		virtual void OnActiveSceneChanged(Scene* scene) {}
 

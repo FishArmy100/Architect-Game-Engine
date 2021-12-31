@@ -3,7 +3,7 @@
 namespace Architect
 {
 	Scene* SceneManager::m_ActiveScene;
-	std::vector<std::function<void()>> SceneManager::m_ActiveSceneChangedLiseners;
+	EventHandler<void> SceneManager::m_ActiveSceneChangedEventHandler;
 
 	void SceneManager::SetActiveScene(Scene* scene)
 	{
@@ -12,12 +12,6 @@ namespace Architect
 
 		m_ActiveScene = scene;
 
-		for (auto onSceneChanged : m_ActiveSceneChangedLiseners)
-			onSceneChanged();
-	}
-
-	void SceneManager::AddOnActiveSceneChangedLisener(std::function<void()> onSceneChanged)
-	{
-		m_ActiveSceneChangedLiseners.push_back(onSceneChanged);
+		m_ActiveSceneChangedEventHandler.Invoke();
 	}
 }

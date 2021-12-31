@@ -94,6 +94,11 @@ namespace Architect
         m_ExampleWindow->RenderWindow();
     }
 
+    bool EditorLayer::OnEvent(IApplicationEvent* appEvent)
+    {
+        return false;
+    }
+
     void EditorLayer::OnActiveSceneChanged(Scene* scene)
     {
         scene->AddLisenerToOnComponentDestroyed<NativeScriptComponent>([](NativeScriptComponent& nsc)

@@ -2,6 +2,7 @@
 #include "Entity-Component-System/Scene.h"
 #include <functional>
 #include <vector>
+#include "Core/Events.h"
 
 namespace Architect
 {
@@ -9,12 +10,12 @@ namespace Architect
 	{
 	public:
 		static void SetActiveScene(Scene* scene);
-		static void AddOnActiveSceneChangedLisener(std::function<void()> onSceneChanged);
+		static EventHandler<void>& GetActiveSceneChangedEventHandler() { return m_ActiveSceneChangedEventHandler; }
 		static Scene* GetActiveScene() { return m_ActiveScene; }
 
 	private:
 		static Scene* m_ActiveScene;
-		static std::vector<std::function<void()>> m_ActiveSceneChangedLiseners;
+		static EventHandler<void> m_ActiveSceneChangedEventHandler;
 	};
 }
 
