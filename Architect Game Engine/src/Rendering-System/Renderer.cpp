@@ -11,10 +11,6 @@ namespace Architect
 
 	void Renderer::Begin(Camera* camera, glm::mat4 cameraTransform)
 	{
-		// Temp?
-		// TODO: move to a window class?
-		GLCall(glClear(GL_COLOR_BUFFER_BIT));
-
 		m_DrawCalls.clear();
 		m_Camera = camera;
 		m_CameraTransform = cameraTransform;

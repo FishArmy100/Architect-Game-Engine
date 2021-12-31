@@ -2,6 +2,7 @@
 #include <string>
 #include "Core.h"
 #include "Entity-Component-System/Scene.h"
+#include "IApplicationEvent.h"
 
 namespace Architect
 {
@@ -14,6 +15,7 @@ namespace Architect
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate(float timestep) {}
+		virtual void OnEvent(IApplicationEvent* appEvent) {};
 		virtual void OnImGuiRender() {}
 		virtual void OnActiveSceneChanged(Scene* scene) {}
 

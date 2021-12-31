@@ -3,6 +3,7 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "GUI/ImGuiLayer.h"
+#include "Window.h"
 
 namespace Architect
 {
@@ -18,22 +19,21 @@ namespace Architect
 		void Close();
 
 		static Application& Get() { return *s_Instance; }
-		GLFWwindow* GetWindow() { return m_Window; }
+		Window* GetWindow() { return m_Window; }
 
 		void Run();
 
 	private:
-		bool InitializeOpenGL(GLFWwindow*& window);
-		void ShutDownOpenGL();
-		void InitalizeInputSystem(GLFWwindow* window);
-
 		void OnSceneChanged();
+		void OnWindowEvent(IWindowEvent* windowEvent);
+		void OnEvent(IApplicationEvent* appEvent);
 
 	private:
+
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;
-		GLFWwindow* m_Window;
+		Window* m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 
 	private:

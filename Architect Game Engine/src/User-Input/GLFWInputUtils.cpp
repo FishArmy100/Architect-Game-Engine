@@ -1,40 +1,10 @@
-#include "GLFWInputHandler.h"
+#include "GLFWInputUtils.h"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 namespace Architect
 {
-	GLFWInputHandler::GLFWInputHandler(GLFWwindow* window)
-	{
-		Window = window;
-	}
-
-	bool GLFWInputHandler::IsKeyDown(KeyCode keycode)
-	{
-		int code = ConvertKeyCodeToGLFWKeyCode(keycode);
-		return glfwGetKey(Window, code) == GLFW_PRESS;
-	}
-
-	bool GLFWInputHandler::IsMouseButtonDown(MouseButtonCode mouseButtonCode)
-	{
-		int code = ConvertMouseButtonCodeToGLFWMouseCode(mouseButtonCode);
-		return glfwGetMouseButton(Window, code) == GLFW_PRESS;
-	}
-
-	int GLFWInputHandler::ConvertMouseButtonCodeToGLFWMouseCode(MouseButtonCode mouseButtonCode)
-	{
-		switch (mouseButtonCode)
-		{
-		case MouseButtonCode::Left:
-			return GLFW_MOUSE_BUTTON_1;
-		case MouseButtonCode::Right:
-			GLFW_MOUSE_BUTTON_2;
-		case MouseButtonCode::Middle:
-			GLFW_MOUSE_BUTTON_3;
-		default:
-			break;
-		}
-	}
-
-	int GLFWInputHandler::ConvertKeyCodeToGLFWKeyCode(KeyCode keycode)
+	int GLFWInputUtils::ConvertKeyCodeToGLFWKeyCode(KeyCode keycode)
 	{
 		switch (keycode)
 		{
@@ -141,5 +111,20 @@ namespace Architect
 		}
 
 		return 0;
+	}
+
+	int GLFWInputUtils::ConvertMouseButtonCodeToGLFWMouseButtonCode(MouseButtonCode mouseButtonCode)
+	{
+		switch (mouseButtonCode)
+		{
+		case MouseButtonCode::Left:
+			return GLFW_MOUSE_BUTTON_1;
+		case MouseButtonCode::Right:
+			return GLFW_MOUSE_BUTTON_2;
+		case MouseButtonCode::Middle:
+			return GLFW_MOUSE_BUTTON_3;
+		default:
+			return 0;
+		}
 	}
 }

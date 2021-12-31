@@ -19,6 +19,20 @@ namespace Architect
 		std::function<void(EventData&)> Func;
 	};
 
+	template<>
+	class EventLisener<void>
+	{
+	public:
+		template<class Fx, class... Types>
+		EventLisener(Fx&& Func, Types&&... Args) : Func(std::bind(std::forward<Fx>(Func), std::forward<Types>(Args)...))
+		{}
+
+		EventLisener(std::function<void()> func) : Func(func)
+		{}
+
+		std::function<void()> Func;
+	};
+
 	template<typename EventData>
 	class EventHandler
 	{
@@ -33,6 +47,13 @@ namespace Architect
 			std::shared_ptr<EventLisener<EventData>> ptrLisener(lisener);
 			m_Liseners.push_back(ptrLisener);
 			return ptrLisener;
+		}
+
+		template<class Fx, class... Types>
+		std::shared_ptr<EventLisener<EventData>> AddLisener(Fx&& Func, Types&&... Args)
+		{
+			auto lisener = new EventLisener<EventData>(std::bind(std::forward<Fx>(Func), std::forward<Types>(Args)..., std::placeholders::_1));
+			return AddLisener(lisener);
 		}
 
 		std::vector<std::shared_ptr<EventLisener<EventData>>> GetLiseners() const { return m_Liseners; }
@@ -55,20 +76,6 @@ namespace Architect
 	};
 
 	template<>
-	class EventLisener<void>
-	{
-	public:
-		template<class Fx, class... Types>
-		EventLisener(Fx&& Func, Types&&... Args) : Func(std::bind(std::forward<Fx>(Func), std::forward<Types>(Args)...))
-		{}
-
-		EventLisener(std::function<void()> func) : Func(func)
-		{}
-
-		std::function<void()> Func;
-	};
-
-	template<>
 	class EventHandler<void>
 	{
 	public:
@@ -82,6 +89,13 @@ namespace Architect
 			std::shared_ptr<EventLisener<void>> ptrLisener(lisener);
 			m_Liseners.push_back(ptrLisener);
 			return ptrLisener;
+		}
+
+		template<class Fx, class... Types>
+		std::shared_ptr<EventLisener<void>> AddLisener(Fx&& Func, Types&&... Args)
+		{
+			auto lisener = new EventLisener<void>(std::bind(std::forward<Fx>(Func), std::forward<Types>(Args)...));
+			return AddLisener(lisener);
 		}
 
 		std::vector<std::shared_ptr<EventLisener<void>>> GetLiseners() const { return m_Liseners; }

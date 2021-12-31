@@ -8,6 +8,9 @@ namespace Architect
 {
 	class EditorLayer : public Layer
 	{
+	public:
+		EditorLayer() : Layer("Editor Layer") {}
+
 	protected:
 		void OnAttach() override;
 		void OnUpdate(float timestep) override;

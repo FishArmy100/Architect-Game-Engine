@@ -99,6 +99,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\User-Input\GLFWInputUtils.cpp" />
     <ClCompile Include="src\Rendering-System\MannagedIndexBuffer.cpp" />
     <ClCompile Include="src\Rendering-System\MannagedVertexArray.cpp" />
     <ClCompile Include="src\GUI\ImGuiLayer.cpp" />
@@ -124,8 +125,6 @@
     <ClCompile Include="src\Rendering-System\IndexBuffer.cpp" />
     <ClCompile Include="src\Debug-System\OpenGLDebugger.cpp" />
     <ClCompile Include="src\Rendering-System\Texture_Code\stb_image\stb_image.cpp" />
-    <ClCompile Include="src\User-Input\GLFWInputHandler.cpp" />
-    <ClCompile Include="src\User-Input\InputSystem.cpp" />
     <ClCompile Include="src\Mathmatics\Random.cpp" />
     <ClCompile Include="src\Mathmatics\Rectangle.cpp" />
     <ClCompile Include="src\Mathmatics\Ray2D.cpp" />
@@ -147,9 +146,13 @@
     <ClCompile Include="src\Vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp" />
+    <ClCompile Include="src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\User-Input\GLFWInputUtils.h" />
     <ClInclude Include="src\Core\Events.h" />
+    <ClInclude Include="src\Core\IApplicationEvent.h" />
+    <ClInclude Include="src\Core\WindowEvents.h" />
     <ClInclude Include="src\Rendering-System\MannagedIndexBuffer.h" />
     <ClInclude Include="src\Rendering-System\MannagedVertexArray.h" />
     <ClInclude Include="src\GUI\ImGuiLayer.h" />
@@ -185,10 +188,7 @@
     <ClInclude Include="src\Debug-System\OpenGLDebugger.h" />
     <ClInclude Include="src\Rendering-System\Rendering.h" />
     <ClInclude Include="src\Rendering-System\Texture_Code\stb_image\stb_image.h" />
-    <ClInclude Include="src\User-Input\GLFWInputHandler.h" />
-    <ClInclude Include="src\User-Input\IInputHandler.h" />
     <ClInclude Include="src\User-Input\InputCodes.h" />
-    <ClInclude Include="src\User-Input\InputSystem.h" />
     <ClInclude Include="src\Mathmatics\Random.h" />
     <ClInclude Include="src\Mathmatics\Rectangle.h" />
     <ClInclude Include="src\Mathmatics\Ray2D.h" />
@@ -216,6 +216,7 @@
     <ClInclude Include="src\Rendering-System\VertexBufferLayout.h" />
     <ClInclude Include="src\Rendering-System\Texture_Code\Texture.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\TransformComponent.h" />
+    <ClInclude Include="src\Core\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />

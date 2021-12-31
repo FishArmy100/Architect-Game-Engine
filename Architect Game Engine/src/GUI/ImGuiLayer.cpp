@@ -18,7 +18,7 @@ namespace Architect
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
 
-		GLFWwindow* window = Application::Get().GetWindow();
+		GLFWwindow* window = Application::Get().GetWindow()->GetRawWindow();
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 130");
 	}
@@ -40,10 +40,8 @@ namespace Architect
 	void ImGuiLayer::End()
 	{
 		ImGui::Render();
-		int display_w, display_h;
-		GLFWwindow* window = Application::Get().GetWindow();
-		glfwGetFramebufferSize(window, &display_w, &display_h);
-		glViewport(0, 0, display_w, display_h);
+		Window* window2 = Application::Get().GetWindow();
+		glViewport(0, 0, window2->GetWidth(), window2->GetHeight());
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 }

@@ -22,22 +22,22 @@ namespace Architect
 
         void OnUpdate(float timestep) override
         {
-            if (Input::GetKeyDown(KeyCode::A))
+            if (Input::GetKey(KeyCode::A))
             {
                 GetEntity().GetTransform().Translate({ -timestep / 2, 0, 0 });
             }
 
-            if (Input::GetKeyDown(KeyCode::D))
+            if (Input::GetKey(KeyCode::D))
             {
                 GetEntity().GetTransform().Translate({ timestep / 2, 0, 0 });
             }
 
-            if (Input::GetKeyDown(KeyCode::W))
+            if (Input::GetKey(KeyCode::W))
             {
                 GetEntity().GetTransform().Translate({ 0, timestep / 2, 0 });
             }
 
-            if (Input::GetKeyDown(KeyCode::S))
+            if (Input::GetKey(KeyCode::S))
             {
                 GetEntity().GetTransform().Translate({ 0, -timestep / 2, 0 });
             }
@@ -52,7 +52,7 @@ namespace Architect
 	void EditorLayer::OnAttach()
 	{
         EventHandler<void> eventHandler;
-        EventLisenerRef<void> lisener = eventHandler.AddLisener(new EventLisener<void>(&EditorLayer::TestMethod, this));
+        eventHandler.AddLisener(&EditorLayer::TestMethod, this);
         eventHandler.Invoke();
 
         Scene* scene = new Scene;
@@ -86,7 +86,7 @@ namespace Architect
 
         SceneRenderer::RenderScene(SceneManager::GetActiveScene());
 
-        Renderer::End();
+        Renderer::End(); 
 	}
 
     void EditorLayer::OnImGuiRender()
