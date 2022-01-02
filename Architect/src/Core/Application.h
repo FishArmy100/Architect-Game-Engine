@@ -20,6 +20,7 @@ namespace Architect
 
 		static Application& Get() { return *s_Instance; }
 		Window* GetWindow() { return m_Window; }
+		const std::string& GetName() { return m_ApplicationName; }
 
 		void Run();
 
@@ -29,7 +30,7 @@ namespace Architect
 		void OnEvent(IApplicationEvent* appEvent);
 
 	private:
-
+		std::string m_ApplicationName;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		float m_LastFrameTime = 0.0f;

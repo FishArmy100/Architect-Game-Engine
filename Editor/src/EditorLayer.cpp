@@ -4,7 +4,7 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "Debug-System/OpenGLDebugger.h"
-#include "Application.h"
+#include "Core/Application.h"
 #include "Entity-Component-System/ScriptUpdator.h"
 #include "Entity-Component-System/EntityNativeScript.h"
 #include "User-Input/Input.h"
@@ -58,9 +58,9 @@ namespace Architect
         Scene* scene = new Scene;
         SceneManager::SetActiveScene(scene);
 
-        std::shared_ptr<Shader> shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\shaders\\Test.shader");
+        std::shared_ptr<Shader> shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect\\res\\shaders\\Test.shader");
         shader->Unbind();
-        Texture* texture = new Texture("C:\\dev\\Architect Game Engine\\Architect Game Engine\\res\\images\\CalvinAndHobbs.png");
+        Texture* texture = new Texture("C:\\dev\\Architect Game Engine\\Architect\\res\\images\\CalvinAndHobbs.png");
         Material mat = Material(shader);
         mat.SetTexture("u_Texture", std::shared_ptr<Texture>(texture));
 
@@ -91,6 +91,8 @@ namespace Architect
 
     void EditorLayer::OnImGuiRender()
     {
+        static bool isOpen = true;
+        ImGui::ShowDemoWindow(&isOpen);
         m_ExampleWindow->RenderWindow();
     }
 

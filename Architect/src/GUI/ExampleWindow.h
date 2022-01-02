@@ -1,11 +1,11 @@
 #pragma once
-#include "GUIWindow.h"
+#include "ImGuiWindow.h"
 
 namespace Architect
 {
 	namespace UI
 	{
-		class ExampleWindow : public GUIWindow
+		class ExampleWindow : public ImGuiWindow
 		{
 		public:
 			ExampleWindow(const std::string& title);

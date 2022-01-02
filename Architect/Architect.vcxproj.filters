@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Architect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -108,7 +105,7 @@
     <ClCompile Include="src\Vendor\imgui\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\GUIWindow.cpp">
+    <ClCompile Include="src\GUI\ImGuiWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GUI\ExampleWindow.cpp">
@@ -135,9 +132,6 @@
     <ClCompile Include="src\Entity-Component-System\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\EditorLayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entity-Component-System\SceneRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -157,6 +151,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\User-Input\GLFWInputUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\ImGuiHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -278,7 +275,7 @@
     <ClInclude Include="src\Vendor\imgui\imgui_impl_opengl3_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\GUIWindow.h">
+    <ClInclude Include="src\GUI\ImGuiWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GUI\ExampleWindow.h">
@@ -332,9 +329,6 @@
     <ClInclude Include="src\Entity-Component-System\SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\EditorLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Entity-Component-System\SceneRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -365,9 +359,13 @@
     <ClInclude Include="src\User-Input\GLFWInputUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GUI\ImGuiHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />
+    <None Include="raylib.dll" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Vendor\imgui\LICENSE.txt" />

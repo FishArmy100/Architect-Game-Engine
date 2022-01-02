@@ -99,13 +99,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GUI\ImGuiHelper.cpp" />
     <ClCompile Include="src\User-Input\GLFWInputUtils.cpp" />
     <ClCompile Include="src\Rendering-System\MannagedIndexBuffer.cpp" />
     <ClCompile Include="src\Rendering-System\MannagedVertexArray.cpp" />
     <ClCompile Include="src\GUI\ImGuiLayer.cpp" />
     <ClCompile Include="src\Entity-Component-System\ScriptUpdator.cpp" />
     <ClCompile Include="src\Entity-Component-System\SceneRenderer.cpp" />
-    <ClCompile Include="src\Core\EditorLayer.cpp" />
     <ClCompile Include="src\Entity-Component-System\SceneManager.cpp" />
     <ClCompile Include="src\Entity-Component-System\EntityNativeScript.cpp" />
     <ClCompile Include="src\Entity-Component-System\EntitySystem.cpp" />
@@ -113,7 +113,7 @@
     <ClCompile Include="src\Entity-Component-System\Scene.cpp" />
     <ClCompile Include="src\Mathmatics\Color.cpp" />
     <ClCompile Include="src\GUI\ExampleWindow.cpp" />
-    <ClCompile Include="src\GUI\GUIWindow.cpp" />
+    <ClCompile Include="src\GUI\ImGuiWindow.cpp" />
     <ClCompile Include="src\Core\ExampleLayer.cpp" />
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Layer.cpp" />
@@ -131,7 +131,6 @@
     <ClCompile Include="src\Debug-System\Debug.cpp" />
     <ClCompile Include="src\User-Input\Input.cpp" />
     <ClCompile Include="src\Logger\Logger.cpp" />
-    <ClCompile Include="src\Architect.cpp" />
     <ClCompile Include="src\Mathmatics\Vectors\Vector2.cpp" />
     <ClCompile Include="src\Mathmatics\UUID.cpp" />
     <ClCompile Include="src\Rendering-System\VertexBuffer.cpp" />
@@ -149,6 +148,7 @@
     <ClCompile Include="src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GUI\ImGuiHelper.h" />
     <ClInclude Include="src\User-Input\GLFWInputUtils.h" />
     <ClInclude Include="src\Core\Events.h" />
     <ClInclude Include="src\Core\IApplicationEvent.h" />
@@ -158,7 +158,6 @@
     <ClInclude Include="src\GUI\ImGuiLayer.h" />
     <ClInclude Include="src\Entity-Component-System\ScriptUpdator.h" />
     <ClInclude Include="src\Entity-Component-System\SceneRenderer.h" />
-    <ClInclude Include="src\Core\EditorLayer.h" />
     <ClInclude Include="src\Entity-Component-System\SceneManager.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\CameraComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\IComponentDestroyedCallback.h" />
@@ -174,7 +173,7 @@
     <ClInclude Include="src\Entity-Component-System\Scene.h" />
     <ClInclude Include="src\Mathmatics\Color.h" />
     <ClInclude Include="src\GUI\ExampleWindow.h" />
-    <ClInclude Include="src\GUI\GUIWindow.h" />
+    <ClInclude Include="src\GUI\ImGuiWindow.h" />
     <ClInclude Include="src\Core\ExampleLayer.h" />
     <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\Layer.h" />
@@ -219,6 +218,7 @@
     <ClInclude Include="src\Core\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="raylib.dll" />
     <None Include="res\shaders\Test.shader" />
   </ItemGroup>
   <ItemGroup>

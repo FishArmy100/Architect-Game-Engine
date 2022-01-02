@@ -14,6 +14,7 @@ namespace Architect
 	{
         Logger::Init();
 		s_Instance = this;
+        m_ApplicationName = name;
         m_Window = Window::Create(620, 480);
         m_Window->GetWindowEventHandler().AddLisener(&Application::OnWindowEvent, this);
         Input::Init(m_Window);
@@ -43,6 +44,7 @@ namespace Architect
 
 	void Application::Close()
 	{
+        ARC_ENGINE_INFO("{0} Closing", m_ApplicationName);
         m_Running = false;
 	}
 

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Architect Game Engine", "Architect Game Engine\Architect Game Engine.vcxproj", "{65203C75-23D5-4F8A-A9C8-D9966A8EC27A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Architect", "Architect\Architect.vcxproj", "{65203C75-23D5-4F8A-A9C8-D9966A8EC27A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{63FF5413-13B2-44B0-A64C-DF454AF04A0E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{63FF5413-13B2-44B0-A64C-DF454AF04A0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
