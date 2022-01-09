@@ -6,7 +6,7 @@ class EditorApp : public Architect::Application
 public:
     EditorApp() : Application("Editor App")
     {
-        PushLayer(new Architect::EditorLayer());
+        PushLayer(new Editor::EditorLayer());
     }
 };
 

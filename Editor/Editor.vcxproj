@@ -59,7 +59,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Architect/include;$(SolutionDir)Architect/src;$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(SolutionDir)Architect/src/Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Architect/include;$(SolutionDir)Architect/src;$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(SolutionDir)Architect/src/Vendor;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -75,7 +75,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Architect/include;$(SolutionDir)Architect/src;$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(SolutionDir)Architect/src/Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Architect/include;$(SolutionDir)Architect/src;$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(SolutionDir)Architect/src/Vendor;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -86,6 +86,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Editor-UI\HierarchyWindow.cpp" />
+    <ClCompile Include="src\Editor-Utils\EditorCamera.cpp" />
+    <ClCompile Include="src\Editor-UI\EditorViewportWindow.cpp" />
+    <ClCompile Include="src\Editor-UI\ConsoleWindow.cpp" />
+    <ClCompile Include="src\Editor-UI\EditorWindow.cpp" />
     <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
@@ -99,6 +104,11 @@
     <None Include="raylib.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Editor-UI\HierarchyWindow.h" />
+    <ClInclude Include="src\Editor-Utils\EditorCamera.h" />
+    <ClInclude Include="src\Editor-UI\EditorViewportWindow.h" />
+    <ClInclude Include="src\Editor-UI\ConsoleWindow.h" />
+    <ClInclude Include="src\Editor-UI\EditorWindow.h" />
     <ClInclude Include="src\EditorLayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

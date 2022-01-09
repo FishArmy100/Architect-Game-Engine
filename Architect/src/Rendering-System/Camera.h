@@ -5,12 +5,19 @@ namespace Architect
 {
 	class Camera
 	{
-	private:
-		glm::mat4 m_ProjectionMatrix;
-
 	public:
-		Camera(float left, float right, float bottom, float top);
-		glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; }
+		Camera(float aspectRatio, float scale);
+		glm::mat4 GetProjectionMatrix() const;
+
+		void SetAspectRatio(float aspectRatio);
+		float GetAspectRatio() const { return m_AspectRatio; }
+
+		void SetScale(float scale);
+		float GetScale() const { return m_Scale; }
+
+	private:
+		float m_AspectRatio;
+		float m_Scale;
 	};
 }
 

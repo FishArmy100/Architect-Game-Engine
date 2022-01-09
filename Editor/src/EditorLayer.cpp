@@ -8,10 +8,14 @@
 #include "Entity-Component-System/ScriptUpdator.h"
 #include "Entity-Component-System/EntityNativeScript.h"
 #include "User-Input/Input.h"
-#include "Core/Events.h"
+#include "Editor-UI/ConsoleWindow.h"
+#include "Editor-UI/EditorViewportWindow.h"
+#include "Editor-UI/HierarchyWindow.h"
 
-namespace Architect
+namespace Editor
 {
+    using namespace Architect;
+
     class MoveScript : public EntityNativeScript
     {
     public:
@@ -51,11 +55,7 @@ namespace Architect
 
 	void EditorLayer::OnAttach()
 	{
-        EventHandler<void> eventHandler;
-        eventHandler.AddLisener(&EditorLayer::TestMethod, this);
-        eventHandler.Invoke();
-
-        Scene* scene = new Scene;
+        std::shared_ptr<Scene> scene = std::make_unique<Scene>();
         SceneManager::SetActiveScene(scene);
 
         std::shared_ptr<Shader> shader = Shader::CreateFromFile("C:\\dev\\Architect Game Engine\\Architect\\res\\shaders\\Test.shader");
@@ -64,36 +64,31 @@ namespace Architect
         Material mat = Material(shader);
         mat.SetTexture("u_Texture", std::shared_ptr<Texture>(texture));
 
-        Renderer* renderer = new Renderer();
-
         Entity e = scene->CreateEntity("Test Entity");
         e.AddComponent<SpriteRendererComponent>(mat);
         e.AddComponent<NativeScriptComponent>().Bind<MoveScript>();
 
-        Camera* camera = new Camera(-2.0f, 2.0f, -1.5f, 1.5f);
+        Camera* camera = new Camera(4.0f / 3.0f, 2);
         m_CameraEntity = scene->CreateEntity("Camera");
         m_CameraEntity.AddComponent<CameraComponent>(camera);
 
-        m_ExampleWindow = new UI::ExampleWindow("Test Window");
+        EditorWindow::AddWindow(std::make_shared<EditorViewportWindow>());
+        EditorWindow::AddWindow(std::make_shared<ConsoleWindow>());
+        EditorWindow::AddWindow(std::make_shared<HierarchyWindow>());
 	}
 
 	void EditorLayer::OnUpdate(float timestep)
 	{
         ScriptUpdator::UpdateScripts(SceneManager::GetActiveScene(), timestep);
-
-        Camera* camera = m_CameraEntity.GetComponent<CameraComponent>().Camera;
-        Renderer::Begin(camera, glm::mat4(1.0f));
-
-        SceneRenderer::RenderScene(SceneManager::GetActiveScene());
-
-        Renderer::End(); 
 	}
 
-    void EditorLayer::OnImGuiRender()
+    void EditorLayer::OnImGuiRender(float timestep)
     {
+        DrawMainMenu();
+        DrawDockSpace();
         static bool isOpen = true;
         ImGui::ShowDemoWindow(&isOpen);
-        m_ExampleWindow->RenderWindow();
+        EditorWindow::RenderWindows(timestep);
     }
 
     bool EditorLayer::OnEvent(IApplicationEvent* appEvent)
@@ -101,11 +96,40 @@ namespace Architect
         return false;
     }
 
-    void EditorLayer::OnActiveSceneChanged(Scene* scene)
+    void EditorLayer::OnActiveSceneChanged(std::shared_ptr<Scene> scene)
     {
         scene->AddLisenerToOnComponentDestroyed<NativeScriptComponent>([](NativeScriptComponent& nsc)
         {
             ScriptUpdator::OnScriptDestroyed(nsc);
         });
+    }
+
+    void EditorLayer::DrawMainMenu()
+    {
+        if (ImGui::BeginMainMenuBar())
+        {
+            if (ImGui::BeginMenu("Editor Windows"))
+            {
+                if (ImGui::MenuItem("Console Window"))
+                {
+                    EditorWindow::AddWindow(std::make_shared<ConsoleWindow>());
+                }
+                if (ImGui::MenuItem("Viewport"))
+                {
+                    EditorWindow::AddWindow(std::make_shared<EditorViewportWindow>());
+                }
+                if (ImGui::MenuItem("Hierarchy"))
+                {
+                    EditorWindow::AddWindow(std::make_shared<HierarchyWindow>());
+                }
+                ImGui::EndMenu();
+            }
+            ImGui::EndMainMenuBar();
+        }
+    }
+
+    void EditorLayer::DrawDockSpace()
+    {
+        ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
     }
 }

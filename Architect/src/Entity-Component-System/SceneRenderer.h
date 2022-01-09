@@ -8,7 +8,7 @@ namespace Architect
 	class SceneRenderer
 	{
 	public:
-		static void RenderScene(Scene* scene);
+		static void RenderScene(std::shared_ptr<Scene> scene);
 
 	private:
 		static void OnSpriteEntity(TransformComponent& transform, SpriteRendererComponent& spriteRenderer, unsigned int indicies[6], float positions[16]);

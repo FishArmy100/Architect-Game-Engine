@@ -15,7 +15,7 @@ namespace Architect
         Logger::Init();
 		s_Instance = this;
         m_ApplicationName = name;
-        m_Window = Window::Create(620, 480);
+        m_Window = Window::Create(620 * 2, 480 * 2);
         m_Window->GetWindowEventHandler().AddLisener(&Application::OnWindowEvent, this);
         Input::Init(m_Window);
 
@@ -68,7 +68,7 @@ namespace Architect
             m_ImGuiLayer->Begin(); 
             for (int i = 0; i < m_LayerStack.GetLength(); i++)
             {
-                m_LayerStack.GetLayer(i)->OnImGuiRender();
+                m_LayerStack.GetLayer(i)->OnImGuiRender(timestep);
             }
             m_ImGuiLayer->End();
 
@@ -90,6 +90,8 @@ namespace Architect
 
         if (WindowCloseEvent* e = dynamic_cast<WindowCloseEvent*>(windowEvent))
             Close();
+
+        //ARC_ENGINE_INFO(windowEvent->GetDebugString());
     }
 
     void Application::OnEvent(IApplicationEvent* appEvent)

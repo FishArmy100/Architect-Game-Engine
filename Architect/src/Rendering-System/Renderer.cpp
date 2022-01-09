@@ -8,12 +8,19 @@ namespace Architect
 	std::vector<DrawCallData> Renderer::m_DrawCalls;
 	Camera* Renderer::m_Camera;
 	glm::mat4 Renderer::m_CameraTransform;
+	std::shared_ptr<Framebuffer> Renderer::m_ActiveFrameBuffer = nullptr;
 
 	void Renderer::Begin(Camera* camera, glm::mat4 cameraTransform)
 	{
 		m_DrawCalls.clear();
 		m_Camera = camera;
 		m_CameraTransform = cameraTransform;
+	}
+
+	void Renderer::Begin(Camera* camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer)
+	{
+		m_ActiveFrameBuffer = framebuffer;
+		Begin(camera, cameraTransform); 
 	}
 
 	void Renderer::AddDrawCall(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform)
@@ -23,6 +30,12 @@ namespace Architect
 
 	void Renderer::End()
 	{
+		if (m_ActiveFrameBuffer != nullptr)
+		{
+			m_ActiveFrameBuffer->Clear();
+			m_ActiveFrameBuffer->Bind();
+		}
+
 		for (DrawCallData& data : m_DrawCalls)
 		{
 			data.VertexArray.Bind();
@@ -36,6 +49,12 @@ namespace Architect
 
 			int indiciesCount = data.IndexBuffer.GetBuffer()->GetCount();
 			GLCall(glDrawElements(GL_TRIANGLES, indiciesCount, GL_UNSIGNED_INT, nullptr));
+		}
+
+		if (m_ActiveFrameBuffer != nullptr)
+		{
+			m_ActiveFrameBuffer->Unbind();
+			m_ActiveFrameBuffer = nullptr;
 		}
 	}
 }

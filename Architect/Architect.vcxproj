@@ -99,6 +99,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rendering-System\Framebuffer.cpp" />
     <ClCompile Include="src\GUI\ImGuiHelper.cpp" />
     <ClCompile Include="src\User-Input\GLFWInputUtils.cpp" />
     <ClCompile Include="src\Rendering-System\MannagedIndexBuffer.cpp" />
@@ -137,6 +138,8 @@
     <ClCompile Include="src\Rendering-System\VertexArray.cpp" />
     <ClCompile Include="src\Rendering-System\VertexBufferLayout.cpp" />
     <ClCompile Include="src\Rendering-System\Texture_Code\Texture.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp" />
+    <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_draw.cpp" />
@@ -144,10 +147,10 @@
     <ClCompile Include="src\Vendor\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp" />
-    <ClCompile Include="src\Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Rendering-System\Framebuffer.h" />
+    <ClInclude Include="src\Logger\SpdLogCallbackSink.h" />
     <ClInclude Include="src\GUI\ImGuiHelper.h" />
     <ClInclude Include="src\User-Input\GLFWInputUtils.h" />
     <ClInclude Include="src\Core\Events.h" />

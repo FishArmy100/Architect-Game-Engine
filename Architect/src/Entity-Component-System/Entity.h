@@ -20,15 +20,6 @@ namespace Architect
 		entt::entity m_EntityHandle = entt::null;
 		Scene* m_Scene = nullptr;
 
-		template<typename T>
-		struct HasOnDestroyMethod
-		{
-			template<typename U, void(U::*)()> struct SFINAE {};
-			template<typename U> static char Test(SFINAE<U, &U::OnDestroy>*);
-			template<typename U> static int Test(...);
-			static const bool Has = sizeof(Test<T>(0)) == sizeof(char);
-		};
-
 	public:
 		Entity(entt::entity handle, Scene* scene);
 		Entity(const Entity& other) = default;
@@ -86,11 +77,6 @@ namespace Architect
 
 		operator bool() const { return m_EntityHandle != entt::null; }
 		operator entt::entity() const{ return m_EntityHandle; }
-
-		void Test()
-		{
-
-		}
 	};
 }
 

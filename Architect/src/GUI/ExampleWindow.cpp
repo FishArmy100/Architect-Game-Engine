@@ -11,13 +11,13 @@ namespace Architect
 			testColor = Color::White();
 		}
 
-		void ExampleWindow::OnRenderWindow()
+		void ExampleWindow::OnRenderWindow(float timestep)
 		{
 			ImGui::Text("Example Text");
 			ImGui::InputFloat("Example Float", &testFloat);
 			ImGuiHelper::ColorInput("Example Color", &testColor);
 			std::string colorString = testColor.ToString();
-			ARC_ENGINE_INFO(colorString);
+			//ARC_ENGINE_INFO(colorString);
 		}
 	}
 }

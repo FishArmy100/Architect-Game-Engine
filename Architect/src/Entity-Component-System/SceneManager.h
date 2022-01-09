@@ -9,12 +9,12 @@ namespace Architect
 	class SceneManager
 	{
 	public:
-		static void SetActiveScene(Scene* scene);
+		static void SetActiveScene(std::shared_ptr<Scene> scene);
 		static EventHandler<void>& GetActiveSceneChangedEventHandler() { return m_ActiveSceneChangedEventHandler; }
-		static Scene* GetActiveScene() { return m_ActiveScene; }
+		static std::shared_ptr<Scene> GetActiveScene() { return m_ActiveScene; }
 
 	private:
-		static Scene* m_ActiveScene;
+		static std::shared_ptr<Scene> m_ActiveScene;
 		static EventHandler<void> m_ActiveSceneChangedEventHandler;
 	};
 }

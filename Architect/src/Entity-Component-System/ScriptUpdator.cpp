@@ -4,7 +4,7 @@
 
 namespace Architect
 {
-	void ScriptUpdator::UpdateScripts(Scene* scene, float timestep)
+	void ScriptUpdator::UpdateScripts(std::shared_ptr<Scene> scene, float timestep)
 	{
 		scene->GetEntitiesWithComponent<NativeScriptComponent>([=](Entity& e, NativeScriptComponent& nsc)
 		{

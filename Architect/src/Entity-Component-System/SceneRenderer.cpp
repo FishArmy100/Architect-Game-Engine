@@ -2,7 +2,7 @@
 
 namespace Architect
 {
-	void SceneRenderer::RenderScene(Scene* scene)
+	void SceneRenderer::RenderScene(std::shared_ptr<Scene> scene)
 	{
         float positions[16] =
         {

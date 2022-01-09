@@ -16,8 +16,8 @@ namespace Architect
 		virtual void OnDetach() {}
 		virtual void OnUpdate(float timestep) {}
 		virtual bool OnEvent(IApplicationEvent* appEvent) { return false;  };
-		virtual void OnImGuiRender() {}
-		virtual void OnActiveSceneChanged(Scene* scene) {}
+		virtual void OnImGuiRender(float timestep) {}
+		virtual void OnActiveSceneChanged(std::shared_ptr<Scene> scene) {}
 
 		inline const std::string& GetName() const { return m_DebugName; }
 	protected:

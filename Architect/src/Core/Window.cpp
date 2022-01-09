@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Debug-System/OpenGLDebugger.h"
 #include "WindowEvents.h"
+#include "Logger/Logger.h"
 
 namespace Architect
 {
@@ -101,6 +102,8 @@ namespace Architect
     {
         glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
         {
+            glViewport(0, 0, width, height); // Temp?
+
             WindowData* windowData = (WindowData*)glfwGetWindowUserPointer(window);
             windowData->Width = width;
             windowData->Height = height;

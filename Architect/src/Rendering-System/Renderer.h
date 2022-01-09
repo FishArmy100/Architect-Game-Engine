@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include "Camera.h"
 #include "Core.h"
+#include "Framebuffer.h"
 
 namespace Architect
 {
@@ -26,16 +27,18 @@ namespace Architect
 	};
 
 	class Renderer
-	{
+	{		
+	public:
+		static void Begin(Camera* camera, glm::mat4 cameraTransform);
+		static void Begin(Camera* camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer);
+		static void AddDrawCall(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform);
+		static void End();
+
 	private:
 		static std::vector<DrawCallData> m_DrawCalls;
 		static Camera* m_Camera;
 		static glm::mat4 m_CameraTransform;
-		
-	public:
-		static void Begin(Camera* camera, glm::mat4 cameraTransform);
-		static void AddDrawCall(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform);
-		static void End();
+		static std::shared_ptr<Framebuffer> m_ActiveFrameBuffer;
 	};
 }
 
