@@ -30,11 +30,11 @@ namespace Architect
         layout.PushFloats(2, false);
         layout.PushFloats(2, true);
 
-        MannagedIndexBuffer ib = MannagedIndexBuffer(indicies, 6);
+        std::shared_ptr<IndexBuffer> ib = std::make_shared<IndexBuffer>(indicies, 6);
         MannagedVertexArray va = MannagedVertexArray(positions, 16 * sizeof(float), layout);
 
         va.Unbind();
-        ib.Unbind();
+        ib->Unbind();
 
         glm::mat4 transformMatrix = transform.GetTransformMatrix();
         Renderer::AddDrawCall(va, ib, spriteRenderer.SpriteMaterial, transformMatrix);

@@ -20,7 +20,11 @@ namespace Editor
 
 		virtual ~EditorWindow() = default;
 
+	public:
 		static std::vector<std::shared_ptr<EditorWindow>> GetEditorWindows() { return m_EditorWindows; }
+
+	protected:
+		void OnWindowClosedAfterEvents() override final;
 
 	private:
 		static std::vector<std::shared_ptr<EditorWindow>> m_EditorWindows;

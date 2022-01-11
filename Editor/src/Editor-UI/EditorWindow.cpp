@@ -6,10 +6,7 @@ namespace Editor
 
 	EditorWindow::EditorWindow(const std::string& title, ImGuiWindowFlags flags) : UI::ImGuiWindow(title, flags)
 	{
-		GetWindowClosedEventHandler().AddLisener([&](const UI::ImGuiWindow* window) 
-		{
-			RemoveWindow(this);
-		});
+
 	}
 
 	void EditorWindow::AddWindow(std::shared_ptr<EditorWindow> window)
@@ -43,5 +40,10 @@ namespace Editor
 	{
 		for (int i = 0; i < m_EditorWindows.size(); i++)
 			m_EditorWindows[i]->RenderWindow(timestep);
+	}
+
+	void EditorWindow::OnWindowClosedAfterEvents()
+	{
+		RemoveWindow(this);
 	}
 }

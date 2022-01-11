@@ -11,6 +11,8 @@
 #include "Editor-UI/ConsoleWindow.h"
 #include "Editor-UI/EditorViewportWindow.h"
 #include "Editor-UI/HierarchyWindow.h"
+#include "Editor-Utils/EditorSelection.h"
+#include "Editor-UI/InspectorEditorWindow.h"
 
 namespace Editor
 {
@@ -75,6 +77,7 @@ namespace Editor
         EditorWindow::AddWindow(std::make_shared<EditorViewportWindow>());
         EditorWindow::AddWindow(std::make_shared<ConsoleWindow>());
         EditorWindow::AddWindow(std::make_shared<HierarchyWindow>());
+        EditorWindow::AddWindow(std::make_shared<InspectorEditorWindow>());
 	}
 
 	void EditorLayer::OnUpdate(float timestep)
@@ -121,6 +124,10 @@ namespace Editor
                 if (ImGui::MenuItem("Hierarchy"))
                 {
                     EditorWindow::AddWindow(std::make_shared<HierarchyWindow>());
+                }
+                if (ImGui::MenuItem("Inspector"))
+                {
+                    EditorWindow::AddWindow(std::make_shared<InspectorEditorWindow>());
                 }
                 ImGui::EndMenu();
             }

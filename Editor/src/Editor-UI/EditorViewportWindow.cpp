@@ -25,7 +25,6 @@ namespace Editor
 		if (GetMousePositionInWindow(&mousePos) && ImGui::IsWindowFocused())
 		{
 			m_EditorCamera.Update(timestep, mousePos);
-			ARC_ENGINE_INFO("Mouse position x: {0}, mouse position y: {1}", mousePos.x, mousePos.y);
 		}
 
 		unsigned int textureID = m_FrameBuffer->GetColorAttachmentID();
@@ -46,7 +45,7 @@ namespace Editor
 
 	void EditorViewportWindow::OnBeginRenderWindow()
 	{
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 	}
 
 	void EditorViewportWindow::OnEndRenderWindow()

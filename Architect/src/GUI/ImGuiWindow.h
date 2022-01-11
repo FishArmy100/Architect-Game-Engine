@@ -36,9 +36,12 @@ namespace Architect
 			virtual void OnBeginRenderWindow() {}
 			virtual void OnRenderWindow(float timestep) = 0;
 			virtual void OnEndRenderWindow() {};
+			virtual void OnWindowClosedAfterEvents() {}
 
 		private:
 			glm::vec2 CalculateWindowSize();
+			const std::string GetFullTitle();
+			void UpdateSizeAndPosition();
 
 		private:
 			static int s_CurrentWindowId;

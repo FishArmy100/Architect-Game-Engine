@@ -1,5 +1,6 @@
 #include "ImGuiWindow.h"
 #include <iterator>
+#include "Core.h"
 
 namespace Architect
 {
@@ -7,8 +8,9 @@ namespace Architect
 	{
 		int ImGuiWindow::s_CurrentWindowId = 0;
 
-		ImGuiWindow::ImGuiWindow(const std::string& title, ImGuiWindowFlags flags) 
-			: m_Title(title), m_WindowFlags(flags), m_IsOpen(true), m_WindowId(s_CurrentWindowId)
+		ImGuiWindow::ImGuiWindow(const std::string& title, ImGuiWindowFlags flags)
+			: m_Title(title), m_WindowFlags(flags), m_IsOpen(true), m_WindowId(s_CurrentWindowId),
+			  m_WindowPosition(glm::vec2(0)), m_WindowSize(glm::vec2(0))
 		{
 			s_CurrentWindowId++;
 		}
@@ -22,13 +24,10 @@ namespace Architect
 			}
 
 			OnBeginRenderWindow();
-			std::string windowFullTitle = m_Title + std::string("##") + std::to_string(m_WindowId);
-			ImGui::Begin(windowFullTitle.c_str(), &m_IsOpen, m_WindowFlags);
-			
-			m_WindowSize = CalculateWindowSize();
-			auto windowPos = ImGui::GetWindowPos();
-			m_WindowPosition = { windowPos.x, windowPos.y };
-			
+
+			ImGui::Begin(GetFullTitle().c_str(), &m_IsOpen, m_WindowFlags);
+
+			UpdateSizeAndPosition();
 			OnRenderWindow(timestep);
 
 			ImGui::End();
@@ -39,6 +38,13 @@ namespace Architect
 			{
 				const ImGuiWindow* guiWindow = this;
 				m_WindowClosed.Invoke(guiWindow);
+				OnWindowClosedAfterEvents();
+			}
+
+			glm::vec2 mousePos;
+			if (GetMousePositionInWindow(&mousePos))
+			{
+				ARC_ENGINE_INFO("Window: {0}, X: {1}, Y: {2}", m_Title, mousePos.x, mousePos.y);
 			}
 		}
 
@@ -64,15 +70,27 @@ namespace Architect
 
 		glm::vec2 ImGuiWindow::CalculateWindowSize()
 		{
-			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+			auto viewportMinRegion = ImVec2(0, 0); //ImGui::GetWindowContentRegionMin(); -> no idea what this does
 			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
 			auto viewportOffset = ImGui::GetWindowPos();
 
-			glm::vec2 viewportBounds[2];
+			glm::vec2 viewportBounds[2]{};
 			viewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
 			viewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 			return viewportBounds[1] - viewportBounds[0];
+		}
+
+		const std::string ImGuiWindow::GetFullTitle()
+		{
+			return m_Title + std::string("##") + std::to_string(m_WindowId);
+		}
+
+		void ImGuiWindow::UpdateSizeAndPosition()
+		{
+			m_WindowSize = CalculateWindowSize();
+			auto windowPos = ImGui::GetWindowPos();
+			m_WindowPosition = { windowPos.x, windowPos.y };
 		}
 	}
 }

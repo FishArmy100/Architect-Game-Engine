@@ -1,6 +1,6 @@
 #pragma once
 #include "MannagedVertexArray.h"
-#include "MannagedIndexBuffer.h"
+#include "IndexBuffer.h"
 #include "Material.h"
 #include <vector>
 #include <glm/glm.hpp>
@@ -12,7 +12,7 @@ namespace Architect
 {
 	struct DrawCallData
 	{
-		DrawCallData(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform)
+		DrawCallData(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform)
 		{
 			VertexArray = va;
 			IndexBuffer = ib;
@@ -21,7 +21,7 @@ namespace Architect
 		}
 
 		MannagedVertexArray VertexArray;
-		MannagedIndexBuffer IndexBuffer;
+		std::shared_ptr<IndexBuffer> IndexBuffer;
 		Material Mat;
 		glm::mat4 Transform;
 	};
@@ -31,7 +31,7 @@ namespace Architect
 	public:
 		static void Begin(Camera* camera, glm::mat4 cameraTransform);
 		static void Begin(Camera* camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer);
-		static void AddDrawCall(MannagedVertexArray& va, MannagedIndexBuffer& ib, Material& mat, glm::mat4& transform);
+		static void AddDrawCall(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform);
 		static void End();
 
 	private:

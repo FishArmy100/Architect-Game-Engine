@@ -75,6 +75,13 @@ namespace Architect
 			return false;
 		}
 
+		bool operator==(const Entity& lhs) const
+		{
+			return this->m_EntityHandle == lhs.m_EntityHandle && this->m_Scene == lhs.m_Scene;
+		}
+
+		bool operator!=(const Entity lhs) const { return !(*this == lhs); }
+
 		operator bool() const { return m_EntityHandle != entt::null; }
 		operator entt::entity() const{ return m_EntityHandle; }
 	};

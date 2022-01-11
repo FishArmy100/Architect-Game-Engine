@@ -123,9 +123,6 @@
     <ClCompile Include="src\Rendering-System\MannagedVertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Rendering-System\MannagedIndexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Core\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -157,6 +154,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Rendering-System\Framebuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vendor\imgui\imgui_stdlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -317,9 +317,6 @@
     <ClInclude Include="src\Rendering-System\MannagedVertexArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering-System\MannagedIndexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Core\Events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -371,6 +368,9 @@
     <ClInclude Include="src\Rendering-System\Framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Vendor\imgui\imgui_stdlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />
@@ -379,5 +379,6 @@
   <ItemGroup>
     <Text Include="src\Vendor\entt\LICENSE.txt" />
     <Text Include="src\Vendor\imgui\LICENSE.txt" />
+    <Text Include="src\Vendor\imgui\README for imgui_stdlib.txt" />
   </ItemGroup>
 </Project>
