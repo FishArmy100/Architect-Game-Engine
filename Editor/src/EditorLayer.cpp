@@ -13,6 +13,7 @@
 #include "Editor-UI/HierarchyWindow.h"
 #include "Editor-Utils/EditorSelection.h"
 #include "Editor-UI/InspectorEditorWindow.h"
+#include <functional>
 
 namespace Editor
 {
@@ -83,6 +84,16 @@ namespace Editor
 	void EditorLayer::OnUpdate(float timestep)
 	{
         ScriptUpdator::UpdateScripts(SceneManager::GetActiveScene(), timestep);
+
+        std::function<void(Entity&, TransformComponent&, TagComponent&)> func;
+
+        func = [](Entity& e, TransformComponent& transform, TagComponent& tag)
+        {
+            ARC_ENGINE_INFO("Entity {3} is at position ({0}, {1}, {2})",
+                transform.GetPosition().x, transform.GetPosition().y, transform.GetPosition().z, (std::string)tag);
+        };
+
+        SceneManager::GetActiveScene()->GetEntitiesWithComponent(func);
 	}
 
     void EditorLayer::OnImGuiRender(float timestep)

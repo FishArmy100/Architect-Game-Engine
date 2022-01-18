@@ -18,14 +18,17 @@ namespace Architect
             2, 3, 0
         };
 
-        scene->RunFuncOnEntites<TransformComponent, SpriteRendererComponent>([&](TransformComponent& t, SpriteRendererComponent& sr)
+        scene->GetEntitiesWithComponent<SpriteRendererComponent>([&](Entity e, SpriteRendererComponent src)
         {
-            OnSpriteEntity(t, sr, indicies, positions);
+            OnSpriteEntity(e, src, indicies, positions);
         });
 	}
 
-    void SceneRenderer::OnSpriteEntity(TransformComponent& transform, SpriteRendererComponent& spriteRenderer, unsigned int indicies[6], float positions[16])
+    void SceneRenderer::OnSpriteEntity(Entity e, SpriteRendererComponent& spriteRenderer, unsigned int indicies[6], float positions[16])
     {
+        if (!e.IsActive())
+            return;
+
         VertexBufferLayout layout = VertexBufferLayout();
         layout.PushFloats(2, false);
         layout.PushFloats(2, true);
@@ -36,8 +39,8 @@ namespace Architect
         va.Unbind();
         ib->Unbind();
 
-        glm::mat4 transformMatrix = transform.GetTransformMatrix();
-        Renderer::AddDrawCall(va, ib, spriteRenderer.SpriteMaterial, transformMatrix);
+        glm::mat4 transformMatrix = e.GetTransform().GetTransformMatrix();
+        Renderer::AddDrawCall(va, ib, spriteRenderer.SpriteMaterial, transformMatrix, (int)(entt::entity)e);
     }
 }
 

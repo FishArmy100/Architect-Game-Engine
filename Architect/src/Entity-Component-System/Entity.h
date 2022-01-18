@@ -1,27 +1,15 @@
 #pragma once
-
 #include "entt/entt.hpp"
 #include "Scene.h"
 #include "Entity-Components/Basic-Components.h"
+#include "EntityID.h"
 
 namespace Architect
 {
-	struct Test
-	{
-		void OnDestroy()
-		{
-
-		}
-	};
-
 	class Entity
 	{
-	private:
-		entt::entity m_EntityHandle = entt::null;
-		Scene* m_Scene = nullptr;
-
 	public:
-		Entity(entt::entity handle, Scene* scene);
+		Entity(EntityID handle, Scene* scene);
 		Entity(const Entity& other) = default;
 
 		Entity() = default;
@@ -32,6 +20,13 @@ namespace Architect
 
 		void SetActive(bool isActive);
 		bool IsActive() { return (bool)GetComponent<IsActiveComponent>(); }
+
+		Entity GetParent();
+		bool SetParent(Entity e);
+		void ClearParent();
+
+		std::vector<Entity> GetChildren();
+		std::vector<EntityID> GetChildrenIDs();
 
 		template<typename T>
 		bool ContainsComponent()
@@ -80,10 +75,14 @@ namespace Architect
 			return this->m_EntityHandle == lhs.m_EntityHandle && this->m_Scene == lhs.m_Scene;
 		}
 
-		bool operator!=(const Entity lhs) const { return !(*this == lhs); }
+		bool operator!=(const Entity& lhs) const { return !(*this == lhs); }
 
 		operator bool() const { return m_EntityHandle != entt::null; }
-		operator entt::entity() const{ return m_EntityHandle; }
+		operator EntityID() const{ return m_EntityHandle; }
+
+	private:
+		EntityID m_EntityHandle = entt::null;
+		Scene* m_Scene = nullptr;
 	};
 }
 

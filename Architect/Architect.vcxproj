@@ -149,6 +149,8 @@
     <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\HierarchyComponent.h" />
+    <ClInclude Include="src\Entity-Component-System\EntityID.h" />
     <ClInclude Include="src\Rendering-System\Framebuffer.h" />
     <ClInclude Include="src\Logger\SpdLogCallbackSink.h" />
     <ClInclude Include="src\GUI\ImGuiHelper.h" />

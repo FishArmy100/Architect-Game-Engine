@@ -40,12 +40,6 @@ namespace Architect
 				m_WindowClosed.Invoke(guiWindow);
 				OnWindowClosedAfterEvents();
 			}
-
-			glm::vec2 mousePos;
-			if (GetMousePositionInWindow(&mousePos))
-			{
-				ARC_ENGINE_INFO("Window: {0}, X: {1}, Y: {2}", m_Title, mousePos.x, mousePos.y);
-			}
 		}
 
 		bool ImGuiWindow::GetMousePositionInWindow(glm::vec2* mousePosition)

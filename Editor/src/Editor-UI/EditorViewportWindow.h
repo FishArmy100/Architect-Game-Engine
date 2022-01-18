@@ -19,8 +19,12 @@ namespace Editor
 		void OnEndRenderWindow() override;
 
 	private:
+		void HandleEntitySelection();
+		void UpdateFramebuffer();
+
+	private:
 		 std::shared_ptr<Framebuffer> m_FrameBuffer;
 		 EditorCamera m_EditorCamera;
-	};
+	}; 
 }
 

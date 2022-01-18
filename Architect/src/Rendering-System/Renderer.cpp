@@ -23,16 +23,15 @@ namespace Architect
 		Begin(camera, cameraTransform); 
 	}
 
-	void Renderer::AddDrawCall(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform)
+	void Renderer::AddDrawCall(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform, int id)
 	{
-		m_DrawCalls.emplace_back(va, ib, mat, transform);
+		m_DrawCalls.emplace_back(va, ib, mat, transform, id);
 	}
 
 	void Renderer::End()
 	{
 		if (m_ActiveFrameBuffer != nullptr)
 		{
-			m_ActiveFrameBuffer->Clear();
 			m_ActiveFrameBuffer->Bind();
 		}
 
@@ -46,6 +45,7 @@ namespace Architect
 			glm::mat4 mvp = viewProjection * (data.Transform);
 
 			data.Mat.GetShader()->SetShaderUniformMat4f("u_MVP", mvp);
+			data.Mat.GetShader()->SetShaderUniformInt("u_EntityID", data.ID);
 
 			int indiciesCount = data.IndexBuffer->GetCount();
 			GLCall(glDrawElements(GL_TRIANGLES, indiciesCount, GL_UNSIGNED_INT, nullptr));

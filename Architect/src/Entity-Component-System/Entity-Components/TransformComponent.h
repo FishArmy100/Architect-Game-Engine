@@ -1,15 +1,12 @@
 #pragma once
 #include "glm/ext.hpp"
+#include <vector>
+#include "entt/entt.hpp"
 
 namespace Architect
 {
 	class TransformComponent
 	{
-	private:
-		glm::vec3 m_Position;
-		glm::vec3 m_Rotation;
-		glm::vec3 m_Scale;
-
 	public:
 		TransformComponent(glm::vec3 position = glm::vec3(0), glm::vec3 rotation = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
 		~TransformComponent();
@@ -29,6 +26,14 @@ namespace Architect
 		void Scale(float scale);
 
 		glm::mat4 GetTransformMatrix() const;
+
+	private:
+
+
+	private:
+		glm::vec3 m_Position;
+		glm::vec3 m_Rotation;
+		glm::vec3 m_Scale;
 	};
 }
 

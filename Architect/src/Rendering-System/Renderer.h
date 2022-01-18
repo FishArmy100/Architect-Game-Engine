@@ -12,18 +12,20 @@ namespace Architect
 {
 	struct DrawCallData
 	{
-		DrawCallData(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform)
+		DrawCallData(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform, int id)
 		{
 			VertexArray = va;
 			IndexBuffer = ib;
 			Mat = mat;
 			Transform = transform;
+			ID = id;
 		}
 
 		MannagedVertexArray VertexArray;
 		std::shared_ptr<IndexBuffer> IndexBuffer;
 		Material Mat;
 		glm::mat4 Transform;
+		int ID;
 	};
 
 	class Renderer
@@ -31,7 +33,7 @@ namespace Architect
 	public:
 		static void Begin(Camera* camera, glm::mat4 cameraTransform);
 		static void Begin(Camera* camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer);
-		static void AddDrawCall(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform);
+		static void AddDrawCall(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform, int id);
 		static void End();
 
 	private:

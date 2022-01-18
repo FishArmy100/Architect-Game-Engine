@@ -371,6 +371,12 @@
     <ClInclude Include="src\Vendor\imgui\imgui_stdlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\EntityID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\HierarchyComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />

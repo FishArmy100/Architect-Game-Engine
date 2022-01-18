@@ -76,8 +76,19 @@ namespace Architect
 			}
 		}
 
+		template<typename First, typename... Rest>
+		void GetEntitiesWithComponent(std::function<void(Entity&, First&, Rest&...)> onEntity)
+		{
+			auto group = m_EntityRegistry.group<First>(entt::get<Rest...>);
+			for (auto entity : group)
+			{
+				Entity e = Entity(entity, this);
+				onEntity(e, group.get<First>(entity), group.get<Rest>(entity)...); 
+			}
+		}
+
 		template<typename TComponent>
-		void RunFuncOnEntites(std::function<void(TComponent&)> onEntity)
+		void GetEntitiesWithComponent(std::function<void(TComponent&)> onEntity)
 		{
 			auto view = m_EntityRegistry.view<TComponent>();
 			for (auto entity : view)
@@ -86,33 +97,13 @@ namespace Architect
 			}
 		}
 
-		template<typename TComponent1, typename TComponent2>
-		void RunFuncOnEntites(std::function<void(TComponent1&, TComponent2&)> onEntity)
+		template<typename First, typename... Rest>
+		void GetEntitiesWithComponent(std::function<void(First&, Rest&...)> onEntity)
 		{
-			auto group = m_EntityRegistry.group<TComponent1>(entt::get<TComponent2>);
+			auto group = m_EntityRegistry.group<First>(entt::get<Rest...>);
 			for (auto entity : group)
 			{
-				onEntity(group.get<TComponent1>(entity), group.get<TComponent2>(entity));
-			}
-		}
-
-		template<typename TComponent1, typename TComponent2, typename TComponent3>
-		void RunFuncOnEntites(std::function<void(TComponent1&, TComponent2&, TComponent3&)> onEntity)
-		{
-			auto group = m_EntityRegistry.group<TComponent1>(entt::get<TComponent2, TComponent3>);
-			for (auto entity : group)
-			{
-				onEntity(group.get<TComponent1>(entity), group.get<TComponent2>(entity), group.get<TComponent3>(entity));
-			}
-		}
-
-		template<typename TComponent1, typename TComponent2, typename TComponent3, typename TComponent4>
-		void RunFuncOnEntites(std::function<void(TComponent1&, TComponent2&, TComponent3&, TComponent4&)> onEntity)
-		{
-			auto group = m_EntityRegistry.group<TComponent1>(entt::get<TComponent2, TComponent3, TComponent4>);
-			for (auto entity : group)
-			{
-				onEntity(group.get<TComponent1>(entity), group.get<TComponent2>(entity), group.get<TComponent3>(entity), group.get<TComponent4>(entity));
+				onEntity(group.get<First>(entity), group.get<Rest>(entity)...);
 			}
 		}
 
