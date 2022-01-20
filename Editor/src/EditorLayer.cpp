@@ -85,12 +85,12 @@ namespace Editor
 	{
         ScriptUpdator::UpdateScripts(SceneManager::GetActiveScene(), timestep);
 
-        std::function<void(Entity&, TransformComponent&, TagComponent&)> func;
-
-        func = [](Entity& e, TransformComponent& transform, TagComponent& tag)
+        std::function<void(Entity&, TransformComponent&, EntityDataComponent&)> func;
+        
+        func = [](Entity& e, TransformComponent& transform, EntityDataComponent& data)
         {
             ARC_ENGINE_INFO("Entity {3} is at position ({0}, {1}, {2})",
-                transform.GetPosition().x, transform.GetPosition().y, transform.GetPosition().z, (std::string)tag);
+                transform.Position.x, transform.Position.y, transform.Position.z, (std::string)data.Name);
         };
 
         SceneManager::GetActiveScene()->GetEntitiesWithComponent(func);

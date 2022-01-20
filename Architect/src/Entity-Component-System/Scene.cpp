@@ -10,19 +10,29 @@ namespace Architect
 
 	}
 
-	Entity Scene::CreateEntity(const std::string& name)
+	EntityID Scene::CreateRawEntity(const std::string& name)
 	{
 		entt::entity e = m_EntityRegistry.create();
-		Entity entity = Entity(e, this);
-		entity.AddComponent<TagComponent>(name);
-		entity.AddComponent<IsActiveComponent>(true);
-		entity.AddComponent<TransformComponent>();
-		return entity;
+		m_EntityRegistry.emplace<EntityDataComponent>(e, name);
+		m_EntityRegistry.emplace<TransformComponent>(e);
+		m_EntityRegistry.emplace<HierarchyComponent>(e);
+		return e;
+	}
+
+	Entity Scene::CreateEntity(const std::string& name)
+	{
+		EntityID id = CreateRawEntity(name);
+		return Entity(id, this);
+	}
+
+	void Scene::DestoryEntity(EntityID e)
+	{
+		m_EntityRegistry.destroy(e);
 	}
 
 	void Scene::DestroyEntity(Entity e)
 	{
-		m_EntityRegistry.destroy(e);
+		DestoryEntity((EntityID)e);
 	}
 
 	void Scene::RemoveLisenerFromOnComponentDestroyed(IDestroyComponentEventLisener* lisener)

@@ -99,6 +99,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.cpp" />
     <ClCompile Include="src\Rendering-System\Framebuffer.cpp" />
     <ClCompile Include="src\GUI\ImGuiHelper.cpp" />
     <ClCompile Include="src\User-Input\GLFWInputUtils.cpp" />
@@ -108,7 +109,6 @@
     <ClCompile Include="src\Entity-Component-System\SceneRenderer.cpp" />
     <ClCompile Include="src\Entity-Component-System\SceneManager.cpp" />
     <ClCompile Include="src\Entity-Component-System\EntityNativeScript.cpp" />
-    <ClCompile Include="src\Entity-Component-System\EntitySystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity.cpp" />
     <ClCompile Include="src\Entity-Component-System\Scene.cpp" />
     <ClCompile Include="src\Mathmatics\Color.cpp" />
@@ -149,6 +149,7 @@
     <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\HierarchyComponent.h" />
     <ClInclude Include="src\Entity-Component-System\EntityID.h" />
     <ClInclude Include="src\Rendering-System\Framebuffer.h" />
@@ -169,9 +170,6 @@
     <ClInclude Include="src\Entity-Component-System\Entity-Components\NativeScriptComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\SpriteRendererComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\Basic-Components.h" />
-    <ClInclude Include="src\Entity-Component-System\Entity-Components\IsActiveComponent.h" />
-    <ClInclude Include="src\Entity-Component-System\Entity-Components\TagComponent.h" />
-    <ClInclude Include="src\Entity-Component-System\EntitySystem.h" />
     <ClInclude Include="src\Entity-Component-System\Entity.h" />
     <ClInclude Include="src\Entity-Component-System\NativeScriptInstance.h" />
     <ClInclude Include="src\Entity-Component-System\Scene.h" />

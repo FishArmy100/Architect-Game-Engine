@@ -99,9 +99,6 @@
     <ClCompile Include="src\Entity-Component-System\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entity-Component-System\EntitySystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -157,6 +154,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Vendor\imgui\imgui_stdlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -269,16 +269,7 @@
     <ClInclude Include="src\Entity-Component-System\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entity-Component-System\EntitySystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Entity-Component-System\Entity-Components\Basic-Components.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity-Component-System\Entity-Components\TagComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity-Component-System\Entity-Components\IsActiveComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entity-Component-System\Entity-Components\TransformComponent.h">
@@ -375,6 +366,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Entity-Component-System\Entity-Components\HierarchyComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,8 +8,13 @@ namespace Architect
 	{
 	}
 
+	void Entity::SetName(const std::string& name)
+	{
+		GetComponent<EntityDataComponent>().Name = name;
+	}
+
 	void Entity::SetActive(bool isActive)
 	{
-		GetComponent<IsActiveComponent>().IsActive = isActive;
+		GetComponent<EntityDataComponent>().IsActive = isActive;
 	}
 }

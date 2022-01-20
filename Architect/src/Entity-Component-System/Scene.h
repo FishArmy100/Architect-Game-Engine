@@ -2,6 +2,7 @@
 #include <string>
 #include "entt/entt.hpp"
 #include <functional>
+#include "EntityID.h"
 
 namespace Architect
 {
@@ -53,8 +54,6 @@ namespace Architect
 		entt::registry m_EntityRegistry;
 		std::vector<OnDestroyComponentEventLisenerData> m_DestroyComponentEventLiseners;
 
-		friend class Entity;
-
 	public:
 		Scene(const std::string& name = "Scene");
 
@@ -62,7 +61,9 @@ namespace Architect
 
 		std::string GetName() { return m_Name; }
 
+		EntityID CreateRawEntity(const std::string& name);
 		Entity CreateEntity(const std::string& name);
+		void DestoryEntity(EntityID e);
 		void DestroyEntity(Entity e);
 
 		template<typename TComponent>
@@ -105,6 +106,49 @@ namespace Architect
 			{
 				onEntity(group.get<First>(entity), group.get<Rest>(entity)...);
 			}
+		}
+
+		template<typename T>
+		bool EntityContainsComponent(EntityID entity)
+		{
+			return m_EntityRegistry.any_of<T>(entity);
+		}
+
+		template<typename T, typename... Args>
+		T& AddComponentToEntity(EntityID entity, Args&&... args) 
+		{
+			return m_EntityRegistry.emplace<T>(entity, std::forward<Args>(args)...);
+		}
+
+		template<typename T>
+		T& GetComponentFromEntity(EntityID entity)
+		{
+			return m_EntityRegistry.get<T>(entity);
+		}
+
+		template<typename T>
+		bool RemoveComponentFromEntity(EntityID entity)
+		{
+			if (EntityContainsComponent<T>(entity))
+			{
+				m_EntityRegistry.remove<T>(entity);
+				return true;
+			}
+
+			return false;
+		}
+
+		template<typename T>
+		bool TryGetComponent(EntityID entity, T*& outComponent)
+		{
+			if (EntityContainsComponent<T>(entity))
+			{
+				outComponent = &GetComponentFromEntity<T>(entity);
+				return true;
+			}
+
+			outComponent = nullptr;
+			return false;
 		}
 
 		template<typename T>

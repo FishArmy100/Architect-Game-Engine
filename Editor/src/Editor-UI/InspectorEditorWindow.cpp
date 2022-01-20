@@ -19,20 +19,12 @@ namespace Editor
 
 		Entity e = EditorSelection::GetCurrentSelection()->GetEntity();
 
-		ImGui::Checkbox("Is Active", &e.GetComponent<IsActiveComponent>().IsActive);
-		ImGui::InputText("Tag", &e.GetComponent<TagComponent>().Tag);
+		ImGui::Checkbox("Is Active", &e.GetComponent<EntityDataComponent>().IsActive);
+		ImGui::InputText("Name", &e.GetComponent<EntityDataComponent>().Name);
 
 		TransformComponent& transform = e.GetTransform();
-		glm::vec3 position = transform.GetPosition();
-		glm::vec3 rotation = transform.GetRotation();
-		glm::vec3 scale = transform.GetScale(); 
-
-		UI::ImGuiHelper::Vector3Input("Position", &position);
-		UI::ImGuiHelper::Vector3Input("Rotation", &rotation);
-		UI::ImGuiHelper::Vector3Input("Scale", &scale);
-
-		transform.SetPosition(position);
-		transform.SetRotation(rotation);
-		transform.SetScale(scale);
+		UI::ImGuiHelper::Vector3Input("Position", &transform.Position);
+		UI::ImGuiHelper::Vector3Input("Rotation", &transform.Rotation);
+		UI::ImGuiHelper::Vector3Input("Scale", &transform.Scale);
 	}
 }

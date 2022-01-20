@@ -39,7 +39,7 @@ namespace Architect
         va.Unbind();
         ib->Unbind();
 
-        glm::mat4 transformMatrix = e.GetTransform().GetTransformMatrix();
+        glm::mat4 transformMatrix = e.GetTransform().LocalToWorld;
         Renderer::AddDrawCall(va, ib, spriteRenderer.SpriteMaterial, transformMatrix, (int)(entt::entity)e);
     }
 }
