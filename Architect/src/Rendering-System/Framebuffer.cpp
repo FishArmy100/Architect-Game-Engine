@@ -81,6 +81,7 @@ namespace Architect
 		return pixelData;
 	}
 
+	// TODO: make so can clear RGBA, and other formats, so doest break by only sending R value
 	void Framebuffer::ClearColorAttachment(uint32_t attachmentIndex, int value)
 	{
 		auto& attachment = m_ColorAttachmentFormats[attachmentIndex];

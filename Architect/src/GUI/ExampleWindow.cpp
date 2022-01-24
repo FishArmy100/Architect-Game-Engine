@@ -11,7 +11,7 @@ namespace Architect
 			testColor = Color::White();
 		}
 
-		void ExampleWindow::OnRenderWindow(float timestep)
+		void ExampleWindow::OnRenderWindow()
 		{
 			ImGui::Text("Example Text");
 			ImGui::InputFloat("Example Float", &testFloat);

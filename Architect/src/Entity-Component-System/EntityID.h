@@ -4,5 +4,5 @@
 namespace Architect
 {
 	using EntityID = entt::entity;
-	constexpr EntityID NullEntity = entt::null;
+	constexpr entt::null_t NullEntity = entt::null;
 }

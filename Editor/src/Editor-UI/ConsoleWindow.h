@@ -11,7 +11,7 @@ namespace Editor
 		~ConsoleWindow();
 
 	protected:
-		void OnRenderWindow(float timestep) override;
+		void OnRenderWindow() override;
 
 	private:
 		std::shared_ptr<EventLisener<const LogCallbackData>> m_ClientLisener;

@@ -16,7 +16,8 @@ namespace Editor
 		static void AddWindow(std::shared_ptr<EditorWindow> window);
 		static void RemoveWindow(EditorWindow* window);
 		static void ClearWindows();
-		static void RenderWindows(float timestep);
+		static void RenderWindows();
+		static void UpdateWindows(float timestep);
 
 		virtual ~EditorWindow() = default;
 

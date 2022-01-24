@@ -6,7 +6,7 @@ namespace Architect
 {
 	struct HierarchyComponent
 	{
-		EntityID Parent;
-		std::vector<EntityID> Children;
+		EntityID Parent = NullEntity;
+		std::vector<EntityID> Children{};
 	};
 }

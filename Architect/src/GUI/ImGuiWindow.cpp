@@ -9,13 +9,13 @@ namespace Architect
 		int ImGuiWindow::s_CurrentWindowId = 0;
 
 		ImGuiWindow::ImGuiWindow(const std::string& title, ImGuiWindowFlags flags)
-			: m_Title(title), m_WindowFlags(flags), m_IsOpen(true), m_WindowId(s_CurrentWindowId),
+			: m_Title(title), m_WindowFlags(flags), m_IsOpen(true), m_IsSelected(false), m_WindowId(s_CurrentWindowId),
 			  m_WindowPosition(glm::vec2(0)), m_WindowSize(glm::vec2(0))
 		{
 			s_CurrentWindowId++;
 		}
 
-		void ImGuiWindow::RenderWindow(float timestep)
+		void ImGuiWindow::RenderWindow()
 		{
 			if (!m_IsOpen)
 			{
@@ -26,9 +26,9 @@ namespace Architect
 			OnBeginRenderWindow();
 
 			ImGui::Begin(GetFullTitle().c_str(), &m_IsOpen, m_WindowFlags);
-
+			m_IsSelected = ImGui::IsWindowFocused();
 			UpdateSizeAndPosition();
-			OnRenderWindow(timestep);
+			OnRenderWindow();
 
 			ImGui::End();
 
@@ -64,12 +64,12 @@ namespace Architect
 
 		glm::vec2 ImGuiWindow::CalculateWindowSize()
 		{
-			auto viewportMinRegion = ImVec2(0, 0); //ImGui::GetWindowContentRegionMin(); -> no idea what this does
+			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
 			auto viewportOffset = ImGui::GetWindowPos();
 
 			glm::vec2 viewportBounds[2]{};
-			viewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+			viewportBounds[0] = { -viewportMinRegion.x + viewportOffset.x, -viewportMinRegion.y + viewportOffset.y };
 			viewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 			return viewportBounds[1] - viewportBounds[0];

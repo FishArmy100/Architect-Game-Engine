@@ -9,7 +9,7 @@ namespace Editor
 	{
 	}
 
-	void InspectorEditorWindow::OnRenderWindow(float timestep)
+	void InspectorEditorWindow::OnRenderWindow()
 	{
 		if (!EditorSelection::HasSelection())
 		{

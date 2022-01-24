@@ -16,7 +16,7 @@ namespace Architect
 
 	void TransformComponent::Rotate(glm::vec3 rotation)
 	{
-		rotation += rotation;
+		Rotation += rotation;
 	}
 
 	void TransformComponent::Dilate(float scale)

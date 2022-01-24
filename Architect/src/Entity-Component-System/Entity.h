@@ -22,6 +22,12 @@ namespace Architect
 		void SetActive(bool isActive);
 		bool IsActive() { return GetComponent<EntityDataComponent>().IsActive; }
 
+		void SetParent(EntityID e);
+		std::vector<Entity> GetChildren();
+		std::vector<EntityID> GetChildrenIDs() { return GetComponent<HierarchyComponent>().Children; }
+
+		Scene* GetScene() { return m_Scene; }
+
 		template<typename T>
 		bool ContainsComponent()
 		{

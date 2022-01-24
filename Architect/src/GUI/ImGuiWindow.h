@@ -16,7 +16,7 @@ namespace Architect
 			ImGuiWindow(const std::string& title = "Window", ImGuiWindowFlags flags = 0);
 			virtual ~ImGuiWindow() = default;
 
-			void RenderWindow(float timestep);
+			void RenderWindow();
 			const std::string& GetTitle() const { return m_Title; }
 			void SetTitle(const std::string& title) { m_Title = title; }
 
@@ -31,10 +31,13 @@ namespace Architect
 			glm::vec2 GetWindowSize() const { return m_WindowSize; }
 			glm::vec2 GetWindowPosition() const { return m_WindowPosition; }
 			bool GetMousePositionInWindow(glm::vec2* mousePosition);
+			bool GetIsSelected() { return m_IsSelected; }
+
+			virtual void UpdateWindow(float timestep) {}
 
 		protected:
 			virtual void OnBeginRenderWindow() {}
-			virtual void OnRenderWindow(float timestep) = 0;
+			virtual void OnRenderWindow() = 0;
 			virtual void OnEndRenderWindow() {};
 			virtual void OnWindowClosedAfterEvents() {}
 
@@ -50,6 +53,7 @@ namespace Architect
 			ImGuiWindowFlags m_WindowFlags;
 			EventHandler<const ImGuiWindow*> m_WindowClosed;
 			bool m_IsOpen = true;
+			bool m_IsSelected;
 			int m_WindowId;
 			glm::vec2 m_WindowSize;
 			glm::vec2 m_WindowPosition;

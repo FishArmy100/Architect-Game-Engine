@@ -1,11 +1,9 @@
 #include "EditorLayer.h"
 #include "Entity-Component-System/SceneManager.h"
-#include "Entity-Component-System/SceneRenderer.h"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "Debug-System/OpenGLDebugger.h"
 #include "Core/Application.h"
-#include "Entity-Component-System/ScriptUpdator.h"
 #include "Entity-Component-System/EntityNativeScript.h"
 #include "User-Input/Input.h"
 #include "Editor-UI/ConsoleWindow.h"
@@ -14,6 +12,10 @@
 #include "Editor-Utils/EditorSelection.h"
 #include "Editor-UI/InspectorEditorWindow.h"
 #include <functional>
+#include "Entity-Component-System/Entity-Systems/EntitySystems.h"
+#include "Entity-Component-System/Entity-Systems/SpriteRendererSystem.h"
+#include "Entity-Component-System/Entity-Systems/ScriptUpdateSystem.h"
+#include "Entity-Component-System/Entity-Systems/TransformUpdateMatrixSystem.h"
 
 namespace Editor
 {
@@ -48,6 +50,16 @@ namespace Editor
             {
                 GetEntity().GetTransform().Translate({ 0, -timestep / 2, 0 });
             }
+
+            if (Input::GetKey(KeyCode::Q))
+            {
+                GetEntity().GetTransform().Rotate({ 0, 0, -timestep * 10 });
+            }
+
+            if (Input::GetKey(KeyCode::E))
+            {
+                GetEntity().GetTransform().Rotate({ 0, 0, timestep * 10 });
+            }
         }
 
         void OnDestroy() override
@@ -71,6 +83,12 @@ namespace Editor
         e.AddComponent<SpriteRendererComponent>(mat);
         e.AddComponent<NativeScriptComponent>().Bind<MoveScript>();
 
+        Entity e2 = scene->CreateEntity("Test Entity 2");
+        e2.AddComponent<SpriteRendererComponent>(mat);
+        e2.GetTransform().Dilate(0.5f);
+        e2.GetTransform().Translate({ 0, -1.5f, 0 });
+        e2.SetParent(e);
+
         Camera* camera = new Camera(4.0f / 3.0f, 2);
         m_CameraEntity = scene->CreateEntity("Camera");
         m_CameraEntity.AddComponent<CameraComponent>(camera);
@@ -79,11 +97,16 @@ namespace Editor
         EditorWindow::AddWindow(std::make_shared<ConsoleWindow>());
         EditorWindow::AddWindow(std::make_shared<HierarchyWindow>());
         EditorWindow::AddWindow(std::make_shared<InspectorEditorWindow>());
+
+        EntitySystems::AddRenderSystem(std::make_shared<SpriteRendererSystem>());
+        EntitySystems::AddUpdateSystem(std::make_shared<TransformUpdateMatrixSystem>());
+        EntitySystems::AddUpdateSystem(std::make_shared<ScriptUpdateSystem>());
 	}
 
 	void EditorLayer::OnUpdate(float timestep)
 	{
-        ScriptUpdator::UpdateScripts(SceneManager::GetActiveScene(), timestep);
+        EntitySystems::OnUpdate(SceneManager::GetActiveScene(), timestep);
+        EditorWindow::UpdateWindows(timestep);
 
         std::function<void(Entity&, TransformComponent&, EntityDataComponent&)> func;
         
@@ -102,7 +125,7 @@ namespace Editor
         DrawDockSpace();
         static bool isOpen = true;
         ImGui::ShowDemoWindow(&isOpen);
-        EditorWindow::RenderWindows(timestep);
+        EditorWindow::RenderWindows();
     }
 
     bool EditorLayer::OnEvent(IApplicationEvent* appEvent)
@@ -112,10 +135,7 @@ namespace Editor
 
     void EditorLayer::OnActiveSceneChanged(std::shared_ptr<Scene> scene)
     {
-        scene->AddLisenerToOnComponentDestroyed<NativeScriptComponent>([](NativeScriptComponent& nsc)
-        {
-            ScriptUpdator::OnScriptDestroyed(nsc);
-        });
+
     }
 
     void EditorLayer::DrawMainMenu()

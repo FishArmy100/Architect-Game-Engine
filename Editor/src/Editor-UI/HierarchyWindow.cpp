@@ -12,23 +12,41 @@ namespace Editor
 
 	}
 
-	void HierarchyWindow::OnRenderWindow(float timestep)
+	void HierarchyWindow::OnRenderWindow()
 	{
 		std::shared_ptr<Scene> scene = SceneManager::GetActiveScene();
-		scene->GetEntitiesWithComponent<EntityDataComponent>([=](Entity& e, EntityDataComponent& entityData)
+
+		std::function<void(Entity&, EntityDataComponent&)> renderEntityHierarchyFunc = [=](Entity& e, EntityDataComponent& entityData)
 		{
-			bool isEntitySelected = EditorSelection::HasSelection(EditorSelection(e));
+			DrawEntity(e);
+		};
 
-			ImGuiTreeNodeFlags flags = ((isEntitySelected) ? ImGuiTreeNodeFlags_Selected : 0);
-			flags |= ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_OpenOnArrow;
+		scene->GetEntitiesWithComponent<EntityDataComponent>(renderEntityHierarchyFunc);
+	}
 
-			bool isOpened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)e, flags, entityData.Name.c_str());
+	void HierarchyWindow::DrawEntity(Entity e)
+	{
+		if (m_DrawnEntities.find((uint32_t)(EntityID)e) != m_DrawnEntities.end())
+			return;
 
-			if (ImGui::IsItemClicked() && !isEntitySelected)
-				EditorSelection::SetCurrentSelection(std::make_shared<EditorSelection>(e));
+		m_DrawnEntities.emplace((uint32_t)e);
 
-			if (isOpened)
-				ImGui::TreePop();
-		});
+		bool isEntitySelected = EditorSelection::HasSelection(EditorSelection(e));
+
+		ImGuiTreeNodeFlags flags = ((isEntitySelected) ? ImGuiTreeNodeFlags_Selected : 0);
+		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
+
+		bool isOpened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)e, flags, e.GetName().c_str());
+
+		if (ImGui::IsItemClicked() && !isEntitySelected)
+			EditorSelection::SetCurrentSelection(std::make_shared<EditorSelection>(e));
+
+		if (isOpened)
+		{
+			for (Entity& child : e.GetChildren())
+				DrawEntity(child);
+
+			ImGui::TreePop();
+		}
 	}
 }

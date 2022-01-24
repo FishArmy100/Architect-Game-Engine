@@ -62,6 +62,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor;$(ProjectDir)src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -84,6 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies/GLFW/include;$(SolutionDir)Dependencies/GLEW/include;$(SolutionDir)Dependencies/Raylib/include;$(SolutionDir)Dependencies/Spdlog/include;$(SolutionDir)Dependencies/GLM/glm;$(ProjectDir)src/Vendor;$(ProjectDir)src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -99,14 +101,16 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entity-Component-System\HierarchyUtils.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\EntitySystems.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.cpp" />
     <ClCompile Include="src\Rendering-System\Framebuffer.cpp" />
     <ClCompile Include="src\GUI\ImGuiHelper.cpp" />
     <ClCompile Include="src\User-Input\GLFWInputUtils.cpp" />
     <ClCompile Include="src\Rendering-System\MannagedVertexArray.cpp" />
     <ClCompile Include="src\GUI\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Entity-Component-System\ScriptUpdator.cpp" />
-    <ClCompile Include="src\Entity-Component-System\SceneRenderer.cpp" />
     <ClCompile Include="src\Entity-Component-System\SceneManager.cpp" />
     <ClCompile Include="src\Entity-Component-System\EntityNativeScript.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity.cpp" />
@@ -147,8 +151,14 @@
     <ClCompile Include="src\Vendor\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Systems\TransformUpdateMatrixSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entity-Component-System\HierarchyUtils.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\RenderEntitySystem.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\EntitySystems.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\HierarchyComponent.h" />
     <ClInclude Include="src\Entity-Component-System\EntityID.h" />
@@ -161,8 +171,6 @@
     <ClInclude Include="src\Core\WindowEvents.h" />
     <ClInclude Include="src\Rendering-System\MannagedVertexArray.h" />
     <ClInclude Include="src\GUI\ImGuiLayer.h" />
-    <ClInclude Include="src\Entity-Component-System\ScriptUpdator.h" />
-    <ClInclude Include="src\Entity-Component-System\SceneRenderer.h" />
     <ClInclude Include="src\Entity-Component-System\SceneManager.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\CameraComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\IComponentDestroyedCallback.h" />
@@ -219,6 +227,8 @@
     <ClInclude Include="src\Rendering-System\Texture_Code\Texture.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\TransformComponent.h" />
     <ClInclude Include="src\Core\Window.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\UpdateEntitySystem.h" />
+    <ClInclude Include="src\Entity-Component-System\Entity-Systems\TransformUpdateMatrixSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="raylib.dll" />

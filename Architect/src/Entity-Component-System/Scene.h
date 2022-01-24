@@ -66,46 +66,31 @@ namespace Architect
 		void DestoryEntity(EntityID e);
 		void DestroyEntity(Entity e);
 
-		template<typename TComponent>
-		void GetEntitiesWithComponent(std::function<void(Entity&, TComponent&)> onEntity)
+		template<typename ...TComponent>
+		void GetEntitiesWithComponent(std::function<void(TComponent&...)> onEntity)
 		{
-			auto view = m_EntityRegistry.view<TComponent>();
+			auto view = m_EntityRegistry.view<TComponent...>();
 			for (auto entity : view)
 			{
-				Entity e = Entity(entity, this);
-				onEntity(e, view.get<TComponent>(entity));
+				onEntity(view.get<TComponent>(entity)...);
 			}
 		}
 
-		template<typename First, typename... Rest>
-		void GetEntitiesWithComponent(std::function<void(Entity&, First&, Rest&...)> onEntity)
+		template<typename ...TComponents>
+		void GetEntitiesWithComponent(std::function<void(Entity&, TComponents&...)> onEntity)
 		{
-			auto group = m_EntityRegistry.group<First>(entt::get<Rest...>);
-			for (auto entity : group)
+			auto view = m_EntityRegistry.view<TComponents...>();
+			for (auto entity : view) 
 			{
 				Entity e = Entity(entity, this);
-				onEntity(e, group.get<First>(entity), group.get<Rest>(entity)...); 
+				onEntity(e, view.get<TComponents>(entity)...);
 			}
 		}
 
-		template<typename TComponent>
-		void GetEntitiesWithComponent(std::function<void(TComponent&)> onEntity)
+		template<typename ...TComponents>
+		entt::view<TComponents...> GetRawView()
 		{
-			auto view = m_EntityRegistry.view<TComponent>();
-			for (auto entity : view)
-			{
-				onEntity(view.get<TComponent>(entity));
-			}
-		}
-
-		template<typename First, typename... Rest>
-		void GetEntitiesWithComponent(std::function<void(First&, Rest&...)> onEntity)
-		{
-			auto group = m_EntityRegistry.group<First>(entt::get<Rest...>);
-			for (auto entity : group)
-			{
-				onEntity(group.get<First>(entity), group.get<Rest>(entity)...);
-			}
+			return m_EntityRegistry.view<TComponents...>();
 		}
 
 		template<typename T>
