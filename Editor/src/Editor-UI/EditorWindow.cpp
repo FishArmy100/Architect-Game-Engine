@@ -36,10 +36,16 @@ namespace Editor
 		m_EditorWindows.clear();
 	}
 
-	void EditorWindow::RenderWindows(float timestep)
+	void EditorWindow::UpdateWindows(float timestep)
 	{
 		for (int i = 0; i < m_EditorWindows.size(); i++)
-			m_EditorWindows[i]->RenderWindow(timestep);
+			m_EditorWindows[i]->UpdateWindow(timestep);
+	}
+
+	void EditorWindow::RenderWindows()
+	{
+		for (int i = 0; i < m_EditorWindows.size(); i++)
+			m_EditorWindows[i]->RenderWindow();
 	}
 
 	void EditorWindow::OnWindowClosedAfterEvents()

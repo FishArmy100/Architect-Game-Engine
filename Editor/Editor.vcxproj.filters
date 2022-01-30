@@ -42,6 +42,9 @@
     <ClCompile Include="src\Editor-UI\InspectorEditorWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Editor-Utils\EditorSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
@@ -70,6 +73,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Editor-UI\InspectorEditorWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Editor-Utils\EditorSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

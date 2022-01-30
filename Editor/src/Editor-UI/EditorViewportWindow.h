@@ -14,13 +14,16 @@ namespace Editor
 		EditorViewportWindow();
 
 	protected:
-		void OnRenderWindow(float timestep) override;
+		void OnRenderWindow() override;
+		void UpdateWindow(float timestep) override;
 		void OnBeginRenderWindow() override;
 		void OnEndRenderWindow() override;
 
 	private:
 		void HandleEntitySelection();
 		void UpdateFramebuffer();
+		void UpdateCamera(float timestep);
+		void DrawGizmos();
 
 	private:
 		 std::shared_ptr<Framebuffer> m_FrameBuffer;

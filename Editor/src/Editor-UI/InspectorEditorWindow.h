@@ -11,7 +11,7 @@ namespace Editor
 		InspectorEditorWindow();
 
 	protected:
-		void OnRenderWindow(float timestep) override;
+		void OnRenderWindow() override;
 	};
 }
 

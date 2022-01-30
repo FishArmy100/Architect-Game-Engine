@@ -14,60 +14,52 @@ namespace Architect
 
 		Entity() = default;
 
-		std::string& GetTag() { return (std::string&)GetComponent<TagComponent>(); }
+		void SetName(const std::string& name);
+		std::string& GetName() { return GetComponent<EntityDataComponent>().Name; }
 
 		TransformComponent& GetTransform() { return GetComponent<TransformComponent>(); }
 
 		void SetActive(bool isActive);
-		bool IsActive() { return (bool)GetComponent<IsActiveComponent>(); }
+		bool IsActive() { return GetComponent<EntityDataComponent>().IsActive; }
 
-		Entity GetParent();
-		bool SetParent(Entity e);
-		void ClearParent();
+		uint64_t GetUUID() { return GetComponent<EntityDataComponent>().GetUUID(); }
 
+		void SetParent(EntityID e);
+		EntityID GetParentID() { return GetComponent<HierarchyComponent>().Parent; }
+		bool GetHasParent() { return GetParentID() != NullEntity; }
 		std::vector<Entity> GetChildren();
-		std::vector<EntityID> GetChildrenIDs();
+		std::vector<EntityID> GetChildrenIDs() { return GetComponent<HierarchyComponent>().Children; }
+
+		Scene* GetScene() { return m_Scene; }
 
 		template<typename T>
 		bool ContainsComponent()
 		{
-			return m_Scene->m_EntityRegistry.any_of<T>(m_EntityHandle);
+			return m_Scene->EntityContainsComponent<T>(m_EntityHandle);
 		}
 
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args)
 		{
-			return m_Scene->m_EntityRegistry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+			return m_Scene->AddComponentToEntity<T>(m_EntityHandle, std::forward<Args>(args)...);
 		}
 
 		template<typename T>
 		T& GetComponent()
 		{
-			return m_Scene->m_EntityRegistry.get<T>(m_EntityHandle);
+			return m_Scene->GetComponentFromEntity<T>(m_EntityHandle);
 		}
 
 		template<typename T>
 		bool RemoveComponent()
 		{
-			if (ContainsComponent<T>())
-			{
-				m_Scene->m_EntityRegistry.remove<T>(m_EntityHandle);
-			}
-
-			return false;
+			return m_Scene->RemoveComponentFromEntity<T>(m_EntityHandle);
 		}
 
 		template<typename T>
 		bool TryGetComponent(T*& outComponent)
 		{
-			if (ContainsComponent<T>())
-			{
-				outComponent = &GetComponent<T>();
-				
-			}
-
-			outComponent = nullptr;
-			return false;
+			return m_Scene->TryGetComponent<T>(m_EntityHandle, outComponent);
 		}
 
 		bool operator==(const Entity& lhs) const

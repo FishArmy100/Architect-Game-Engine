@@ -11,7 +11,7 @@ namespace Architect
 			ExampleWindow(const std::string& title);
 
 		protected:
-			void OnRenderWindow(float timestep) override;
+			void OnRenderWindow() override;
 
 		private:
 			float testFloat;

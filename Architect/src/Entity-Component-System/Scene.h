@@ -2,6 +2,8 @@
 #include <string>
 #include "entt/entt.hpp"
 #include <functional>
+#include "EntityID.h"
+#include <optional>
 
 namespace Architect
 {
@@ -52,8 +54,7 @@ namespace Architect
 		std::string m_Name;
 		entt::registry m_EntityRegistry;
 		std::vector<OnDestroyComponentEventLisenerData> m_DestroyComponentEventLiseners;
-
-		friend class Entity;
+		std::vector<EntityID> m_CurrentEntites;
 
 	public:
 		Scene(const std::string& name = "Scene");
@@ -62,49 +63,98 @@ namespace Architect
 
 		std::string GetName() { return m_Name; }
 
+		EntityID CreateRawEntity(const std::string& name);
 		Entity CreateEntity(const std::string& name);
+		void DestoryEntity(EntityID e);
 		void DestroyEntity(Entity e);
 
-		template<typename TComponent>
-		void GetEntitiesWithComponent(std::function<void(Entity&, TComponent&)> onEntity)
+		const size_t GetEntityCount() { return m_CurrentEntites.size(); }
+		const std::vector<EntityID>& GetAllEntites() { return m_CurrentEntites; }
+
+		// [Important]: Does not change how compoents are fectched in GetEntitesWithComponent method
+		void MoveEntity(size_t oldIndex, size_t newIndex);
+		std::optional<size_t> IndexOf(EntityID entity);
+		std::optional<Entity> operator[](size_t index);
+
+		template<typename ...TComponents, typename Function>
+		void GetEntitesWithComponent(Function onEntity)
 		{
-			auto view = m_EntityRegistry.view<TComponent>();
+			auto view = m_EntityRegistry.view<TComponents...>();
 			for (auto entity : view)
 			{
 				Entity e = Entity(entity, this);
-				onEntity(e, view.get<TComponent>(entity));
+				onEntity(e, view.get<TComponents>(entity)...);
 			}
 		}
 
-		template<typename First, typename... Rest>
-		void GetEntitiesWithComponent(std::function<void(Entity&, First&, Rest&...)> onEntity)
+		template<typename ...TComponent>
+		void GetEntitiesWithComponent(std::function<void(TComponent&...)> onEntity)
 		{
-			auto group = m_EntityRegistry.group<First>(entt::get<Rest...>);
-			for (auto entity : group)
-			{
-				Entity e = Entity(entity, this);
-				onEntity(e, group.get<First>(entity), group.get<Rest>(entity)...); 
-			}
-		}
-
-		template<typename TComponent>
-		void GetEntitiesWithComponent(std::function<void(TComponent&)> onEntity)
-		{
-			auto view = m_EntityRegistry.view<TComponent>();
+			auto view = m_EntityRegistry.view<TComponent...>();
 			for (auto entity : view)
 			{
-				onEntity(view.get<TComponent>(entity));
+				onEntity(view.get<TComponent>(entity)...);
 			}
 		}
 
-		template<typename First, typename... Rest>
-		void GetEntitiesWithComponent(std::function<void(First&, Rest&...)> onEntity)
+		template<typename ...TComponents>
+		void GetEntitiesWithComponent(std::function<void(Entity&, TComponents&...)> onEntity)
 		{
-			auto group = m_EntityRegistry.group<First>(entt::get<Rest...>);
-			for (auto entity : group)
+			auto view = m_EntityRegistry.view<TComponents...>();
+			for (auto entity : view) 
 			{
-				onEntity(group.get<First>(entity), group.get<Rest>(entity)...);
+				Entity e = Entity(entity, this);
+				onEntity(e, view.get<TComponents>(entity)...);
 			}
+		}
+
+		template<typename ...TComponents>
+		entt::view<TComponents...> GetRawView()
+		{
+			return m_EntityRegistry.view<TComponents...>();
+		}
+
+		template<typename T>
+		bool EntityContainsComponent(EntityID entity)
+		{
+			return m_EntityRegistry.any_of<T>(entity);
+		}
+
+		template<typename T, typename... Args>
+		T& AddComponentToEntity(EntityID entity, Args&&... args) 
+		{
+			return m_EntityRegistry.emplace<T>(entity, std::forward<Args>(args)...);
+		}
+
+		template<typename T>
+		T& GetComponentFromEntity(EntityID entity)
+		{
+			return m_EntityRegistry.get<T>(entity);
+		}
+
+		template<typename T>
+		bool RemoveComponentFromEntity(EntityID entity)
+		{
+			if (EntityContainsComponent<T>(entity))
+			{
+				m_EntityRegistry.remove<T>(entity);
+				return true;
+			}
+
+			return false;
+		}
+
+		template<typename T>
+		bool TryGetComponent(EntityID entity, T*& outComponent)
+		{
+			if (EntityContainsComponent<T>(entity))
+			{
+				outComponent = &GetComponentFromEntity<T>(entity);
+				return true;
+			}
+
+			outComponent = nullptr;
+			return false;
 		}
 
 		template<typename T>

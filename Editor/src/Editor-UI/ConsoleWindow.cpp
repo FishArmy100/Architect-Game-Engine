@@ -23,7 +23,7 @@ namespace Editor
 		m_EngineLisener->Detach();
 	}
 
-	void ConsoleWindow::OnRenderWindow(float timestep)
+	void ConsoleWindow::OnRenderWindow()
 	{
 		ImGui::BeginChild("Scrollable Reigon");
 		for (int i = m_ConsoleLogs.size() - 1; i >= 0; i--)
