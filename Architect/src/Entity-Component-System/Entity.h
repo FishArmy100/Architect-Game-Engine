@@ -22,7 +22,11 @@ namespace Architect
 		void SetActive(bool isActive);
 		bool IsActive() { return GetComponent<EntityDataComponent>().IsActive; }
 
+		uint64_t GetUUID() { return GetComponent<EntityDataComponent>().GetUUID(); }
+
 		void SetParent(EntityID e);
+		EntityID GetParentID() { return GetComponent<HierarchyComponent>().Parent; }
+		bool GetHasParent() { return GetParentID() != NullEntity; }
 		std::vector<Entity> GetChildren();
 		std::vector<EntityID> GetChildrenIDs() { return GetComponent<HierarchyComponent>().Children; }
 

@@ -23,6 +23,7 @@ namespace Editor
 		void HandleEntitySelection();
 		void UpdateFramebuffer();
 		void UpdateCamera(float timestep);
+		void DrawGizmos();
 
 	private:
 		 std::shared_ptr<Framebuffer> m_FrameBuffer;

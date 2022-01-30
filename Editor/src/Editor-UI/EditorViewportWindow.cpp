@@ -6,6 +6,10 @@
 #include "Editor-Utils/EditorSelection.h"
 #include "Entity-Component-System/Entity.h"
 #include "Entity-Component-System/Entity-Systems/EntitySystems.h"
+#include "imguizmo/ImGuizmo.h"
+#include "Mathmatics/Math.h"
+#include "Entity-Component-System/HierarchyUtils.h"
+#include "Editor-Utils/EditorSettings.h"
 
 namespace Editor
 {
@@ -14,6 +18,7 @@ namespace Editor
 	{
 		ImGuiWindowFlags windowFlags = 0;
 		windowFlags |= ImGuiWindowFlags_NoCollapse;
+		windowFlags |= ImGuiWindowFlags_MenuBar;
 
 		SetFlags(windowFlags);
 		FramebufferSpecification spec;
@@ -71,11 +76,76 @@ namespace Editor
 		}
 	}
 
+	void EditorViewportWindow::DrawGizmos()
+	{
+		if (!EditorSelection::HasSelection())
+			return;
+
+		Entity selectedEntity = EditorSelection::GetCurrentSelection()->GetEntity();
+		if (selectedEntity)
+		{
+			ImGuizmo::SetOrthographic(true);
+			ImGuizmo::SetDrawlist();
+
+			glm::vec2 windowPosition = GetWindowPosition();
+			glm::vec2 windowSize = GetWindowSize();
+
+			ImGuizmo::SetRect(windowPosition.x, windowPosition.y, windowSize.x, windowSize.y);
+
+			glm::mat4 cameraProjection = m_EditorCamera.GetCamera()->GetProjectionMatrix();
+			glm::mat4 cameraView = glm::inverse(m_EditorCamera.GetTransformMatrix());
+
+			// Entity transform
+			TransformComponent& tc = selectedEntity.GetComponent<TransformComponent>();
+			glm::mat4 transformMat = Math::CalculateTransformMat(tc.Position, tc.Rotation, tc.Scale);
+
+			if (selectedEntity.GetHasParent())
+				transformMat = HierarchyUtils::LocalToWorld(selectedEntity.GetScene(), selectedEntity.GetParentID(), transformMat);
+
+			ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+				ImGuizmo::OPERATION::UNIVERSAL, ImGuizmo::MODE::LOCAL, glm::value_ptr(transformMat));
+
+			if(selectedEntity.GetHasParent())
+				transformMat = HierarchyUtils::WorldToLocal(selectedEntity.GetScene(), selectedEntity.GetParentID(), transformMat);
+
+			if (ImGuizmo::IsUsing())
+			{
+				glm::vec3 position{0}, rotation{0}, scale{0};
+				Math::DecomposeTransformMatrix(transformMat, position, rotation, scale);
+
+				glm::vec3 deltaRotation = rotation - tc.Rotation;
+				tc.Position = position;
+				tc.Rotation += deltaRotation;
+				tc.Scale = scale;
+			}
+		}
+
+	}
+
 	void EditorViewportWindow::OnRenderWindow()
 	{
+		std::string currentEditMode = EditorSettings::GetSettings().Mode == EditorMode::Play ? "Play" : "Edit";
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu(("Editor Mode: " + currentEditMode).c_str()))
+			{
+				if (ImGui::MenuItem("Play"))
+					EditorSettings::GetSettings().Mode = EditorMode::Play;
+
+				if (ImGui::MenuItem("Edit"))
+					EditorSettings::GetSettings().Mode = EditorMode::Edit;
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenuBar();
+		}
+
+
 		unsigned int textureID = m_FrameBuffer->GetColorAttachmentID(0);
 		ImVec2 wsize = ImGui::GetContentRegionAvail();
 		ImGui::Image((ImTextureID)textureID, wsize, ImVec2(0, 1), ImVec2(1, 0));
+		DrawGizmos();
 	}
 
 	void EditorViewportWindow::UpdateWindow(float timestep)

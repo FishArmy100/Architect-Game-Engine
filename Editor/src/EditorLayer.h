@@ -4,6 +4,7 @@
 #include "Entity-Component-System/Entity.h"
 #include "GUI/ExampleWindow.h"
 #include "Editor-UI/EditorViewportWindow.h"
+#include <unordered_set>
 
 namespace Editor
 {
@@ -26,6 +27,7 @@ namespace Editor
 		void DrawDockSpace();
 
 	private:
+		std::vector<std::string> m_EditorSystems;
 		Entity m_CameraEntity;
 	};
 }

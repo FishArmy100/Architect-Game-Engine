@@ -3,6 +3,7 @@
 #include "entt/entt.hpp"
 #include <functional>
 #include "EntityID.h"
+#include <optional>
 
 namespace Architect
 {
@@ -53,6 +54,7 @@ namespace Architect
 		std::string m_Name;
 		entt::registry m_EntityRegistry;
 		std::vector<OnDestroyComponentEventLisenerData> m_DestroyComponentEventLiseners;
+		std::vector<EntityID> m_CurrentEntites;
 
 	public:
 		Scene(const std::string& name = "Scene");
@@ -65,6 +67,25 @@ namespace Architect
 		Entity CreateEntity(const std::string& name);
 		void DestoryEntity(EntityID e);
 		void DestroyEntity(Entity e);
+
+		const size_t GetEntityCount() { return m_CurrentEntites.size(); }
+		const std::vector<EntityID>& GetAllEntites() { return m_CurrentEntites; }
+
+		// [Important]: Does not change how compoents are fectched in GetEntitesWithComponent method
+		void MoveEntity(size_t oldIndex, size_t newIndex);
+		std::optional<size_t> IndexOf(EntityID entity);
+		std::optional<Entity> operator[](size_t index);
+
+		template<typename ...TComponents, typename Function>
+		void GetEntitesWithComponent(Function onEntity)
+		{
+			auto view = m_EntityRegistry.view<TComponents...>();
+			for (auto entity : view)
+			{
+				Entity e = Entity(entity, this);
+				onEntity(e, view.get<TComponents>(entity)...);
+			}
+		}
 
 		template<typename ...TComponent>
 		void GetEntitiesWithComponent(std::function<void(TComponent&...)> onEntity)

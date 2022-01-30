@@ -101,6 +101,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Mathmatics\Math.cpp" />
     <ClCompile Include="src\Entity-Component-System\HierarchyUtils.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.cpp" />
@@ -143,6 +144,11 @@
     <ClCompile Include="src\Rendering-System\Texture_Code\Texture.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Components\TransformComponent.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Vendor\imguizmo\GraphEditor.cpp" />
+    <ClCompile Include="src\Vendor\imguizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="src\Vendor\imguizmo\ImGradient.cpp" />
+    <ClCompile Include="src\Vendor\imguizmo\ImGuizmo.cpp" />
+    <ClCompile Include="src\Vendor\imguizmo\ImSequencer.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_draw.cpp" />
@@ -208,6 +214,12 @@
     <ClInclude Include="src\Mathmatics\Math.h" />
     <ClInclude Include="src\Mathmatics\Vectors\Vector2Internal.h" />
     <ClInclude Include="src\Vendor\entt\entt.hpp" />
+    <ClInclude Include="src\Vendor\imguizmo\GraphEditor.h" />
+    <ClInclude Include="src\Vendor\imguizmo\ImCurveEdit.h" />
+    <ClInclude Include="src\Vendor\imguizmo\ImGradient.h" />
+    <ClInclude Include="src\Vendor\imguizmo\ImGuizmo.h" />
+    <ClInclude Include="src\Vendor\imguizmo\ImSequencer.h" />
+    <ClInclude Include="src\Vendor\imguizmo\ImZoomSlider.h" />
     <ClInclude Include="src\Vendor\imgui\imconfig.h" />
     <ClInclude Include="src\Vendor\imgui\imgui.h" />
     <ClInclude Include="src\Vendor\imgui\imgui_impl_glfw.h" />
@@ -233,6 +245,8 @@
   <ItemGroup>
     <None Include="raylib.dll" />
     <None Include="res\shaders\Test.shader" />
+    <None Include="src\Vendor\imguizmo\LICENSE" />
+    <None Include="src\Vendor\imguizmo\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Vendor\entt\LICENSE.txt" />

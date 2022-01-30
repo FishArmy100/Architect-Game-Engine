@@ -23,7 +23,7 @@ namespace Architect
             2, 3, 0
         };
 
-        scene->GetEntitiesWithComponent<SpriteRendererComponent>([&](Entity& e, SpriteRendererComponent& spriteRenderer)
+        scene->GetEntitesWithComponent<SpriteRendererComponent>([&](Entity e, SpriteRendererComponent& spriteRenderer)
         {
             if (!e.IsActive())
                 return;

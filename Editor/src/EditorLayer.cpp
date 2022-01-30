@@ -16,6 +16,9 @@
 #include "Entity-Component-System/Entity-Systems/SpriteRendererSystem.h"
 #include "Entity-Component-System/Entity-Systems/ScriptUpdateSystem.h"
 #include "Entity-Component-System/Entity-Systems/TransformUpdateMatrixSystem.h"
+#include "Entity-Component-System/HierarchyUtils.h"
+#include "Mathmatics/Math.h"
+#include "Editor-Utils/EditorSettings.h"
 
 namespace Editor
 {
@@ -53,12 +56,12 @@ namespace Editor
 
             if (Input::GetKey(KeyCode::Q))
             {
-                GetEntity().GetTransform().Rotate({ 0, 0, -timestep * 10 });
+                GetEntity().GetTransform().Rotate({ 0, 0, -timestep * 40 });
             }
 
             if (Input::GetKey(KeyCode::E))
             {
-                GetEntity().GetTransform().Rotate({ 0, 0, timestep * 10 });
+                GetEntity().GetTransform().Rotate({ 0, 0, timestep * 40 });
             }
         }
 
@@ -79,7 +82,7 @@ namespace Editor
         Material mat = Material(shader);
         mat.SetTexture("u_Texture", std::shared_ptr<Texture>(texture));
 
-        Entity e = scene->CreateEntity("Test Entity");
+        Entity e = scene->CreateEntity("Test Entity 1");
         e.AddComponent<SpriteRendererComponent>(mat);
         e.AddComponent<NativeScriptComponent>().Bind<MoveScript>();
 
@@ -87,7 +90,6 @@ namespace Editor
         e2.AddComponent<SpriteRendererComponent>(mat);
         e2.GetTransform().Dilate(0.5f);
         e2.GetTransform().Translate({ 0, -1.5f, 0 });
-        e2.SetParent(e);
 
         Camera* camera = new Camera(4.0f / 3.0f, 2);
         m_CameraEntity = scene->CreateEntity("Camera");
@@ -98,25 +100,35 @@ namespace Editor
         EditorWindow::AddWindow(std::make_shared<HierarchyWindow>());
         EditorWindow::AddWindow(std::make_shared<InspectorEditorWindow>());
 
+        auto transformSystem = std::make_shared<TransformUpdateMatrixSystem>();
+        m_EditorSystems.push_back(transformSystem->GetName());
+
         EntitySystems::AddRenderSystem(std::make_shared<SpriteRendererSystem>());
-        EntitySystems::AddUpdateSystem(std::make_shared<TransformUpdateMatrixSystem>());
+        EntitySystems::AddUpdateSystem(transformSystem);
         EntitySystems::AddUpdateSystem(std::make_shared<ScriptUpdateSystem>());
+
+        EditorSettings::GetSettings().Mode = EditorMode::Edit;
 	}
 
 	void EditorLayer::OnUpdate(float timestep)
 	{
-        EntitySystems::OnUpdate(SceneManager::GetActiveScene(), timestep);
-        EditorWindow::UpdateWindows(timestep);
+        EditorSettings settings = EditorSettings::GetSettings();
 
-        std::function<void(Entity&, TransformComponent&, EntityDataComponent&)> func;
-        
-        func = [](Entity& e, TransformComponent& transform, EntityDataComponent& data)
+        if(settings.Mode == EditorMode::Play && !settings.IsPaused)
+            EntitySystems::OnUpdate(SceneManager::GetActiveScene(), timestep);
+
+        if (settings.Mode == EditorMode::Edit)
         {
-            ARC_ENGINE_INFO("Entity {3} is at position ({0}, {1}, {2})",
-                transform.Position.x, transform.Position.y, transform.Position.z, (std::string)data.Name);
-        };
-
-        SceneManager::GetActiveScene()->GetEntitiesWithComponent(func);
+            EntitySystems::OnUpdate(SceneManager::GetActiveScene(), timestep,
+                [&](std::shared_ptr<UpdateEntitySystem> system)
+                {
+                    return std::find(m_EditorSystems.begin(), m_EditorSystems.end(), system->GetName()) != m_EditorSystems.end();
+                });
+        }
+        
+        
+        
+        EditorWindow::UpdateWindows(timestep);
 	}
 
     void EditorLayer::OnImGuiRender(float timestep)

@@ -86,6 +86,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Editor-Utils\EditorSettings.cpp" />
     <ClCompile Include="src\Editor-UI\InspectorEditorWindow.cpp" />
     <ClCompile Include="src\Editor-Utils\EditorSelection.cpp" />
     <ClCompile Include="src\Editor-UI\HierarchyWindow.cpp" />
@@ -106,6 +107,7 @@
     <None Include="raylib.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Editor-Utils\EditorSettings.h" />
     <ClInclude Include="src\Editor-UI\InspectorEditorWindow.h" />
     <ClInclude Include="src\Editor-Utils\EditorSelection.h" />
     <ClInclude Include="src\Editor-UI\HierarchyWindow.h" />

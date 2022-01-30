@@ -23,6 +23,20 @@ namespace Architect
 							 glm::mat4 cameraTransform = glm::mat4(1.0f), 
 							 std::shared_ptr<Framebuffer> framebuffer = nullptr);
 
+
+
+		template<typename Func>
+		static void OnUpdate(std::shared_ptr<Scene> scene, float timestep, Func func)
+		{
+			for (auto& us : s_UpdateSystems)
+			{
+				if (func(us))
+				{
+					us->OnUpdate(scene, timestep);
+				}
+			}
+		}
+
 	private:
 		static std::vector<std::shared_ptr<UpdateEntitySystem>> s_UpdateSystems;
 		static std::vector<std::shared_ptr<RenderEntitySystem>> s_RenderSystems;

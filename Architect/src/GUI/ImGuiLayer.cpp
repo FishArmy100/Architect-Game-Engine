@@ -5,6 +5,7 @@
 #include "Core/Application.h"
 #include "GLFW/glfw3.h"
 #include "Core.h"
+#include "imguizmo/ImGuizmo.h"
 
 namespace Architect
 {
@@ -65,6 +66,7 @@ namespace Architect
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 	}
 
 	void ImGuiLayer::End()

@@ -16,7 +16,7 @@ namespace Architect
 		const std::string& GetName() { return m_Name; }
 
 	private:
-		std::string& m_Name;
+		std::string m_Name;
 	};
 }
 

@@ -27,7 +27,7 @@ namespace Architect
 	std::vector<Entity> Entity::GetChildren()
 	{
 		std::vector<Entity> children{};
-		for (auto& childID : GetChildrenIDs())
+		for (auto childID : GetChildrenIDs())
 		{
 			children.emplace_back(childID, m_Scene);
 		}
