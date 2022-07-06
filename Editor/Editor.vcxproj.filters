@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="src\Test.yaml" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h">

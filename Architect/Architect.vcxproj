@@ -109,6 +109,7 @@
     <ClCompile Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.cpp" />
     <ClCompile Include="src\Rendering-System\Framebuffer.cpp" />
     <ClCompile Include="src\GUI\ImGuiHelper.cpp" />
+    <ClCompile Include="src\Serialization\Serializeable.cpp" />
     <ClCompile Include="src\User-Input\GLFWInputUtils.cpp" />
     <ClCompile Include="src\Rendering-System\MannagedVertexArray.cpp" />
     <ClCompile Include="src\GUI\ImGuiLayer.cpp" />
@@ -158,6 +159,32 @@
     <ClCompile Include="src\Vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\Vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Systems\TransformUpdateMatrixSystem.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Argument\Argument.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Attributes\AttributeHolder.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Constructor\Constructor.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Constructor\ConstructorData.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Container\ContainerView.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Enum\Enum.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Enum\EnumDataWrapper.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Function\Function.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Function\FunctionData.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Instance\Instance.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Method\Method.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Method\MethodContainer.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Method\MethodData.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Misc\ParameterData.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Property\Property.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Property\PropertyContainer.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Property\PropertyData.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Templates\TemplateData.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Templates\TemplateParameter.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Types\BaseTypeContainer.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Types\DerivedTypeContainer.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Types\NestedTypeContainer.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Types\Type.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Types\TypeData.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Types\TypeFlags.cpp" />
+    <ClCompile Include="src\Vendor\RefLib\Variant\Variant.cpp" />
     <ClCompile Include="src\Vendor\yaml-cpp\binary.cpp" />
     <ClCompile Include="src\Vendor\yaml-cpp\contrib\graphbuilder.cpp" />
     <ClCompile Include="src\Vendor\yaml-cpp\contrib\graphbuilderadapter.cpp" />
@@ -189,6 +216,7 @@
     <ClCompile Include="src\Vendor\yaml-cpp\singledocparser.cpp" />
     <ClCompile Include="src\Vendor\yaml-cpp\stream.cpp" />
     <ClCompile Include="src\Vendor\yaml-cpp\tag.cpp" />
+    <ClCompile Include="src\Serialization\YAMLSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entity-Component-System\HierarchyUtils.h" />
@@ -202,6 +230,7 @@
     <ClInclude Include="src\Rendering-System\Framebuffer.h" />
     <ClInclude Include="src\Logger\SpdLogCallbackSink.h" />
     <ClInclude Include="src\GUI\ImGuiHelper.h" />
+    <ClInclude Include="src\Serialization\Serializeable.h" />
     <ClInclude Include="src\User-Input\GLFWInputUtils.h" />
     <ClInclude Include="src\Core\Events.h" />
     <ClInclude Include="src\Core\IApplicationEvent.h" />
@@ -261,6 +290,55 @@
     <ClInclude Include="src\Vendor\imgui\imstb_rectpack.h" />
     <ClInclude Include="src\Vendor\imgui\imstb_textedit.h" />
     <ClInclude Include="src\Vendor\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\Vendor\RefLib\Argument\Argument.h" />
+    <ClInclude Include="src\Vendor\RefLib\Attributes\AttributeHolder.h" />
+    <ClInclude Include="src\Vendor\RefLib\Attributes\AttributeImpl.h" />
+    <ClInclude Include="src\Vendor\RefLib\Constructor\Constructor.h" />
+    <ClInclude Include="src\Vendor\RefLib\Constructor\ConstructorContainer.h" />
+    <ClInclude Include="src\Vendor\RefLib\Constructor\ConstructorData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Container\ContainerView.h" />
+    <ClInclude Include="src\Vendor\RefLib\Container\ContainerViewIterator.h" />
+    <ClInclude Include="src\Vendor\RefLib\Container\IContainerView.h" />
+    <ClInclude Include="src\Vendor\RefLib\Enum\Enum.h" />
+    <ClInclude Include="src\Vendor\RefLib\Enum\EnumData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Enum\EnumDataWrapper.h" />
+    <ClInclude Include="src\Vendor\RefLib\Function\Function.h" />
+    <ClInclude Include="src\Vendor\RefLib\Function\FunctionData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Instance\Instance.h" />
+    <ClInclude Include="src\Vendor\RefLib\Method\Method.h" />
+    <ClInclude Include="src\Vendor\RefLib\Method\MethodContainer.h" />
+    <ClInclude Include="src\Vendor\RefLib\Method\MethodData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Misc\AccessLevel.h" />
+    <ClInclude Include="src\Vendor\RefLib\Misc\ParameterData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Misc\TemplateUtils.h" />
+    <ClInclude Include="src\Vendor\RefLib\Property\Property.h" />
+    <ClInclude Include="src\Vendor\RefLib\Property\PropertyContainer.h" />
+    <ClInclude Include="src\Vendor\RefLib\Property\PropertyData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Registration\BasicSTDRegistration.h" />
+    <ClInclude Include="src\Vendor\RefLib\Registration\EnumBuilder.h" />
+    <ClInclude Include="src\Vendor\RefLib\Registration\HelperRegistrationMacros.h" />
+    <ClInclude Include="src\Vendor\RefLib\Registration\TypeBuilder.h" />
+    <ClInclude Include="src\Vendor\RefLib\Registration\TypeBuilderBase.h" />
+    <ClInclude Include="src\Vendor\RefLib\Registration\TypeRegistrationFactory.h" />
+    <ClInclude Include="src\Vendor\RefLib\Templates\TemplateData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Templates\TemplateParameter.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\BaseTypeContainer.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\DerivedTypeContainer.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\MethodRegistration.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\NestedTypeContainer.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\Type.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\TypeData.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\TypeDataPrototype.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\TypeFlags.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\TypeId.h" />
+    <ClInclude Include="src\Vendor\RefLib\Types\TypeUtils.h" />
+    <ClInclude Include="src\Vendor\RefLib\Utils\ExtractTemplateArgs.h" />
+    <ClInclude Include="src\Vendor\RefLib\Utils\Ref.h" />
+    <ClInclude Include="src\Vendor\RefLib\Variant\TempVariant.h" />
+    <ClInclude Include="src\Vendor\RefLib\Variant\Variant.h" />
+    <ClInclude Include="src\Vendor\RefLib\Variant\VarientVoidType.h" />
+    <ClInclude Include="src\Vendor\RefLib\vendor\rttr\core_prerequisites.h" />
+    <ClInclude Include="src\Vendor\RefLib\vendor\rttr\type_name.h" />
     <ClInclude Include="src\Vendor\yaml-cpp\collectionstack.h" />
     <ClInclude Include="src\Vendor\yaml-cpp\contrib\graphbuilderadapter.h" />
     <ClInclude Include="src\Vendor\yaml-cpp\directives.h" />
@@ -331,11 +409,14 @@
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Systems\UpdateEntitySystem.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Systems\TransformUpdateMatrixSystem.h" />
+    <ClInclude Include="src\Serialization\YAMLSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />
     <None Include="src\Vendor\imguizmo\LICENSE" />
     <None Include="src\Vendor\imguizmo\README.md" />
+    <None Include="src\Vendor\RefLib\LICENSE" />
+    <None Include="src\Vendor\RefLib\README.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Vendor\entt\LICENSE.txt" />
