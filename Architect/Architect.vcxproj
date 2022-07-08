@@ -217,6 +217,8 @@
     <ClCompile Include="src\Vendor\yaml-cpp\stream.cpp" />
     <ClCompile Include="src\Vendor\yaml-cpp\tag.cpp" />
     <ClCompile Include="src\Serialization\YAMLSerializer.cpp" />
+    <ClCompile Include="src\Serialization\YamlSurrogateSelector.cpp" />
+    <ClCompile Include="src\Serialization\Surrogate-Impls\YamlStdStringSurrogate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Entity-Component-System\HierarchyUtils.h" />
@@ -230,6 +232,7 @@
     <ClInclude Include="src\Rendering-System\Framebuffer.h" />
     <ClInclude Include="src\Logger\SpdLogCallbackSink.h" />
     <ClInclude Include="src\GUI\ImGuiHelper.h" />
+    <ClInclude Include="src\Serialization\SerializationError.h" />
     <ClInclude Include="src\Serialization\Serializeable.h" />
     <ClInclude Include="src\User-Input\GLFWInputUtils.h" />
     <ClInclude Include="src\Core\Events.h" />
@@ -410,6 +413,9 @@
     <ClInclude Include="src\Entity-Component-System\Entity-Systems\UpdateEntitySystem.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Systems\TransformUpdateMatrixSystem.h" />
     <ClInclude Include="src\Serialization\YAMLSerializer.h" />
+    <ClInclude Include="src\Serialization\YamlSerializationSurrogate.h" />
+    <ClInclude Include="src\Serialization\YamlSurrogateSelector.h" />
+    <ClInclude Include="src\Serialization\Surrogate-Impls\YamlStdStringSurrogate.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />

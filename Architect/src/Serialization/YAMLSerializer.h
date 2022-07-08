@@ -5,13 +5,17 @@
 #include <string>
 #include "yaml-cpp/include/yaml.h"
 #include <numeric>
+#include "YamlSurrogateSelector.h"
 
 namespace Architect
 {
 	class YAMLSerializer
 	{
 	public:
-		YAMLSerializer() = default;
+		inline static const std::string s_Version = "1.0";
+
+	public:
+		YAMLSerializer(std::unique_ptr<YamlSurrogateSelector>&& selector);
 		YAMLSerializer(const YAMLSerializer&) = default;
 		~YAMLSerializer() = default;
 
@@ -26,6 +30,9 @@ namespace Architect
 				return var.TryConvert<T>();
 			return {};
 		}
+
+	private:
+		std::unique_ptr<YamlSurrogateSelector> m_Selector;
 
 	private:
 		std::optional<std::string> InternalSerialize(const RefLib::Variant& obj); 
@@ -55,7 +62,11 @@ namespace Architect
 		bool IsType(TypeId id) 
 		{
 			std::array<TypeId, sizeof...(TArgs)> arr = { GetTypeId<TArgs>()... };
-			return std::accumulate(arr.begin(), arr.end(), 0) > 0;
+			int val = 0;
+			for (int i = 0; i < arr.size(); i++) 
+				val += (arr[i] == id); 
+
+			return val > 0;
 		}
 
 	};

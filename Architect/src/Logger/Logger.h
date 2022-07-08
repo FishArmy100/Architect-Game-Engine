@@ -9,20 +9,23 @@ namespace Architect
 	class Logger
 	{
 	public:
-		static void Init();
+		static std::shared_ptr<spdlog::logger> GetEngineLogger();
+		static std::shared_ptr<spdlog::logger> GetClientLogger();
 
-		static std::shared_ptr<spdlog::logger>& GetEngineLogger() { return m_EngineLogger; }
-		static std::shared_ptr<spdlog::logger>& GetClientLogger() { return m_ClientLogger; }
-
-		static EventHandler<const LogCallbackData>& GetEngineLogEventHandler() { return m_EngineLogEventHandler; }
-		static EventHandler<const LogCallbackData>& GetClientLogEventHandler() { return m_ClientLogEventHandler; }
+		static EventHandler<const LogCallbackData>& GetEngineLogEventHandler();
+		static EventHandler<const LogCallbackData>& GetClientLogEventHandler();
 
 	private:
-		static std::shared_ptr<spdlog::logger> m_EngineLogger;
-		static std::shared_ptr<spdlog::logger> m_ClientLogger;
+		static void Init();
 
-		static EventHandler<const LogCallbackData> m_EngineLogEventHandler;
-		static EventHandler<const LogCallbackData> m_ClientLogEventHandler;
+	private:
+		static inline std::shared_ptr<spdlog::logger> s_EngineLogger = nullptr;
+		static inline  std::shared_ptr<spdlog::logger> s_ClientLogger = nullptr;
+
+		static inline EventHandler<const LogCallbackData> s_EngineLogEventHandler;
+		static inline EventHandler<const LogCallbackData> s_ClientLogEventHandler;
+
+		static inline bool s_IsInitialized = false;
 	};
 }
 

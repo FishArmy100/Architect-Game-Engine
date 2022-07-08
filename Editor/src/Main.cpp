@@ -4,6 +4,7 @@
 #include "RefLib/Registration/HelperRegistrationMacros.h"
 #include "Serialization/YAMLSerializer.h"
 #include "Serialization/Serializeable.h"
+#include "Serialization/Surrogate-Impls/YamlStdStringSurrogate.h"
 
 class EditorApp : public Architect::Application
 {
@@ -25,16 +26,19 @@ struct EntityData
 {
     float Health = 10.0f;
     Position Pos;
-    //std::string Name = "Nate";
+    std::string Name = "Nate";
 };
-
 
 int main()
 {
-    Architect::YAMLSerializer s;
-    s.Serialize(EntityData());
+    auto selector = std::make_unique<Architect::YamlSurrogateSelector>();
+    selector->AddSurrogate<std::string>();
+    Architect::YAMLSerializer s = Architect::YAMLSerializer(std::move(selector));
+    std::cout << s.Serialize(EntityData()).value() << "\n";
 
-    Architect::Application* app = new EditorApp(); 
+    Architect::Func<int(int, int)> func = [](int x, int y) { return x + y; };
+
+    Architect::Application* app = new EditorApp();
     app->Run(); 
 }
 
@@ -50,7 +54,7 @@ REFLIB_REGISTRATION
     REFLIB_BEGIN_CLASS(EntityData)
         REFLIB_PROP_BASIC(Health)
         REFLIB_PROP_BASIC(Pos)
-        //REFLIB_PROP_BASIC(Name)
+        REFLIB_PROP_BASIC(Name)
         REFLIB_ATTRIBUTE(Architect::Serializable{})
     REFLIB_END_CLASS()
 }

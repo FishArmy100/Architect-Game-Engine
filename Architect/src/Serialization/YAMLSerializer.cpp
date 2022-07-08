@@ -5,10 +5,52 @@
 
 namespace Architect
 {
+	YAMLSerializer::YAMLSerializer(std::unique_ptr<YamlSurrogateSelector>&& selector) :
+		m_Selector(std::move(selector))
+	{
+
+	}
+
 	std::optional<std::string> YAMLSerializer::InternalSerialize(const RefLib::Variant& obj)
 	{
 		YAML::Emitter emitter;
+		RefLib::Type objType = obj.GetType(); 
 
+		if (IsPrimitive(objType))
+		{
+			SerializePrimitive(obj, emitter);
+		}
+		else if (m_Selector->HasSurrogate(objType))
+		{
+			emitter << YAML::BeginMap;
+			emitter << YAML::Key << "@Version";
+			emitter << YAML::Value << s_Version;
+
+			emitter << YAML::Key << (std::string)objType.GetName();
+			emitter << YAML::Value;
+			m_Selector->SelectSurrogate(objType).SerializeFunc(obj, emitter);
+			emitter << YAML::EndMap;
+		}
+		else if (objType.HasAttribute(RefLib::Type::Get<Serializable>()))
+		{
+			emitter << YAML::BeginMap;
+			emitter << YAML::Key << "@Version";
+			emitter << YAML::Value << s_Version;
+
+			emitter << YAML::Key << (std::string)objType.GetName();
+			emitter << YAML::Value << YAML::BeginMap;
+			RefLib::Variant objVal = obj;
+
+			for (const auto& subProp : objType.GetProperties())
+			{
+				SerializeProperty(objVal, subProp, emitter);
+			}
+
+			emitter << YAML::EndMap;
+			emitter << YAML::EndMap;
+		}
+
+		return std::string(emitter.c_str());
 	}
 
 	RefLib::Variant YAMLSerializer::InternalDeserialize(const std::string& data)
@@ -25,6 +67,12 @@ namespace Architect
 			emitter << YAML::Key << (std::string)prop.GetName();
 			emitter << YAML::Value;
 			SerializePrimitive(prop.Get(parent), emitter); 
+		}
+		else if (m_Selector->HasSurrogate(propType))
+		{
+			emitter << YAML::Key << (std::string)prop.GetName();
+			emitter << YAML::Value;
+			m_Selector->SelectSurrogate(propType).SerializeFunc(prop.Get(parent), emitter);
 		}
 		else if(propType.HasAttribute(RefLib::Type::Get<Serializable>()))
 		{

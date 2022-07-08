@@ -12,7 +12,6 @@ namespace Architect
 
 	Application::Application(const std::string& name)
 	{
-        Logger::Init();
 		s_Instance = this;
         m_ApplicationName = name;
         m_Window = Window::Create(620 * 2, 480 * 2);

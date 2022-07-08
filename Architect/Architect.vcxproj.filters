@@ -363,6 +363,12 @@
     <ClCompile Include="src\Serialization\Serializeable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Serialization\YamlSurrogateSelector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Serialization\Surrogate-Impls\YamlStdStringSurrogate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WindowsDefines.h">
@@ -936,6 +942,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Serialization\Serializeable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Serialization\YamlSerializationSurrogate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Serialization\YamlSurrogateSelector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Serialization\SerializationError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Serialization\Surrogate-Impls\YamlStdStringSurrogate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
