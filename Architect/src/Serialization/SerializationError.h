@@ -14,7 +14,7 @@ namespace Architect
 		SerializationError(const SerializationError&) = default;
 		~SerializationError() = default;
 
-		const std::string& GetMessage() { return m_ErrorMessage; }
+		const std::string& Message() { return m_ErrorMessage; }
 		bool HasError() { return m_IsError; }
 
 	private:

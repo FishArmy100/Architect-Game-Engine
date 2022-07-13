@@ -6,6 +6,8 @@
 #include "RefLib/Registration/TypeRegistrationFactory.h"
 #include "RefLib/Registration/TypeBuilder.h"
 #include "RefLib/Container/ContainerViewIterator.h"
+#include "Serialization/YamlSerializationSurrogate.h"
+#include "Serialization/YamlSerializationSurrogateImpls.h"
 
 #include <vector>
 #include <map>
@@ -30,6 +32,8 @@ namespace RefLib
 			builder.AddMethod("at", static_cast<char&(std::string::*)(const size_t)>(&std::string::at), AccessLevel::Public, {}, {});
 
 			builder.Register();
+
+			Architect::YamlSurrogateSelector::AddSurrogate<std::string>();
 
 			return true;
 		}
@@ -89,6 +93,9 @@ namespace RefLib
 				}
 			);
 			builder.Register();
+
+			Architect::YamlSurrogateSelector::AddSurrogate<std::vector<T>>();
+
 			return true;
 		}
 	};

@@ -1,5 +1,6 @@
 #include "Debug.h"
 #include "../Logger/Logger.h"
+#include "Asserts.h"
 
 namespace Architect
 {

@@ -23,6 +23,8 @@
 		__debugbreak();\
 	}\
 }
+
+#define ARC_THROW(ExeptionType, what) throw ExeptionType((std::string("Line: ") + std::to_string(__LINE__) + std::string(", File: " __FILE__ "\n\tWhat: ") + std::string(what)).c_str())
 	
 
 namespace Architect

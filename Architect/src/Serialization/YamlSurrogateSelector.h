@@ -15,32 +15,27 @@ namespace Architect
 	class YamlSurrogateSelector 
 	{
 	public:
-		YamlSurrogateSelector() = default;
-		YamlSurrogateSelector(const YamlSurrogateSelector&) = delete;
-		~YamlSurrogateSelector() = default;
-
 		template<typename T>
-		void AddSurrogate() 
+		static void AddSurrogate()
 		{
 			YamlSurrogateWrapper wrapper;
 			wrapper.SerializeFunc = [](const RefLib::Variant& var, YAML::Emitter& e)
 			{
 				RefLib::Type t = RefLib::Type::Get<T>();
-				RefLib::Type vt = var.GetType(); 
-				if (vt.GetId() == t.GetId())
-					return YamlSerializationSurrogate<T>().OnSerialize(var.TryConvert<T>().value(), e); 
+				RefLib::Type vt = var.GetType();
+				if (vt.GetId() == t.GetId() || t.IsDerivedFrom(vt))
+					return YamlSerializationSurrogate<T>().OnSerialize(*(T*)var.GetRawData(), e);
 
-				return SerializationError("Could not convert " + vt.GetName() + ", to " + t.GetName());  
+				return SerializationError("Could not convert " + vt.GetName() + ", to " + t.GetName());
 			};
 
 			m_Surrogates[RefLib::Type::Get<T>().GetId()] = wrapper;
 		}
-
-		bool HasSurrogate(RefLib::TypeId id);
-		YamlSurrogateWrapper SelectSurrogate(RefLib::TypeId id);
+		static bool HasSurrogate(RefLib::TypeId id);
+		static YamlSurrogateWrapper SelectSurrogate(RefLib::TypeId id);
 
 	private:
-		std::map<RefLib::TypeId, YamlSurrogateWrapper> m_Surrogates;
+		static inline std::map<RefLib::TypeId, YamlSurrogateWrapper> m_Surrogates = {};
 	};
 
 }

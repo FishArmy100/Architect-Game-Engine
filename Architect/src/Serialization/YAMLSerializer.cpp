@@ -2,53 +2,25 @@
 #include "RefLib/Property/Property.h"
 #include "RefLib/Registration/BasicSTDRegistration.h"
 #include "Serializeable.h"
+#include "Debug-System/Debug.h"
 
 namespace Architect
 {
-	YAMLSerializer::YAMLSerializer(std::unique_ptr<YamlSurrogateSelector>&& selector) :
-		m_Selector(std::move(selector))
-	{
-
-	}
-
 	std::optional<std::string> YAMLSerializer::InternalSerialize(const RefLib::Variant& obj)
 	{
 		YAML::Emitter emitter;
-		RefLib::Type objType = obj.GetType(); 
+		emitter << YAML::BeginMap;
+		emitter << YAML::Key << s_VersionTag;
+		emitter << YAML::Value << s_Version;
 
-		if (IsPrimitive(objType))
+		try { SerializeObject(obj.GetType().GetName(), obj.GetType(), obj, emitter); }
+		catch (SerilizationExeption& e)
 		{
-			SerializePrimitive(obj, emitter);
+			Debug::Warning(e.what());
+			return {};
 		}
-		else if (m_Selector->HasSurrogate(objType))
-		{
-			emitter << YAML::BeginMap;
-			emitter << YAML::Key << "@Version";
-			emitter << YAML::Value << s_Version;
 
-			emitter << YAML::Key << (std::string)objType.GetName();
-			emitter << YAML::Value;
-			m_Selector->SelectSurrogate(objType).SerializeFunc(obj, emitter);
-			emitter << YAML::EndMap;
-		}
-		else if (objType.HasAttribute(RefLib::Type::Get<Serializable>()))
-		{
-			emitter << YAML::BeginMap;
-			emitter << YAML::Key << "@Version";
-			emitter << YAML::Value << s_Version;
-
-			emitter << YAML::Key << (std::string)objType.GetName();
-			emitter << YAML::Value << YAML::BeginMap;
-			RefLib::Variant objVal = obj;
-
-			for (const auto& subProp : objType.GetProperties())
-			{
-				SerializeProperty(objVal, subProp, emitter);
-			}
-
-			emitter << YAML::EndMap;
-			emitter << YAML::EndMap;
-		}
+		emitter << YAML::EndMap;
 
 		return std::string(emitter.c_str());
 	}
@@ -60,32 +32,55 @@ namespace Architect
 
 	void YAMLSerializer::SerializeProperty(RefLib::Instance parent, RefLib::Property prop, YAML::Emitter& emitter)
 	{
-		RefLib::Type propType = prop.GetType();
+		SerializeObject((std::string)prop.GetName(), prop.GetType(), prop.Get(parent), emitter);
+	}
 
-		if (IsPrimitive(propType))
+	void YAMLSerializer::SerializeObject(const std::string& name, RefLib::Type objType, const RefLib::Variant& obj, YAML::Emitter& emitter)
+	{
+		if (IsPrimitive(objType))
 		{
-			emitter << YAML::Key << (std::string)prop.GetName();
+			emitter << YAML::Key << name; 
 			emitter << YAML::Value;
-			SerializePrimitive(prop.Get(parent), emitter); 
+			SerializePrimitive(obj, emitter);
 		}
-		else if (m_Selector->HasSurrogate(propType))
+		else if (YamlSurrogateSelector::HasSurrogate(objType))
 		{
-			emitter << YAML::Key << (std::string)prop.GetName();
+			emitter << YAML::Key << name;
 			emitter << YAML::Value;
-			m_Selector->SelectSurrogate(propType).SerializeFunc(prop.Get(parent), emitter);
+			SerializationError error = YamlSurrogateSelector::SelectSurrogate(objType).SerializeFunc(obj, emitter);
+
+			if (error.HasError())
+				throw SerilizationExeption(error.Message());
 		}
-		else if(propType.HasAttribute(RefLib::Type::Get<Serializable>()))
+		else if (objType.HasAttribute(RefLib::Type::Get<Serializable>()))
 		{
-			emitter << YAML::Key << (std::string)prop.GetName();
+			emitter << YAML::Key << name;
 			emitter << YAML::Value << YAML::BeginMap;
-			RefLib::Variant propVal = prop.Get(parent);
+			RefLib::Variant objVal = obj;
 
-			for (const auto& subProp : propType.GetProperties())
+			for (const auto& subProp : objType.GetProperties())
 			{
-				SerializeProperty(propVal, subProp, emitter);
+				SerializeProperty(objVal, subProp, emitter);
 			}
 
-			emitter << YAML::EndMap; 
+			if (objType.GetBaseTypes().size() > 0)
+			{
+				emitter << YAML::Key << s_BasesTag;
+				emitter << YAML::Value << YAML::BeginMap;
+
+				for (const auto& base : objType.GetBaseTypes())
+				{
+					SerializeObject(base.Data.GetName(), base.Data, obj, emitter);
+				}
+
+				emitter << YAML::EndMap;
+			}
+
+			emitter << YAML::EndMap;
+		}
+		else
+		{
+			throw SerilizationExeption("Type: " + obj.GetType().GetName() + ", Cannot be serialized");
 		}
 	}
 

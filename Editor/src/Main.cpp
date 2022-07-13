@@ -4,7 +4,7 @@
 #include "RefLib/Registration/HelperRegistrationMacros.h"
 #include "Serialization/YAMLSerializer.h"
 #include "Serialization/Serializeable.h"
-#include "Serialization/Surrogate-Impls/YamlStdStringSurrogate.h"
+#include "Debug-System/Asserts.h"
 
 class EditorApp : public Architect::Application
 {
@@ -26,21 +26,23 @@ struct EntityData
 {
     float Health = 10.0f;
     Position Pos;
-    std::string Name = "Nate";
+    std::string Name = "Bob";
+};
+
+struct Player : public EntityData
+{
+    std::string Team = "Red";
+    std::vector<Position> Bullets = { Position(), Position(), Position() };
 };
 
 int main()
 {
-    auto selector = std::make_unique<Architect::YamlSurrogateSelector>();
-    selector->AddSurrogate<std::string>();
-    Architect::YAMLSerializer s = Architect::YAMLSerializer(std::move(selector));
-    std::cout << s.Serialize(EntityData()).value() << "\n";
+    Architect::YAMLSerializer s;
+    std::cout << s.Serialize(Player()).value() << "\n";
 
-    Architect::Func<int(int, int)> func = [](int x, int y) { return x + y; };
-
-    Architect::Application* app = new EditorApp();
+    Architect::Application* app = new EditorApp(); 
     app->Run(); 
-}
+} 
 
 REFLIB_REGISTRATION
 {
@@ -55,6 +57,13 @@ REFLIB_REGISTRATION
         REFLIB_PROP_BASIC(Health)
         REFLIB_PROP_BASIC(Pos)
         REFLIB_PROP_BASIC(Name)
+        REFLIB_ATTRIBUTE(Architect::Serializable{})
+    REFLIB_END_CLASS()
+
+    REFLIB_BEGIN_CLASS(Player)
+        REFLIB_PROP_BASIC(Team)
+        REFLIB_PROP_BASIC(Bullets)
+        REFLIB_BASE_CLASS(EntityData)
         REFLIB_ATTRIBUTE(Architect::Serializable{})
     REFLIB_END_CLASS()
 }

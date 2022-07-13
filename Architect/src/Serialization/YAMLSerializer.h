@@ -6,6 +6,7 @@
 #include "yaml-cpp/include/yaml.h"
 #include <numeric>
 #include "YamlSurrogateSelector.h"
+#include "SerializationExeption.h"
 
 namespace Architect
 {
@@ -13,14 +14,19 @@ namespace Architect
 	{
 	public:
 		inline static const std::string s_Version = "1.0";
+		inline static const std::string s_VersionTag = "@Version";
+		inline static const std::string s_BasesTag = "@Bases";
 
 	public:
-		YAMLSerializer(std::unique_ptr<YamlSurrogateSelector>&& selector);
+		YAMLSerializer() = default;
 		YAMLSerializer(const YAMLSerializer&) = default;
 		~YAMLSerializer() = default;
 
 		template<typename T>
-		std::optional<std::string> Serialize(const T& obj) { return InternalSerialize(obj); }
+		std::optional<std::string> Serialize(const T& obj) 
+		{ 
+			return InternalSerialize(obj); 
+		}
 		
 		template<typename T>
 		std::optional<T> Deserialize(const std::string& yaml) 
@@ -32,12 +38,12 @@ namespace Architect
 		}
 
 	private:
-		std::unique_ptr<YamlSurrogateSelector> m_Selector;
-
-	private:
-		std::optional<std::string> InternalSerialize(const RefLib::Variant& obj); 
+		std::optional<std::string> InternalSerialize(const RefLib::Variant& obj);
 		RefLib::Variant InternalDeserialize(const std::string& data);
+
 		void SerializeProperty(RefLib::Instance obj, RefLib::Property prop, YAML::Emitter& emitter);
+		void SerializeObject(const std::string& name, RefLib::Type objType, const RefLib::Variant& obj, YAML::Emitter& emitter);
+
 		bool SerializePrimitive(const RefLib::Variant& v, YAML::Emitter& emitter);
 		bool IsPrimitive(RefLib::Type t);
 
