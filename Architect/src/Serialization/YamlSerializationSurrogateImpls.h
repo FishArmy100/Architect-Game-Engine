@@ -12,6 +12,11 @@ namespace Architect
 			emitter << str;
 			return SerializationError::GetNoError(); 
 		}
+
+		Result<std::string, SerializationError> OnDeserialize(YAML::Node& node, RefLib::Type expected)
+		{
+			return node.as<std::string>();
+		}
 	};
 
 	template<typename T>
@@ -34,6 +39,25 @@ namespace Architect
 			emitter << YAML::EndSeq;
 
 			return SerializationError::GetNoError();
+		}
+
+		Result<std::vector<T>, SerializationError> OnDeserialize(YAML::Node& node, RefLib::Type expected)
+		{
+			if constexpr (std::is_default_constructible_v<T>)
+			{
+				YAMLSerializer s{};
+				std::vector<T> vec;
+				for (YAML::Node cn : node)
+				{
+					vec.push_back(s.Deserialize<T>(cn.as<std::string>()).value());
+				}
+
+				return std::move(vec);
+			}
+			else
+			{
+				static_assert("Type T must be default constructable");
+			}
 		}
 	};
 }

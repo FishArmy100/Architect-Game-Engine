@@ -38,7 +38,15 @@ struct Player : public EntityData
 int main()
 {
     Architect::YAMLSerializer s;
-    std::cout << s.Serialize(Player()).value() << "\n";
+    Player p;
+    p.Health = 5;
+    p.Name = "Bart";
+    p.Bullets.erase(p.Bullets.end()--);
+    std::string sp = s.Serialize(Player()).value();
+    std::cout << sp << "\n";
+
+    p = s.Deserialize<Player>(sp).value();
+    std::cout << p.Name << "\n";
 
     Architect::Application* app = new EditorApp(); 
     app->Run(); 

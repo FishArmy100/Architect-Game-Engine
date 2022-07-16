@@ -158,7 +158,7 @@ namespace RefLib
 		}
 	};
 
-	// -------------------------- Map --------------------------
+	// -------------------------- Pair --------------------------
 	template<typename TFirst, typename TSecond>
 	struct TypeRegistrationFactory<std::pair<TFirst, TSecond>>
 	{
@@ -178,6 +178,7 @@ namespace RefLib
 		}
 	};
 
+	// -------------------------- Map --------------------------
 	template<typename TKey, typename TVal>
 	class MapContainerView : public IContainerView
 	{
@@ -243,7 +244,7 @@ namespace RefLib
 		}
 	};
 
-	// -------------------------- Map --------------------------
+	// -------------------------- Optional --------------------------
 	template<typename T>
 	struct TypeRegistrationFactory<std::optional<T>>
 	{

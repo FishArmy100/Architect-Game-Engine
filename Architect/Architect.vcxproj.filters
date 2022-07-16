@@ -965,6 +965,9 @@
     <ClInclude Include="src\Serialization\YamlSerializationSurrogateImpls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Test.shader" />

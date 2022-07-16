@@ -221,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\CorePrerequisites.h" />
+    <ClInclude Include="src\Core\Utils.h" />
     <ClInclude Include="src\Debug-System\Asserts.h" />
     <ClInclude Include="src\Entity-Component-System\HierarchyUtils.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.h" />

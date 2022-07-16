@@ -29,22 +29,23 @@ namespace Architect
 		}
 		
 		template<typename T>
-		std::optional<T> Deserialize(const std::string& yaml) 
+		std::optional<T> Deserialize(const std::string& yaml)
 		{
-			RefLib::Variant var = InternalDeserialize(yaml); 
-			if (var.IsValid())
-				return var.TryConvert<T>();
-			return {};
+			RefLib::Type t = RefLib::Type::Get<T>();
+			RefLib::Variant v = InternalDeserialize(yaml, t); 
+			return v.TryConvert<T>();
 		}
 
 	private:
 		std::optional<std::string> InternalSerialize(const RefLib::Variant& obj);
-		RefLib::Variant InternalDeserialize(const std::string& data);
+		RefLib::Variant InternalDeserialize(const std::string& data, RefLib::Type expected);
 
 		void SerializeProperty(RefLib::Instance obj, RefLib::Property prop, YAML::Emitter& emitter);
 		void SerializeObject(const std::string& name, RefLib::Type objType, const RefLib::Variant& obj, YAML::Emitter& emitter);
+		RefLib::Variant DeserializeObject(YAML::Node& node, RefLib::Type expected);
 
 		bool SerializePrimitive(const RefLib::Variant& v, YAML::Emitter& emitter);
+		RefLib::Variant DeserializePrimitive(YAML::Node& node, RefLib::Type expected);
 		bool IsPrimitive(RefLib::Type t);
 
 	private:
@@ -62,6 +63,27 @@ namespace Architect
 				return true;
 			}
 			return false;
+		}
+
+		template<typename TFront>
+		RefLib::Variant TryConvert(YAML::Node& node, RefLib::Type expected)
+		{
+			if (RefLib::Type::Get<TFront>().GetId() == expected)
+				return std::move(RefLib::Variant(node.as<TFront>()));
+
+			return std::move(RefLib::Variant());
+		}
+
+		template<typename TFront, typename TSecond, typename... TTypes>
+		RefLib::Variant TryConvert(YAML::Node& node, RefLib::Type expected)
+		{
+			if (RefLib::Type::Get<TFront>().GetId() == expected)
+				return std::move(RefLib::Variant(node.as<TFront>()));
+
+			if constexpr (sizeof...(TTypes) > 0)
+				return std::move(TryConvert<TSecond, TTypes...>(node, expected));
+			else
+				return std::move(TryConvert<TSecond>(node, expected));
 		}
 
 		template<typename... TArgs>

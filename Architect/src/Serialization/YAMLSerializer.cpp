@@ -25,9 +25,39 @@ namespace Architect
 		return std::string(emitter.c_str());
 	}
 
-	RefLib::Variant YAMLSerializer::InternalDeserialize(const std::string& data)
+	RefLib::Variant YAMLSerializer::InternalDeserialize(const std::string& data, RefLib::Type expected)
 	{
-		return RefLib::Variant();
+		YAML::Node node = YAML::Load(data);
+		if (!node.IsMap())
+		{
+			Debug::Warning("Invalid yaml document");
+			return false;
+		}
+
+		if (node["@Version"].as<std::string>() != s_VersionTag)
+		{
+			Debug::Warning("Yaml document version: " + node["@Version"].as<std::string>() + ", is incompatable with version: " + s_VersionTag);
+			return false;
+		}
+
+		if (node[expected.GetName()].IsNull())
+		{
+			Debug::Warning("Serialized object type is incompatable with expected type");
+			return false;
+		}
+
+		try
+		{
+			YAML::Node n = node[expected.GetName()];
+			return std::move(DeserializeObject(n, expected));
+		}
+		catch(SerilizationExeption& e)
+		{
+			Debug::Warning(e.what());
+			return false;
+		}
+
+		return true;
 	}
 
 	void YAMLSerializer::SerializeProperty(RefLib::Instance parent, RefLib::Property prop, YAML::Emitter& emitter)
@@ -84,6 +114,40 @@ namespace Architect
 		}
 	}
 
+	RefLib::Variant YAMLSerializer::DeserializeObject(YAML::Node& node, RefLib::Type expected)
+	{
+		if (IsPrimitive(expected))
+		{
+			return std::move(DeserializePrimitive(node, expected));
+		}
+		else if (YamlSurrogateSelector::HasSurrogate(expected))
+		{
+			return std::move(YamlSurrogateSelector::SelectSurrogate(expected).DeserializeFunc(node, expected));
+		}
+		else if (expected.HasAttribute(RefLib::Type::Get<Serializable>()))
+		{
+			if (!expected.IsDefaultConstructable())
+				throw SerilizationExeption("Type: " + expected.GetName() + ", must have a registared default constructor");
+
+			RefLib::Variant var = expected.Create({});
+
+			for (RefLib::Property prop : expected.GetProperties())
+			{
+				YAML::Node propNode = node[(std::string)prop.GetName()];
+				if (!propNode.IsNull())
+				{
+					prop.Set(var, DeserializeObject(propNode, prop.GetType()));
+				}
+			}
+
+			return std::move(var);
+		}
+		else
+		{
+			throw SerilizationExeption("Could not deserialize type: " + expected.GetName());
+		}
+	}
+
 	bool YAMLSerializer::SerializePrimitive(const RefLib::Variant& v, YAML::Emitter& emitter)
 	{
 		TypeId id = v.GetType().GetId();
@@ -94,13 +158,17 @@ namespace Architect
 		if (TryEmit<float>		(v, emitter)) { return true; }
 		if (TryEmit<double>		(v, emitter)) { return true; }
 		if (TryEmit<char>		(v, emitter)) { return true; }
-		if (TryEmit<wchar_t>	(v, emitter)) { return true; }
 
 		return false;
 	}
 
+	RefLib::Variant YAMLSerializer::DeserializePrimitive(YAML::Node& node, RefLib::Type expected)
+	{
+		return std::move(TryConvert<uint32_t, int32_t, uint64_t, int64_t, float, double, char>(node, expected));
+	}
+
 	bool YAMLSerializer::IsPrimitive(RefLib::Type t)
 	{
-		return IsType<uint32_t, int32_t, uint64_t, int64_t, float, double, char, wchar_t>(t.GetId());
+		return IsType<uint32_t, int32_t, uint64_t, int64_t, float, double, char>(t.GetId());
 	}
 }

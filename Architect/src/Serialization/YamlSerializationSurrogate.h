@@ -3,6 +3,8 @@
 #include "RefLib/Variant/Variant.h"
 #include "yaml-cpp/include/yaml.h"
 #include "SerializationError.h"
+#include "Core/Utils.h"
+#include <variant>
 
 namespace Architect
 {
@@ -11,7 +13,12 @@ namespace Architect
 	{
 		SerializationError OnSerialize(const T& obj, YAML::Emitter& emitter)
 		{
-			static_assert("OnSerialize(const T& obj, YAML::Emitter& emitter) must be implemented");
+			static_assert(false, "SerializationError OnSerialize(const T& obj, YAML::Emitter& emitter) must be implemented");
+		}
+
+		Result<T, SerializationError> OnDeserialize(YAML::Node& node, RefLib::Type expected)
+		{
+			static_assert(false, "Result<T, SerializationError> OnDeserialize((YAML::Node& node, RefLib::Type expected) must be implemented");
 		}
 	};
 }
