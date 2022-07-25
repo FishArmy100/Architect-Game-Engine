@@ -34,9 +34,9 @@ namespace Architect
 			return false;
 		}
 
-		if (node["@Version"].as<std::string>() != s_VersionTag)
+		if (node["@Version"].as<std::string>() != s_Version)
 		{
-			Debug::Warning("Yaml document version: " + node["@Version"].as<std::string>() + ", is incompatable with version: " + s_VersionTag);
+			Debug::Warning("Yaml document version: " + node["@Version"].as<std::string>() + ", is incompatable with version: " + s_Version);
 			return false;
 		}
 

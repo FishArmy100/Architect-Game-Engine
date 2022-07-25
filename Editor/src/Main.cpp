@@ -41,7 +41,7 @@ int main()
     Player p;
     p.Health = 5;
     p.Name = "Bart";
-    p.Bullets.erase(p.Bullets.end()--);
+    p.Bullets.erase(p.Bullets.begin() + 2);
     std::string sp = s.Serialize(Player()).value();
     std::cout << sp << "\n";
 
@@ -55,6 +55,7 @@ int main()
 REFLIB_REGISTRATION
 {
     REFLIB_BEGIN_CLASS(Position)
+        REFLIB_CTOR()
         REFLIB_PROP_BASIC(X)
         REFLIB_PROP_BASIC(Y)
         REFLIB_PROP_BASIC(Z)
@@ -62,6 +63,7 @@ REFLIB_REGISTRATION
     REFLIB_END_CLASS()
 
     REFLIB_BEGIN_CLASS(EntityData)
+        REFLIB_CTOR()
         REFLIB_PROP_BASIC(Health)
         REFLIB_PROP_BASIC(Pos)
         REFLIB_PROP_BASIC(Name)
@@ -69,6 +71,7 @@ REFLIB_REGISTRATION
     REFLIB_END_CLASS()
 
     REFLIB_BEGIN_CLASS(Player)
+        REFLIB_CTOR()
         REFLIB_PROP_BASIC(Team)
         REFLIB_PROP_BASIC(Bullets)
         REFLIB_BASE_CLASS(EntityData)
