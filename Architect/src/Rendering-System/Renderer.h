@@ -31,16 +31,16 @@ namespace Architect
 	class Renderer
 	{		
 	public:
-		static void Begin(Camera* camera, glm::mat4 cameraTransform);
-		static void Begin(Camera* camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer);
+		static void Begin(Camera camera, glm::mat4 cameraTransform);
+		static void Begin(Camera camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer);
 		static void AddDrawCall(MannagedVertexArray& va, std::shared_ptr<IndexBuffer> ib, Material& mat, glm::mat4& transform, int id);
 		static void End();
 
 	private:
-		static std::vector<DrawCallData> m_DrawCalls;
-		static Camera* m_Camera;
-		static glm::mat4 m_CameraTransform;
-		static std::shared_ptr<Framebuffer> m_ActiveFrameBuffer;
+		inline static std::vector<DrawCallData> m_DrawCalls;
+		inline static Camera m_Camera = Camera(0, 0);
+		inline static glm::mat4 m_CameraTransform;
+		inline static std::shared_ptr<Framebuffer> m_ActiveFrameBuffer;
 	};
 }
 

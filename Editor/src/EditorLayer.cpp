@@ -91,7 +91,7 @@ namespace Editor
         e2.GetTransform().Dilate(0.5f);
         e2.GetTransform().Translate({ 0, -1.5f, 0 });
 
-        Camera* camera = new Camera(4.0f / 3.0f, 2);
+        Camera camera = Camera(4.0f / 3.0f, 2);
         m_CameraEntity = scene->CreateEntity("Camera");
         m_CameraEntity.AddComponent<CameraComponent>(camera);
 

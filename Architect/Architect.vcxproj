@@ -101,12 +101,15 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entity-Component-System\ComponentRegistry.cpp" />
+    <ClCompile Include="src\Entity-Component-System\Entity-Components\Basic-Components.cpp" />
     <ClCompile Include="src\Mathmatics\Math.cpp" />
     <ClCompile Include="src\Entity-Component-System\HierarchyUtils.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Systems\ScriptUpdateSystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Systems\SpriteRendererSystem.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Systems\EntitySystems.cpp" />
     <ClCompile Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.cpp" />
+    <ClCompile Include="src\Reflection\GlmReflectionImpls.cpp" />
     <ClCompile Include="src\Rendering-System\Framebuffer.cpp" />
     <ClCompile Include="src\GUI\ImGuiHelper.cpp" />
     <ClCompile Include="src\Serialization\Serializeable.cpp" />
@@ -220,6 +223,7 @@
     <ClCompile Include="src\Serialization\YamlSurrogateSelector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entity-Component-System\ComponentRegistry.h" />
     <ClInclude Include="src\Core\CorePrerequisites.h" />
     <ClInclude Include="src\Core\Utils.h" />
     <ClInclude Include="src\Debug-System\Asserts.h" />
@@ -231,6 +235,7 @@
     <ClInclude Include="src\Entity-Component-System\Entity-Components\EntityDataComponent.h" />
     <ClInclude Include="src\Entity-Component-System\Entity-Components\HierarchyComponent.h" />
     <ClInclude Include="src\Entity-Component-System\EntityID.h" />
+    <ClInclude Include="src\Reflection\RegistrationMacros.h" />
     <ClInclude Include="src\Rendering-System\Framebuffer.h" />
     <ClInclude Include="src\Logger\SpdLogCallbackSink.h" />
     <ClInclude Include="src\GUI\ImGuiHelper.h" />
@@ -325,6 +330,7 @@
     <ClInclude Include="src\Vendor\RefLib\Registration\BasicSTDRegistration.h" />
     <ClInclude Include="src\Vendor\RefLib\Registration\EnumBuilder.h" />
     <ClInclude Include="src\Vendor\RefLib\Registration\HelperRegistrationMacros.h" />
+    <ClInclude Include="src\Vendor\RefLib\Registration\RegistrationFriend.h" />
     <ClInclude Include="src\Vendor\RefLib\Registration\TypeBuilder.h" />
     <ClInclude Include="src\Vendor\RefLib\Registration\TypeBuilderBase.h" />
     <ClInclude Include="src\Vendor\RefLib\Registration\TypeRegistrationFactory.h" />

@@ -5,19 +5,14 @@
 
 namespace Architect
 {
-	std::vector<DrawCallData> Renderer::m_DrawCalls;
-	Camera* Renderer::m_Camera;
-	glm::mat4 Renderer::m_CameraTransform;
-	std::shared_ptr<Framebuffer> Renderer::m_ActiveFrameBuffer = nullptr;
-
-	void Renderer::Begin(Camera* camera, glm::mat4 cameraTransform)
+	void Renderer::Begin(Camera camera, glm::mat4 cameraTransform)
 	{
 		m_DrawCalls.clear();
 		m_Camera = camera;
 		m_CameraTransform = cameraTransform;
 	}
 
-	void Renderer::Begin(Camera* camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer)
+	void Renderer::Begin(Camera camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer)
 	{
 		m_ActiveFrameBuffer = framebuffer;
 		Begin(camera, cameraTransform); 
@@ -41,7 +36,7 @@ namespace Architect
 			data.IndexBuffer->Bind();
 			data.Mat.Bind();
 
-			glm::mat4 viewProjection = m_Camera->GetProjectionMatrix() * glm::inverse(m_CameraTransform);
+			glm::mat4 viewProjection = m_Camera.GetProjectionMatrix() * glm::inverse(m_CameraTransform);
 			glm::mat4 mvp = viewProjection * (data.Transform);
 
 			data.Mat.GetShader()->SetShaderUniformMat4f("u_MVP", mvp);

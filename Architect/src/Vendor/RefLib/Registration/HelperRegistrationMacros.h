@@ -1,23 +1,26 @@
 #pragma once
 #include "TypeBuilder.h"
 
+
+// ------------------ Helper Macros ------------------
+#define RTTR_CAT_IMPL(a, b) a##b
+#define RTTR_CAT(a, b) RTTR_CAT_IMPL(a, b)
+
 // ------------------ Auto Registration ------------------
-#define REFLIB_REGISTRATION									\
-void __Registration_Func__();								\
-struct __Registration_Struct__								\
-{															\
-	__Registration_Struct__()								\
-	{														\
-		__Registration_Func__();							\
-	}														\
-};															\
-static const __Registration_Struct__ __structInstance{};	\
-void __Registration_Func__()								\
-
-
-// ------------------ Registration Friend ------------------
-#define REFLIB_FRIEND									\
-friend void __Registration_Func__();					\
+#define REFLIB_REGISTRATION															\
+static void rttr_auto_register_reflection_function_();                              \
+namespace                                                                           \
+{                                                                                   \
+    struct rttr__auto__register__                                                   \
+    {                                                                               \
+        rttr__auto__register__()                                                    \
+        {                                                                           \
+            rttr_auto_register_reflection_function_();                              \
+        }                                                                           \
+    };                                                                              \
+}                                                                                   \
+static const rttr__auto__register__ RTTR_CAT(auto_register__, __LINE__);            \
+static void rttr_auto_register_reflection_function_()
 
 // ------------------ Begin Registration ------------------
 #define REFLIB_BEGIN_CLASS(className)			\

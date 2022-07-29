@@ -1,11 +1,12 @@
 #pragma once
+#include <type_traits>
 
 namespace RefLib
 {
 	template<typename T>
-	struct TypeRegistrationFactory
+	struct TypeRegistrationFactory : std::false_type
 	{
 		TypeRegistrationFactory() = default;
-		bool operator()() { return false; }
+		//void operator()(); implemented in specialized type registration factories
 	};
 }

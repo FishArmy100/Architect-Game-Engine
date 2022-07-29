@@ -4,8 +4,6 @@
 
 namespace Editor
 {
-	using namespace Architect;
-
 	class EditorCamera
 	{
 	public:
@@ -13,7 +11,7 @@ namespace Editor
 		void Update(float deltaTime, glm::vec2 mousePos);
 
 		void SetAspectRatio(float aspectRatio);
-		Architect::Camera* GetCamera() { return m_Camera.get(); }
+		Architect::Camera& GetCamera() { return m_Camera; }
 
 		glm::mat4 GetTransformMatrix();
 
@@ -25,6 +23,6 @@ namespace Editor
 		float m_ZoomSpeed;
 		float m_PanSpeed;
 
-		std::shared_ptr<Camera> m_Camera = nullptr;
+		Architect::Camera m_Camera;
 	};
 }

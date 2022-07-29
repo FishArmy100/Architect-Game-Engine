@@ -43,6 +43,7 @@ namespace Architect
 		void SerializeProperty(RefLib::Instance obj, RefLib::Property prop, YAML::Emitter& emitter);
 		void SerializeObject(const std::string& name, RefLib::Type objType, const RefLib::Variant& obj, YAML::Emitter& emitter);
 		RefLib::Variant DeserializeObject(YAML::Node& node, RefLib::Type expected);
+		void SetPropertiesRecursive(RefLib::Variant& obj, RefLib::Type baseType, YAML::Node node);
 
 		bool SerializePrimitive(const RefLib::Variant& v, YAML::Emitter& emitter);
 		RefLib::Variant DeserializePrimitive(YAML::Node& node, RefLib::Type expected);

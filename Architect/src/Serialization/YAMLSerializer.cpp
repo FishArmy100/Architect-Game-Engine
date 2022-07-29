@@ -34,7 +34,7 @@ namespace Architect
 			return false;
 		}
 
-		if (node["@Version"].as<std::string>() != s_Version)
+		if (node[s_VersionTag].as<std::string>() != s_Version)
 		{
 			Debug::Warning("Yaml document version: " + node["@Version"].as<std::string>() + ", is incompatable with version: " + s_Version);
 			return false;
@@ -122,29 +122,49 @@ namespace Architect
 		}
 		else if (YamlSurrogateSelector::HasSurrogate(expected))
 		{
-			return std::move(YamlSurrogateSelector::SelectSurrogate(expected).DeserializeFunc(node, expected));
+			auto res = YamlSurrogateSelector::SelectSurrogate(expected).DeserializeFunc(node, expected);
+			if (res.IsError())
+				throw SerilizationExeption(res.GetError().Message());
+			else
+				return std::move(res.Get());
 		}
 		else if (expected.HasAttribute(RefLib::Type::Get<Serializable>()))
 		{
-			if (!expected.IsDefaultConstructable())
+			Serializable s = expected.GetAttribute(RefLib::Type::Get<Serializable>())->TryConvert<Serializable>().value();
+			
+			if (!s.DefaultConstructor.has_value() && !expected.IsDefaultConstructable())
 				throw SerilizationExeption("Type: " + expected.GetName() + ", must have a registared default constructor");
 
-			RefLib::Variant var = expected.Create({});
-
-			for (RefLib::Property prop : expected.GetProperties())
-			{
-				YAML::Node propNode = node[(std::string)prop.GetName()];
-				if (!propNode.IsNull())
-				{
-					prop.Set(var, DeserializeObject(propNode, prop.GetType()));
-				}
-			}
-
-			return std::move(var);
+			RefLib::Variant var = s.DefaultConstructor.has_value() ? s.DefaultConstructor.value()() : expected.Create({});
+			SetPropertiesRecursive(var, expected, node);
+			return var;
 		}
 		else
 		{
 			throw SerilizationExeption("Could not deserialize type: " + expected.GetName());
+		}
+	}
+
+	void YAMLSerializer::SetPropertiesRecursive(RefLib::Variant& obj, RefLib::Type type, YAML::Node node)
+	{
+		for (RefLib::Property prop : type.GetProperties())
+		{
+			YAML::Node propNode = node[(std::string)prop.GetName()];
+			if (!propNode.IsNull())
+			{
+				bool wasSet = prop.Set(obj, DeserializeObject(propNode, prop.GetType()));
+				if (!wasSet) throw SerilizationExeption("Could not set property: " + (std::string)prop.GetName());
+			}
+		}
+
+		if (node[s_BasesTag])
+		{
+			YAML::Node basesNode = node[s_BasesTag];
+
+			for (const RefLib::BaseType& base : type.GetBaseTypes())
+			{
+				SetPropertiesRecursive(obj, base.Data, basesNode[base.Data.GetName()]);
+			}
 		}
 	}
 

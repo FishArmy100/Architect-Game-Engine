@@ -18,9 +18,9 @@ namespace RefLib
 {
 	// -------------------------- String --------------------------
 	template<>
-	struct TypeRegistrationFactory<std::string>
+	struct TypeRegistrationFactory<std::string> : std::true_type
 	{
-		bool operator()()
+		void operator()()
 		{
 			auto builder = TypeBuilder<std::string>("std::string");
 			builder.AddConstructor<>();
@@ -34,8 +34,6 @@ namespace RefLib
 			builder.Register();
 
 			Architect::YamlSurrogateSelector::AddSurrogate<std::string>();
-
-			return true;
 		}
 	};
 
@@ -76,9 +74,9 @@ namespace RefLib
 	};
 
 	template<typename T>
-	struct TypeRegistrationFactory<std::vector<T>>
+	struct TypeRegistrationFactory<std::vector<T>> : std::true_type
 	{
-		bool operator()()
+		void operator()()
 		{
 			Type contained = Type::Get<T>();
 			auto builder = TypeBuilder<std::vector<T>>("std::vector<" + contained.GetName() + ">");
@@ -95,8 +93,6 @@ namespace RefLib
 			builder.Register();
 
 			Architect::YamlSurrogateSelector::AddSurrogate<std::vector<T>>();
-
-			return true;
 		}
 	};
 
@@ -138,11 +134,11 @@ namespace RefLib
 	};
 
 	template<typename T, size_t size>
-	struct TypeRegistrationFactory<std::array<T, size>>
+	struct TypeRegistrationFactory<std::array<T, size>> : std::true_type
 	{
 		using Array = std::array<T, size>;
 
-		bool operator()()
+		void operator()()
 		{
 			Type contained = Type::Get<T>();
 			auto builder = TypeBuilder<Array>("std::array<" + contained.GetName() + ", " + std::to_string(size) + ">");
@@ -154,16 +150,15 @@ namespace RefLib
 			builder.SetAsContainer([](Array& arr) {return ContainerView(std::make_shared<ArrayContainerView<T, size>>(arr)); });
 
 			builder.Register();
-			return true;
 		}
 	};
 
 	// -------------------------- Pair --------------------------
 	template<typename TFirst, typename TSecond>
-	struct TypeRegistrationFactory<std::pair<TFirst, TSecond>>
+	struct TypeRegistrationFactory<std::pair<TFirst, TSecond>> : std::true_type
 	{
 		using Pair = std::pair<TFirst, TSecond>;
-		bool operator()()
+		void operator()()
 		{
 			Type firstType = Type::Get<TFirst>();
 			Type secondType = Type::Get<TSecond>();
@@ -173,8 +168,6 @@ namespace RefLib
 			builder.AddProperty("first", &Pair::first);
 			builder.AddProperty("second", &Pair::second);
 			builder.Register();
-
-			return true;
 		}
 	};
 
@@ -218,12 +211,12 @@ namespace RefLib
 	};
 
 	template<typename TKey, typename TVal>
-	struct TypeRegistrationFactory<std::map<TKey, TVal>>
+	struct TypeRegistrationFactory<std::map<TKey, TVal>> : std::true_type
 	{
 		using Pair = std::pair<TKey, TVal>;
 		using Map = std::map<TKey, TVal>;
 
-		bool operator()()
+		void operator()()
 		{
 			Type keyType = Type::Get<TKey>();
 			Type valType = Type::Get<TVal>(); 
@@ -240,16 +233,15 @@ namespace RefLib
 			builder.SetAsContainer([](Map& map) { return ContainerView(std::make_shared<MapContainerView<TKey, TVal>>(map)); });
 
 			builder.Register();
-			return true;
 		}
 	};
 
 	// -------------------------- Optional --------------------------
 	template<typename T>
-	struct TypeRegistrationFactory<std::optional<T>>
+	struct TypeRegistrationFactory<std::optional<T>> : std::true_type
 	{
 		using Opt = std::optional<T>;
-		bool operator()()
+		void operator()()
 		{
 			auto builder = TypeBuilder<Opt>("std::optional<" + Type::Get<T>().GetName() + ">");
 			builder.AddConstructor<>();
@@ -259,7 +251,6 @@ namespace RefLib
 			builder.AddMethod("value", ptr);
 			builder.AddMethod("has_value", &Opt::has_value);
 			builder.Register();
-			return true;
 		}
 	};
 }

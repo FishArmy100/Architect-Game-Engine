@@ -2,6 +2,7 @@
 #include "glm/ext.hpp"
 #include <vector>
 #include "entt/entt.hpp"
+#include "Reflection/RegistrationMacros.h"
 
 namespace Architect
 {
@@ -31,4 +32,20 @@ namespace Architect
 		void Dilate(glm::vec3 scale);
 	};
 }
+
+namespace ArchitectInternal
+{
+	template<>
+	struct RegisterTypeAuto<Architect::TransformComponent>
+	{
+		RegisterTypeAuto();
+		static RegisterTypeAuto s_Auto;
+	};
+}
+
+ARC_REFLECT(Architect::TransformComponent)
+
+//ARC_REFLECT_AUTO(Architect::TransformComponent)
+
+
 

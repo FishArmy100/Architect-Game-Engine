@@ -60,7 +60,7 @@ namespace RefLib
 		{
 			for (auto& data : s_TypeDatas)
 			{
-				Type t = Type(data, TypeFlags::None);
+				Type t = Type(data->Id, TypeFlags::None);
 				func(t);
 			}
 		}
@@ -227,8 +227,10 @@ namespace RefLib
 			if (!type.IsRegistered() && s_AutoRegisteringTypes.find(id) == s_AutoRegisteringTypes.end())
 			{
 				s_AutoRegisteringTypes.emplace(id);
-				TypeRegistrationFactory<T> factory;
-				bool registered = factory();
+				if constexpr (TypeRegistrationFactory<T>{})
+				{
+					TypeRegistrationFactory<T>{}();
+				}
 
 				s_AutoRegisteringTypes.erase(id);
 			}

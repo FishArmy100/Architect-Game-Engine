@@ -52,7 +52,7 @@ namespace Architect
 			us->OnUpdate(scene, timestep);
 	}
 
-	void EntitySystems::OnRender(std::shared_ptr<Scene> scene, Camera* camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer)
+	void EntitySystems::OnRender(std::shared_ptr<Scene> scene, Camera camera, glm::mat4 cameraTransform, std::shared_ptr<Framebuffer> framebuffer)
 	{
 		if (framebuffer)
 			Renderer::Begin(camera, cameraTransform, framebuffer);

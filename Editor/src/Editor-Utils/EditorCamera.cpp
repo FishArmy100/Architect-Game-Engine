@@ -8,7 +8,7 @@ namespace Editor
 
 	EditorCamera::EditorCamera(glm::vec2 startPosition, float panSpeed, float zoomSpeed, float startZoom)
 		: m_CameraPos(startPosition), m_CurrentZoom(startZoom), m_PreviousMousePos(glm::vec2(0)), 
-		m_ZoomSpeed(zoomSpeed), m_PanSpeed(panSpeed), m_Camera(std::make_shared<Camera>(0, 2))
+		m_ZoomSpeed(zoomSpeed), m_PanSpeed(panSpeed), m_Camera(0, 2)
 	{
 	}
 
@@ -22,14 +22,14 @@ namespace Editor
 
 		m_CurrentZoom -= Input::GetMouseScrollDelta() * m_ZoomSpeed * deltaTime;
 
-		m_Camera->SetScale(m_CurrentZoom);
+		m_Camera.SetScale(m_CurrentZoom);
 
 		m_PreviousMousePos = mousePos;
 	}
 
 	void EditorCamera::SetAspectRatio(float aspectRatio)
 	{
-		m_Camera->SetAspectRatio(aspectRatio);
+		m_Camera.SetAspectRatio(aspectRatio);
 	}
 
 	glm::mat4 EditorCamera::GetTransformMatrix()

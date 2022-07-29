@@ -62,7 +62,7 @@ namespace Editor
 		if (spec.Width != wsize.x || spec.Height != wsize.y)
 			m_FrameBuffer->Resize((unsigned int)wsize.x, (unsigned int)wsize.y);
 
-		m_EditorCamera.GetCamera()->SetAspectRatio(wsize.x / wsize.y);
+		m_EditorCamera.GetCamera().SetAspectRatio(wsize.x / wsize.y);
 
 		glm::mat4 cameraTransform = m_EditorCamera.GetTransformMatrix();
 	}
@@ -92,7 +92,7 @@ namespace Editor
 
 			ImGuizmo::SetRect(windowPosition.x, windowPosition.y, windowSize.x, windowSize.y);
 
-			glm::mat4 cameraProjection = m_EditorCamera.GetCamera()->GetProjectionMatrix();
+			glm::mat4 cameraProjection = m_EditorCamera.GetCamera().GetProjectionMatrix();
 			glm::mat4 cameraView = glm::inverse(m_EditorCamera.GetTransformMatrix());
 
 			// Entity transform

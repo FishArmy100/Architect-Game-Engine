@@ -1,5 +1,6 @@
 #pragma once
 #include "glm/mat4x4.hpp"
+#include "RefLib/Registration/RegistrationFriend.h"
 
 namespace Architect
 {
@@ -18,6 +19,7 @@ namespace Architect
 	private:
 		float m_AspectRatio;
 		float m_Scale;
+		REFLIB_FRIEND
 	};
 }
 

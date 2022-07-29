@@ -5,6 +5,7 @@
 #include "Serialization/YAMLSerializer.h"
 #include "Serialization/Serializeable.h"
 #include "Debug-System/Asserts.h"
+#include "Entity-Component-System/Entity-Components/Basic-Components.h"
 
 class EditorApp : public Architect::Application
 {
@@ -32,23 +33,14 @@ struct EntityData
 struct Player : public EntityData
 {
     std::string Team = "Red";
-    std::vector<Position> Bullets = { Position(), Position(), Position() };
 };
 
 int main()
 {
-    Architect::YAMLSerializer s;
-    Player p;
-    p.Health = 5;
-    p.Name = "Bart";
-    p.Bullets.erase(p.Bullets.begin() + 2);
-    std::string sp = s.Serialize(Player()).value();
-    std::cout << sp << "\n";
+    std::cout << std::boolalpha << "\n" << RefLib::Type::Get("Architect::TransformComponent").has_value() << "\n";
+    std::cout << std::boolalpha << "\n" << RefLib::Type::Get("Position").has_value() << "\n";
 
-    p = s.Deserialize<Player>(sp).value();
-    std::cout << p.Name << "\n";
-
-    Architect::Application* app = new EditorApp(); 
+    Architect::Application* app = new EditorApp();
     app->Run(); 
 } 
 
@@ -73,7 +65,6 @@ REFLIB_REGISTRATION
     REFLIB_BEGIN_CLASS(Player)
         REFLIB_CTOR()
         REFLIB_PROP_BASIC(Team)
-        REFLIB_PROP_BASIC(Bullets)
         REFLIB_BASE_CLASS(EntityData)
         REFLIB_ATTRIBUTE(Architect::Serializable{})
     REFLIB_END_CLASS()

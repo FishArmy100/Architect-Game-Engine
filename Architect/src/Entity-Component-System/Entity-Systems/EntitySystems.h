@@ -19,7 +19,7 @@ namespace Architect
 		static void OnUpdate(std::shared_ptr<Scene> scene, float timestep);
 
 		static void OnRender(std::shared_ptr<Scene> scene, 
-							 Camera* camera, 
+							 Camera camera, 
 							 glm::mat4 cameraTransform = glm::mat4(1.0f), 
 							 std::shared_ptr<Framebuffer> framebuffer = nullptr);
 
