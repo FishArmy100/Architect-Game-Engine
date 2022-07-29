@@ -5,6 +5,7 @@
 #include "SpriteRendererComponent.h"
 #include "HierarchyComponent.h"
 
+// THIS IS PROBLEM
 namespace ArchitectTest
 {
 	struct Test

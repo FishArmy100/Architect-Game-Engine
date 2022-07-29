@@ -14,6 +14,7 @@ namespace ArchitectInternal
 	RegisterTypeAuto<Architect::TransformComponent> RegisterTypeAuto<Architect::TransformComponent>::s_Auto = {};
 }
 
+// THIS IS PROBLEM
 namespace ArchitectTest
 {
 	Test::Test() { std::cout << "Called!" << "\n"; }
