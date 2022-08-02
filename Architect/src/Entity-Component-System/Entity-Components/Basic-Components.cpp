@@ -4,24 +4,7 @@
 #include "Entity-Component-System/ComponentRegistry.h"
 #include "RefLib/Registration/RegistrationFriend.h"
 
-namespace ArchitectInternal
-{
-	RegisterTypeAuto<Architect::TransformComponent>::RegisterTypeAuto()
-	{
-		RefLib::Type::Get<Architect::TransformComponent>();
-	}
-
-	RegisterTypeAuto<Architect::TransformComponent> RegisterTypeAuto<Architect::TransformComponent>::s_Auto = {};
-}
-
-// THIS IS PROBLEM
-namespace ArchitectTest
-{
-	Test::Test() { std::cout << "Called!" << "\n"; }
-	Test volatile Test::s_t = {};
-}
-
-ARC_BEGIN_CLASS(Architect::TransformComponent)
+ARC_BEGIN_CLASS_AUTO(Architect::TransformComponent)
 	REFLIB_CTOR(const Architect::TransformComponent&)
 	REFLIB_CTOR()
 	REFLIB_CTOR(glm::vec3, glm::vec3, glm::vec3)
@@ -33,7 +16,7 @@ ARC_BEGIN_METADATA()
 	ARC_REGISTER_COMPONENT(Architect::TransformComponent)
 ARC_END_METADATA_CLASS()
 
-ARC_BEGIN_CLASS(Architect::EntityDataComponent)
+ARC_BEGIN_CLASS_AUTO(Architect::EntityDataComponent)
 	REFLIB_CTOR()
 	REFLIB_CTOR(const Architect::EntityDataComponent&)
 	REFLIB_CTOR(const std::string&, bool, uint64_t)
@@ -44,7 +27,7 @@ ARC_BEGIN_METADATA()
 	ARC_REGISTER_COMPONENT(Architect::TransformComponent)
 ARC_END_METADATA_CLASS()
 
-ARC_BEGIN_CLASS(Architect::HierarchyComponent)
+ARC_BEGIN_CLASS_AUTO(Architect::HierarchyComponent)
 	REFLIB_CTOR()
 	REFLIB_CTOR(const Architect::HierarchyComponent&)
 	REFLIB_PROP_BASIC(Parent)
@@ -53,7 +36,7 @@ ARC_BEGIN_METADATA()
 	ARC_REGISTER_COMPONENT(Architect::HierarchyComponent)
 ARC_END_METADATA_CLASS()
 
-ARC_BEGIN_CLASS(Architect::CameraComponent)
+ARC_BEGIN_CLASS_AUTO(Architect::CameraComponent)
 	REFLIB_CTOR(Architect::Camera)
 	REFLIB_PROP_BASIC(Camera)
 	REFLIB_ATTRIBUTE(Architect::Serializable([]() -> RefLib::Variant { return Architect::CameraComponent(Architect::Camera(0, 0)); }))

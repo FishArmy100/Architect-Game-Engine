@@ -12,4 +12,4 @@ namespace Architect
 	};
 }
 
-ARC_REFLECT(Architect::HierarchyComponent)
+ARC_REFLECT_AUTO(Architect::HierarchyComponent)

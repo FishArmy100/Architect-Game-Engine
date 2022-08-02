@@ -1,5 +1,5 @@
 #include "EditorSettings.h"
-
+#include <iostream>
 
 namespace Editor
 {

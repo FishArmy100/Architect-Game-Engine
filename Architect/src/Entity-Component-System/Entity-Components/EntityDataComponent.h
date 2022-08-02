@@ -21,4 +21,4 @@ namespace Architect
 	};
 }
 
-ARC_REFLECT(Architect::EntityDataComponent)
+ARC_REFLECT_AUTO(Architect::EntityDataComponent)

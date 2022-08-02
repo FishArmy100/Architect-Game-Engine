@@ -33,19 +33,7 @@ namespace Architect
 	};
 }
 
-namespace ArchitectInternal
-{
-	template<>
-	struct RegisterTypeAuto<Architect::TransformComponent>
-	{
-		RegisterTypeAuto();
-		static RegisterTypeAuto s_Auto;
-	};
-}
-
-ARC_REFLECT(Architect::TransformComponent)
-
-//ARC_REFLECT_AUTO(Architect::TransformComponent)
+ARC_REFLECT_AUTO(Architect::TransformComponent)
 
 
 

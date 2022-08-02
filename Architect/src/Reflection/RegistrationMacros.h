@@ -15,18 +15,34 @@ namespace ArchitectInternal
 {
 	template<typename T>
 	class RegisterTypeAuto;
+
+	template<typename T>
+	struct Cookie;
+
+	template<typename T>
+	static void* init_cookie_keeper;
 }
 
-#define ARC_REFLECT_AUTO(name)					\
-	namespace ArchitectInternal					\
-	{											\
-		template<>								\
-		struct RegisterTypeAuto<name>			\
-		{										\
-			RegisterTypeAuto();					\
-			static RegisterTypeAuto s_Auto;		\
-		};										\
-	}											\
+#define ARC_REFLECT_AUTO_HELPER(name)										\
+	namespace ArchitectInternal												\
+	{																		\
+		template<>															\
+		struct RegisterTypeAuto<name>										\
+		{																	\
+			RegisterTypeAuto();												\
+			static RegisterTypeAuto s_Auto;									\
+		};																	\
+		template<>															\
+		struct Cookie<name>													\
+		{																	\
+			static void* GetData();											\
+		};																	\
+		template<>															\
+		static void* init_cookie_keeper<name> = Cookie<name>::GetData();	\
+	}
+
+#define ARC_REFLECT_AUTO(name)		\
+	ARC_REFLECT_AUTO_HELPER(name)	\
 	ARC_REFLECT(name)
 
 
@@ -37,10 +53,19 @@ namespace ArchitectInternal
 		{\
 			REFLIB_BEGIN_CLASS(name)
 
+#define ARC_BEGIN_CLASS_AUTO_HELPER(name)								\
+	namespace ArchitectInternal											\
+	{																	\
+		RegisterTypeAuto<name>::RegisterTypeAuto()						\
+		{																\
+			RefLib::Type::Get<name>();									\
+		}																\
+		RegisterTypeAuto<name> RegisterTypeAuto<name>::s_Auto = {};		\
+		void* Cookie<name>::GetData() { return nullptr; }				\
+	}
 
-#define ARC_BEGIN_CLASS_AUTO(name)\
-	ArchitectInternal::RegisterTypeAuto<name>::RegisterTypeAuto() {RefLib::Type::Get<name>();}\
-	ArchitectInternal::RegisterTypeAuto<name> ArchitectInternal::RegisterTypeAuto<name>::s_Auto = {};\
+#define ARC_BEGIN_CLASS_AUTO(name)		\
+	ARC_BEGIN_CLASS_AUTO_HELPER(name)	\
 	ARC_BEGIN_CLASS(name)
 
 #define ARC_BEGIN_METADATA() REFLIB_END_CLASS();

@@ -14,4 +14,4 @@ namespace Architect
 	};
 }
 
-ARC_REFLECT(Architect::CameraComponent)
+ARC_REFLECT_AUTO(Architect::CameraComponent)

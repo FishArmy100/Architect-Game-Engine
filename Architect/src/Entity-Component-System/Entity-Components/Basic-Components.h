@@ -5,12 +5,5 @@
 #include "SpriteRendererComponent.h"
 #include "HierarchyComponent.h"
 
-// THIS IS PROBLEM
-namespace ArchitectTest
-{
-	struct Test
-	{
-		Test();
-		static volatile Test s_t;
-	};
-}
+//extern void* init_cookie;
+//static void* init_cookie_keeper = init_cookie;
