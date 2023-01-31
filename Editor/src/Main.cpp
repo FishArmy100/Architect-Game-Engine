@@ -37,7 +37,7 @@ struct Player : public EntityData
 
 int main()
 {
-    std::cout << std::boolalpha << RefLib::Type::Get("Architect::Serializeable").has_value() << "\n";
+    std::cout << std::boolalpha << RefLib::Type::Get("Architect::TransformComponent").has_value() << "\n";
 
     Architect::Application* app = new EditorApp();
     app->Run(); 
